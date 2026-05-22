@@ -1,47 +1,69 @@
 // Netlify Function: research.js
-// Proxies requests to Claude API so the API key never touches the browser.
-// Deploy: this file lives at netlify/functions/research.js in your repo.
-// The key is stored in Netlify > Environment variables as ANTHROPIC_API_KEY.
+// Proxies requests to Claude API — API key stays server-side, never in the browser.
+
+const https = require('https');
 
 exports.handler = async (event) => {
-  // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'API key not configured' }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured in Netlify environment variables.' }),
+    };
   }
 
   let body;
   try {
     body = JSON.parse(event.body);
   } catch {
-    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+    return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON body' }) };
   }
 
-  // Forward to Claude API
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: body.model || 'claude-sonnet-4-6',
-      max_tokens: body.max_tokens || 1024,
-      messages: body.messages,
-      system: body.system,
-    }),
+  const payload = JSON.stringify({
+    model:      body.model      || 'claude-sonnet-4-6',
+    max_tokens: body.max_tokens || 1024,
+    system:     body.system,
+    messages:   body.messages,
   });
 
-  const data = await response.json();
+  return new Promise((resolve) => {
+    const req = https.request(
+      {
+        hostname: 'api.anthropic.com',
+        path:     '/v1/messages',
+        method:   'POST',
+        headers: {
+          'Content-Type':      'application/json',
+          'Content-Length':    Buffer.byteLength(payload),
+          'x-api-key':         apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+      },
+      (res) => {
+        let data = '';
+        res.on('data', chunk => { data += chunk; });
+        res.on('end', () => {
+          resolve({
+            statusCode: res.statusCode,
+            headers: { 'Content-Type': 'application/json' },
+            body: data,
+          });
+        });
+      }
+    );
 
-  return {
-    statusCode: response.status,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  };
+    req.on('error', (err) => {
+      resolve({
+        statusCode: 502,
+        body: JSON.stringify({ error: err.message }),
+      });
+    });
+
+    req.write(payload);
+    req.end();
+  });
 };
