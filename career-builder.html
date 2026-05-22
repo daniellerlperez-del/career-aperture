@@ -1787,19 +1787,13 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
 
   async function runResearch() {
     if (!name.trim()) return;
-    if (!apiKey) { onNeedApiKey(); return; }
     setLoading(true);
     setDossier(null);
     setError('');
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/.netlify/functions/research', {
         method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
           max_tokens: 1500,
@@ -1834,15 +1828,6 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         <div className="page-title">Deep Research</div>
         <div className="page-sub">Generate a warm-path dossier on any person — background, shared ground with your profile, and a suggested first message.</div>
       </div>
-
-      {!apiKey && (
-        <div className="card" style={{borderColor: '#FCD34D', background: '#FFFBEB'}}>
-          <div style={{fontSize: 13, color: '#92400E'}}>
-            ⚠️ Anthropic API key required for Deep Research.{' '}
-            <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'#1D4ED8',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0}}>Add it in Settings.</button>
-          </div>
-        </div>
-      )}
 
       <div className="card">
         <div className="field-row">
@@ -1960,14 +1945,13 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
   }
 
   async function generatePitch() {
-    if (!apiKey) { onNeedApiKey(); return; }
     setLoading(true); setPitch(null); setError('');
     try {
       const systemMsg = `You are a positioning expert helping ${profile.name} pitch consulting services through Perez Creative Labs. Her background: ${profile.background} Her edge: ${profile.edge}. Write punchy, direct prose — no corporate language, no bullet points in the pitch itself.`;
       const userMsg = `Generate a consulting pitch for ${industry} companies at ${stage} stage who need help with "${painPoint}". Target contact: ${role}. Output valid JSON only: { "hook": "one sharp sentence that names the problem they have", "value": "2 sentences on what PCL delivers and how", "proof": "one credibility statement using Danielle's track record", "ask": "specific, low-friction call to action" }`;
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/.netlify/functions/research', {
         method: 'POST',
-        headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 800, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
@@ -2104,15 +2088,14 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
   const [toast, setToast] = useState(null);
 
   async function generateOutreach() {
-    if (!apiKey) { onNeedApiKey(); return; }
     if (!targetName.trim()) return;
     setLoading(true); setOutreach(null); setError('');
     try {
       const systemMsg = `You are helping ${profile.name} with strategic networking. Her background: ${profile.background} Her edge: ${profile.edge}. Write in first person as Danielle. Be warm, direct, and human — not salesy. Match the length and tone to the platform.`;
       const userMsg = `Write a networking outreach message to: ${targetName.trim()}${targetCompany.trim() ? ` at ${targetCompany.trim()}` : ''}. Relationship context: ${context}. Platform: ${platform}. Goal: ${goal}. Output valid JSON only: { "subject": "subject line if email, null if DM", "message": "the full message, natural and human, no placeholder brackets", "followUpNote": "internal note for Danielle — best timing to follow up and what to watch for" }`;
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const res = await fetch('/.netlify/functions/research', {
         method: 'POST',
-        headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 900, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
@@ -2345,8 +2328,8 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
                   placeholder="sk-ant-…" />
                 <div className="api-key-note">
-                  Required for Deep Research. Stored locally in your browser — never sent anywhere except Anthropic.
-                  Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'#f59c00'}}>console.anthropic.com</a>.
+                  Not required — AI features now run through a secure server proxy. Your key is never exposed in the browser.
+                  This field is kept for local development only.
                 </div>
               </div>
             </div>
