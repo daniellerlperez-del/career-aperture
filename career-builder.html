@@ -1691,18 +1691,86 @@ function JobSearch() {
 
 // ── People & Contacts Mode ────────────────────────────────────────────────────
 
+const REL_TYPES = ['Former colleague', 'Friend', 'Acquaintance', 'Met at event', 'LinkedIn connection', 'Recruiter', 'Other'];
+
 function PeopleContacts({ watchList }) {
   const [selectedCompany, setSelectedCompany] = useState('');
-  const [customCompany, setCustomCompany] = useState('');
-  const [contactRole, setContactRole] = useState('Head of Product');
-  const [toast, setToast] = useState(null);
+  const [customCompany, setCustomCompany]     = useState('');
+  const [contactRole, setContactRole]         = useState('Head of Product');
+  const [toast, setToast]                     = useState(null);
+
+  // Network contacts stored in localStorage
+  const [contacts, setContacts] = useState(() => {
+    const s = load(); return s && s.networkContacts ? s.networkContacts : [];
+  });
+  useEffect(() => {
+    const stored = load() || {};
+    persist({ ...stored, networkContacts: contacts });
+  }, [contacts]);
+
+  // Add contact form
+  const blankForm = { name:'', company:'', title:'', relationship:'Former colleague', linkedin:'', notes:'' };
+  const [showAdd, setShowAdd]   = useState(false);
+  const [form, setForm]         = useState(blankForm);
+  const [editId, setEditId]     = useState(null);
+
+  // Search
+  const [searchQ, setSearchQ] = useState('');
 
   const company = selectedCompany || customCompany.trim();
-  const urls = company ? buildPeopleURLs(company, contactRole) : null;
+  const urls    = company ? buildPeopleURLs(company, contactRole) : null;
+
+  // Contacts filtered to current company (if selected) OR global search
+  const displayContacts = contacts.filter(c => {
+    if (company) return c.company.toLowerCase() === company.toLowerCase();
+    if (searchQ)  return (
+      c.name.toLowerCase().includes(searchQ.toLowerCase()) ||
+      c.company.toLowerCase().includes(searchQ.toLowerCase()) ||
+      c.title.toLowerCase().includes(searchQ.toLowerCase())
+    );
+    return true;
+  });
 
   function copy(url) {
     navigator.clipboard.writeText(url).then(() => setToast('URL copied'));
   }
+
+  function saveContact() {
+    if (!form.name.trim() || !form.company.trim()) return;
+    if (editId) {
+      setContacts(cs => cs.map(c => c.id === editId ? { ...form, id: editId } : c));
+      setEditId(null);
+    } else {
+      setContacts(cs => [...cs, { ...form, id: Date.now() }]);
+    }
+    setForm(blankForm);
+    setShowAdd(false);
+    setToast(editId ? 'Contact updated' : 'Contact added');
+  }
+
+  function deleteContact(id) {
+    setContacts(cs => cs.filter(c => c.id !== id));
+    setToast('Contact removed');
+  }
+
+  function startEdit(c) {
+    setForm({ name: c.name, company: c.company, title: c.title, relationship: c.relationship, linkedin: c.linkedin || '', notes: c.notes || '' });
+    setEditId(c.id);
+    setShowAdd(true);
+  }
+
+  function cancelAdd() {
+    setForm(blankForm);
+    setEditId(null);
+    setShowAdd(false);
+  }
+
+  const inp = (extra={}) => ({
+    style:{ width:'100%', padding:'8px 10px', border:'1px solid #1e1e2a', borderRadius:6,
+            fontSize:13, background:'#111118', color:'#e8e8f0', fontFamily:'inherit',
+            boxSizing:'border-box' },
+    ...extra
+  });
 
   const UrlRow = ({ label, url }) => (
     <div className="url-box" style={{marginBottom: 10}}>
@@ -1719,36 +1787,136 @@ function PeopleContacts({ watchList }) {
     </div>
   );
 
+  const relColor = { 'Former colleague':'#3b82f6', 'Friend':'#22c55e', 'Acquaintance':'#a78bfa',
+    'Met at event':'#f59e0b', 'LinkedIn connection':'#0ea5e9', 'Recruiter':'#f43f5e', 'Other':'#6b7280' };
+
   return (
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
         <div className="page-title">People & Contacts</div>
-        <div className="page-sub">Generate three search URLs per company — LinkedIn network, Google X-ray, and open connections.</div>
+        <div className="page-sub">Your network, searchable by company. Add contacts, then filter by any target company.</div>
       </div>
 
+      {/* ── My Network ── */}
       <div className="card">
-        <div className="card-title">Select Company</div>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12}}>
+          <div className="card-title" style={{margin:0}}>My Network ({contacts.length})</div>
+          <button className="btn btn-primary btn-sm" onClick={() => { setShowAdd(!showAdd); setEditId(null); setForm(blankForm); }}>
+            {showAdd && !editId ? 'Cancel' : '+ Add Contact'}
+          </button>
+        </div>
+
+        {/* Search all contacts when no company selected */}
+        {!company && (
+          <input {...inp({marginBottom:12})} placeholder="Search by name, company, or title…"
+            value={searchQ} onChange={e => setSearchQ(e.target.value)} />
+        )}
+
+        {/* Add / Edit form */}
+        {showAdd && (
+          <div style={{background:'#0d0d14', border:'1px solid #1e1e2a', borderRadius:8, padding:14, marginBottom:14}}>
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:8}}>
+              <div>
+                <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>Name *</label>
+                <input {...inp()} value={form.name} onChange={e => setForm({...form, name:e.target.value})} placeholder="Jane Smith" />
+              </div>
+              <div>
+                <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>Company *</label>
+                <input {...inp()} value={form.company}
+                  onChange={e => setForm({...form, company:e.target.value})}
+                  placeholder={company || 'Salesforce'} />
+              </div>
+              <div>
+                <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>Title</label>
+                <input {...inp()} value={form.title} onChange={e => setForm({...form, title:e.target.value})} placeholder="VP of Product" />
+              </div>
+              <div>
+                <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>Relationship</label>
+                <select {...inp()} value={form.relationship} onChange={e => setForm({...form, relationship:e.target.value})}>
+                  {REL_TYPES.map(r => <option key={r}>{r}</option>)}
+                </select>
+              </div>
+            </div>
+            <div style={{marginBottom:8}}>
+              <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>LinkedIn URL</label>
+              <input {...inp()} value={form.linkedin} onChange={e => setForm({...form, linkedin:e.target.value})} placeholder="https://linkedin.com/in/…" />
+            </div>
+            <div style={{marginBottom:10}}>
+              <label style={{fontSize:11, color:'#666', display:'block', marginBottom:3}}>Notes</label>
+              <textarea {...inp()} rows={2} value={form.notes} onChange={e => setForm({...form, notes:e.target.value})} placeholder="How you know them, last contact, best approach…" />
+            </div>
+            <div style={{display:'flex', gap:8}}>
+              <button className="btn btn-primary btn-sm" onClick={saveContact}>{editId ? 'Save Changes' : 'Add to Network'}</button>
+              <button className="btn btn-secondary btn-sm" onClick={cancelAdd}>Cancel</button>
+            </div>
+          </div>
+        )}
+
+        {/* Contact cards */}
+        {displayContacts.length === 0 && (
+          <div style={{fontSize:13, color:'#444', padding:'10px 0'}}>
+            {contacts.length === 0 ? 'No contacts yet. Add people from your network.' : `No contacts at ${company || 'matching that search'}.`}
+          </div>
+        )}
+        {displayContacts.map(c => (
+          <div key={c.id} style={{display:'flex', alignItems:'flex-start', gap:12, padding:'10px 0', borderBottom:'1px solid #111'}}>
+            <div style={{flex:1, minWidth:0}}>
+              <div style={{display:'flex', alignItems:'center', gap:8, flexWrap:'wrap'}}>
+                <span style={{fontWeight:600, fontSize:14, color:'#e8e8f0'}}>{c.name}</span>
+                <span style={{fontSize:11, padding:'2px 7px', borderRadius:10, background:'rgba(255,255,255,.06)',
+                  color: relColor[c.relationship] || '#aaa', border:`1px solid ${relColor[c.relationship] || '#333'}22`}}>
+                  {c.relationship}
+                </span>
+              </div>
+              <div style={{fontSize:12, color:'#888', marginTop:2}}>
+                {c.title && <span>{c.title}</span>}
+                {c.title && c.company && <span> · </span>}
+                <span style={{color:'#a78bfa'}}>{c.company}</span>
+              </div>
+              {c.notes && <div style={{fontSize:12, color:'#555', marginTop:4, fontStyle:'italic'}}>{c.notes}</div>}
+            </div>
+            <div style={{display:'flex', gap:6, flexShrink:0}}>
+              {c.linkedin && (
+                <a href={c.linkedin} target="_blank" rel="noopener noreferrer">
+                  <button className="btn btn-secondary btn-sm">LI ↗</button>
+                </a>
+              )}
+              <button className="btn btn-secondary btn-sm" onClick={() => startEdit(c)}>Edit</button>
+              <button className="btn btn-secondary btn-sm" style={{color:'#ff6b6b'}} onClick={() => deleteContact(c.id)}>✕</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Company Filter + Search URLs ── */}
+      <div className="card">
+        <div className="card-title">Filter by Company</div>
         <div style={{marginBottom: 10}}>
           <div className="chips-wrap" style={{marginBottom: 8}}>
             {watchList.map(w => (
               <button key={w.id}
                 className={`chip ${selectedCompany === w.company ? 'active' : ''}`}
-                onClick={() => { setSelectedCompany(selectedCompany === w.company ? '' : w.company); setCustomCompany(''); }}>
+                onClick={() => { setSelectedCompany(selectedCompany === w.company ? '' : w.company); setCustomCompany(''); setSearchQ(''); }}>
                 {w.company}
+                {contacts.filter(c => c.company.toLowerCase() === w.company.toLowerCase()).length > 0 && (
+                  <span style={{marginLeft:5, background:'var(--accent)', color:'#fff', borderRadius:8, padding:'0 5px', fontSize:10}}>
+                    {contacts.filter(c => c.company.toLowerCase() === w.company.toLowerCase()).length}
+                  </span>
+                )}
               </button>
             ))}
           </div>
           <input
             value={customCompany}
-            onChange={e => { setCustomCompany(e.target.value); setSelectedCompany(''); }}
+            onChange={e => { setCustomCompany(e.target.value); setSelectedCompany(''); setSearchQ(''); }}
             placeholder="Or type any company…"
-            style={{width: '100%', padding: '8px 10px', border: '1px solid #1e1e2a', borderRadius: 6, fontSize: 13, background: '#111118', color: '#e8e8f0', fontFamily: 'inherit'}}
+            style={{width:'100%', padding:'8px 10px', border:'1px solid #1e1e2a', borderRadius:6, fontSize:13, background:'#111118', color:'#e8e8f0', fontFamily:'inherit'}}
           />
         </div>
 
         <div className="field" style={{marginBottom: 0}}>
-          <label>Contact Role</label>
+          <label>Contact Role (for search URLs)</label>
           <div className="chips-wrap">
             {CONTACT_ROLES.map(r => (
               <button key={r} className={`chip ${contactRole === r ? 'active' : ''}`}
@@ -1765,10 +1933,6 @@ function PeopleContacts({ watchList }) {
           <UrlRow label="Google X-ray" url={urls.xray} />
           <UrlRow label="LinkedIn Open Network" url={urls.open} />
         </div>
-      )}
-
-      {!company && (
-        <div className="empty-state">Select or type a company to generate search URLs.</div>
       )}
     </div>
   );
