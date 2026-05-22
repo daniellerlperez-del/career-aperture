@@ -706,15 +706,18 @@ const DEFAULTS = {
 
 const JOB_ROLES = [
   // Recommended — strong match for Danielle's background
+  { label: 'Senior PM, AI',           recommended: true },
+  { label: 'Principal PM, AI',        recommended: true },
   { label: 'Principal PM, AI Platform', recommended: true },
-  { label: 'Director of Product, AI', recommended: true },
-  { label: 'Head of AI Products', recommended: true },
-  { label: 'Director, Enterprise AI', recommended: true },
-  { label: 'Senior Principal PM', recommended: true },
-  { label: 'Staff PM', recommended: true },
-  { label: 'Head of AI Platform', recommended: true },
-  { label: 'Director, AI Products', recommended: true },
-  // Broader pool
+  { label: 'Senior Principal PM',     recommended: true },
+  { label: 'Staff PM',                recommended: true },
+  { label: 'Staff Product Manager',   recommended: true },
+  // Director+ pool (not pre-selected)
+  { label: 'Director of Product, AI', recommended: false },
+  { label: 'Head of AI Products',     recommended: false },
+  { label: 'Director, Enterprise AI', recommended: false },
+  { label: 'Head of AI Platform',     recommended: false },
+  { label: 'Director, AI Products',   recommended: false },
   { label: 'Director of Product', recommended: false },
   { label: 'Head of Product', recommended: false },
   { label: 'Product Lead AI', recommended: false },
