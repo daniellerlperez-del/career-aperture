@@ -727,47 +727,117 @@
   </style>
 </head>
 <body>
+
+<!-- PREVIEW GATE START -->
+<style id="preview-gate-styles">
+  #preview-gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0C0C12;
+    background-image: radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.18) 0%, transparent 42%),
+                      radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.09) 0%, transparent 38%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  #preview-gate-box {
+    width: 360px; padding: 40px 36px;
+    background: rgba(20,16,42,.95);
+    border: 1px solid rgba(240,168,32,.22);
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(61,26,136,.25), 0 2px 24px rgba(0,0,0,.5);
+    text-align: center;
+  }
+  #preview-gate-logo {
+    font-size: 15px; letter-spacing: .06em; font-weight: 500;
+    background: linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 6px;
+  }
+  #preview-gate-sub {
+    font-size: 9px; color: rgba(240,238,248,.3); letter-spacing: .18em;
+    text-transform: uppercase; margin-bottom: 28px;
+  }
+  #preview-gate-label {
+    font-size: 11px; color: rgba(240,238,248,.45); letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  #preview-gate-input {
+    width: 100%; padding: 11px 14px; border-radius: 8px;
+    background: rgba(240,238,248,.04); border: 1px solid rgba(240,168,32,.2);
+    color: #F0EEF8; font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    outline: none; margin-bottom: 14px; text-align: center; letter-spacing: .08em;
+  }
+  #preview-gate-input:focus { border-color: rgba(240,168,32,.5); }
+  #preview-gate-btn {
+    width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer;
+    background: #F0A820; color: #0C0C12; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; font-weight: 600; letter-spacing: .08em;
+  }
+  #preview-gate-btn:hover { background: #f8b830; }
+  #preview-gate-error {
+    font-size: 11px; color: rgba(208,24,120,.9); margin-top: 10px;
+    display: none;
+  }
+  #preview-gate-badge {
+    display: inline-block; margin-bottom: 20px;
+    font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
+    color: rgba(240,168,32,.7); border: 1px solid rgba(240,168,32,.2);
+    padding: 3px 10px; border-radius: 20px;
+  }
+</style>
+<div id="preview-gate" style="display:none">
+  <div id="preview-gate-box">
+    <div id="preview-gate-logo">Career Aperture</div>
+    <div id="preview-gate-sub">Career Intelligence · Preview</div>
+    <div id="preview-gate-badge">Preview Access</div>
+    <div id="preview-gate-label">Enter access password</div>
+    <input id="preview-gate-input" type="password" placeholder="••••••••••••" />
+    <button id="preview-gate-btn">Enter</button>
+    <div id="preview-gate-error">Incorrect password</div>
+  </div>
+</div>
+<script>
+(function() {
+  var isLocal = ['localhost', '127.0.0.1', ''].indexOf(window.location.hostname) !== -1;
+  if (isLocal) return;
+  var KEY = 'aperture_preview_ok';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var gate = document.getElementById('preview-gate');
+  gate.style.display = 'flex';
+  document.getElementById('preview-gate-btn').addEventListener('click', function() {
+    var val = document.getElementById('preview-gate-input').value;
+    if (val === 'LensOn.PCL26') {
+      sessionStorage.setItem(KEY, '1');
+      gate.style.display = 'none';
+    } else {
+      document.getElementById('preview-gate-error').style.display = 'block';
+      document.getElementById('preview-gate-input').value = '';
+    }
+  });
+  document.getElementById('preview-gate-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('preview-gate-btn').click();
+  });
+})();
+</script>
+<!-- PREVIEW GATE END -->
+
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'dp_aperture_v1';
+const STORAGE_KEY = 'aperture_v1';
 
 const DEFAULTS = {
   profile: {
-    name: 'Danielle Perez',
-    role: 'Principal PM — Enterprise AI Platform',
-    targetDomain: 'Enterprise AI · Regulated Workflows · HCM / Workforce',
-    background: '8 years building at Kronos/UKG: led the enterprise AI capability platform from scratch, shipped 20 use cases into production, built governance architecture for regulated high-stakes workflows. Before that: banking, retail operations, insurance systems. I have worked every layer of the systems I build for.',
-    edge: 'I build AI platforms that work in regulated, high-stakes enterprise environments — not just demos. Governed multi-agent systems, human in the loop guardrails, compliance grade observability. 20+ enterprise AI use cases shipped. $15M+ ARR influenced. 4 first place innovation awards, with Microsoft, Google, and MongoDB as design partners. The governance layer is not an afterthought for me — it is the design.',
-    homeCity: 'Pelham, NH',
+    name: '',
+    role: '',
+    targetDomain: '',
+    background: '',
+    edge: '',
+    homeCity: '',
   },
-  watchList: [
-    { id: 1,  company: 'Salesforce',  tier: 1 },
-    { id: 2,  company: 'ServiceNow',  tier: 1 },
-    { id: 3,  company: 'Workday',     tier: 1 },
-    { id: 4,  company: 'Microsoft',   tier: 1 },
-    { id: 5,  company: 'Amazon',      tier: 1 },
-    { id: 6,  company: 'UiPath',      tier: 1 },
-    { id: 7,  company: 'Google',      tier: 2 },
-    { id: 8,  company: 'Anthropic',   tier: 2 },
-    { id: 9,  company: 'OpenAI',      tier: 2 },
-    { id: 10, company: 'Databricks',  tier: 2 },
-    { id: 11, company: 'Oracle',      tier: 2 },
-    { id: 12, company: 'Glean',       tier: 2 },
-    { id: 13, company: 'NinjaOne',    tier: 2 },
-    { id: 14, company: 'Apple',       tier: 2 },
-    { id: 15, company: 'Meta',        tier: 3 },
-    { id: 16, company: 'Stripe',      tier: 3 },
-    { id: 17, company: 'Rippling',    tier: 3 },
-    { id: 18, company: 'Lattice',     tier: 3 },
-    { id: 19, company: 'Cohere',       tier: 3 },
-    { id: 20, company: 'iRobot',       tier: 3 },
-    { id: 21, company: 'Toast',        tier: 2 },
-    { id: 22, company: 'HiBob',        tier: 2 },
-  ],
+  watchList: [],
   apiKey: '',
 };
 
@@ -1074,14 +1144,16 @@ function load() {
   } catch(e) { return null; }
 }
 
-// One-time migration: copy data from old key → new Career Aperture key
+// One-time migration: carry forward data from prior key versions
 (function migrateStorage() {
-  const OLD_KEY = 'dp_cold_open_v1';
+  const OLD_KEYS = ['dp_aperture_v1', 'dp_cold_open_v1'];
   try {
-    if (!localStorage.getItem(STORAGE_KEY) && localStorage.getItem(OLD_KEY)) {
-      localStorage.setItem(STORAGE_KEY, localStorage.getItem(OLD_KEY));
-      localStorage.removeItem(OLD_KEY);
-    }
+    OLD_KEYS.forEach(function(oldKey) {
+      if (!localStorage.getItem(STORAGE_KEY) && localStorage.getItem(oldKey)) {
+        localStorage.setItem(STORAGE_KEY, localStorage.getItem(oldKey));
+        localStorage.removeItem(oldKey);
+      }
+    });
   } catch(e) {}
 })();
 
@@ -3030,7 +3102,7 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
     setLoading(true); setPitch(null); setError('');
     try {
       const systemMsg = `You are a positioning expert helping ${profile.name} pitch consulting services through Perez Creative Labs. Her background: ${profile.background} Her edge: ${profile.edge}. Write punchy, direct prose — no corporate language, no bullet points in the pitch itself.`;
-      const userMsg = `Generate a consulting pitch for ${industry} companies at ${stage} stage who need help with "${painPoint}". Target contact: ${role}. Output valid JSON only: { "hook": "one sharp sentence that names the problem they have", "value": "2 sentences on what PCL delivers and how", "proof": "one credibility statement using Danielle's track record", "ask": "specific, low-friction call to action" }`;
+      const userMsg = `Generate a consulting pitch for ${industry} companies at ${stage} stage who need help with "${painPoint}". Target contact: ${role}. Output valid JSON only: { "hook": "one sharp sentence that names the problem they have", "value": "2 sentences on what we deliver and how", "proof": "one credibility statement using the background above", "ask": "specific, low-friction call to action" }`;
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
@@ -3174,8 +3246,8 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
     if (!targetName.trim()) return;
     setLoading(true); setOutreach(null); setError('');
     try {
-      const systemMsg = `You are helping ${profile.name} with strategic networking. Her background: ${profile.background} Her edge: ${profile.edge}. Write in first person as Danielle. Be warm, direct, and human — not salesy. Match the length and tone to the platform.`;
-      const userMsg = `Write a networking outreach message to: ${targetName.trim()}${targetCompany.trim() ? ` at ${targetCompany.trim()}` : ''}. Relationship context: ${context}. Platform: ${platform}. Goal: ${goal}. Output valid JSON only: { "subject": "subject line if email, null if DM", "message": "the full message, natural and human, no placeholder brackets", "followUpNote": "internal note for Danielle — best timing to follow up and what to watch for" }`;
+      const systemMsg = `You are helping ${profile.name} with strategic networking. Background: ${profile.background} Edge: ${profile.edge}. Write in first person as ${profile.name || 'the user'}. Be warm, direct, and human — not salesy. Match the length and tone to the platform.`;
+      const userMsg = `Write a networking outreach message to: ${targetName.trim()}${targetCompany.trim() ? ` at ${targetCompany.trim()}` : ''}. Relationship context: ${context}. Platform: ${platform}. Goal: ${goal}. Output valid JSON only: { "subject": "subject line if email, null if DM", "message": "the full message, natural and human, no placeholder brackets", "followUpNote": "internal note — best timing to follow up and what to watch for" }`;
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
@@ -5058,6 +5130,7 @@ function App() {
   const [profile, setProfile] = useState(DEFAULTS.profile);
   const [watchList, setWatchList] = useState(DEFAULTS.watchList);
   const [apiKey, setApiKey] = useState('');
+  const [isFirstRun, setIsFirstRun] = useState(false);
 
   // Hydrate from storage on mount
   useEffect(() => {
@@ -5066,6 +5139,10 @@ function App() {
       if (saved.profile) setProfile({...DEFAULTS.profile, ...saved.profile});
       if (saved.watchList) setWatchList(saved.watchList);
       if (saved.apiKey) setApiKey(saved.apiKey);
+      // First run if no name set
+      if (!saved.profile?.name) setIsFirstRun(true);
+    } else {
+      setIsFirstRun(true);
     }
   }, []);
 
@@ -5093,6 +5170,43 @@ function App() {
     { id: 'watchlist', label: 'Watch List' },
     { id: 'value', label: 'Job Fit' },
   ];
+
+  // First-run screen — shown until user saves a profile
+  if (isFirstRun && !showSettings) {
+    return (
+      <div style={{minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center',
+        background:'var(--bg)',
+        backgroundImage:'radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.14) 0%, transparent 42%), radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.07) 0%, transparent 38%)'}}>
+        <div style={{textAlign:'center', maxWidth:440, padding:40}}>
+          <div style={{fontFamily:'var(--mono)', fontSize:18, fontWeight:500, letterSpacing:'.06em', marginBottom:8,
+            background:'linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+            Career Aperture
+          </div>
+          <div style={{fontFamily:'var(--mono)', fontSize:9, color:'var(--muted-2)', letterSpacing:'.18em', textTransform:'uppercase', marginBottom:36}}>
+            Career Intelligence · a Perez Creative Labs product
+          </div>
+          <div style={{fontSize:15, color:'var(--text)', marginBottom:12, lineHeight:1.7}}>
+            Set up your profile to get started.
+          </div>
+          <div style={{fontSize:13, color:'var(--muted)', marginBottom:32, lineHeight:1.7}}>
+            Your data stays local — nothing leaves your browser. Bring your own Anthropic API key to unlock AI-powered research and outreach.
+          </div>
+          <button className="btn btn-primary" style={{padding:'12px 32px', fontSize:14}}
+            onClick={() => setShowSettings(true)}>
+            Set Up My Profile
+          </button>
+        </div>
+        {showSettings && (
+          <SettingsModal
+            profile={profile} setProfile={p => { setProfile(p); if (p.name) setIsFirstRun(false); }}
+            watchList={watchList} setWatchList={setWatchList}
+            apiKey={apiKey} setApiKey={setApiKey}
+            onClose={() => { setShowSettings(false); if (profile.name) setIsFirstRun(false); }}
+          />
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="layout">
@@ -5158,10 +5272,10 @@ function App() {
 
       {showSettings && (
         <SettingsModal
-          profile={profile} setProfile={setProfile}
+          profile={profile} setProfile={p => { setProfile(p); if (p.name) setIsFirstRun(false); }}
           watchList={watchList} setWatchList={setWatchList}
           apiKey={apiKey} setApiKey={setApiKey}
-          onClose={() => setShowSettings(false)}
+          onClose={() => { setShowSettings(false); if (profile.name) setIsFirstRun(false); }}
         />
       )}
     </div>
