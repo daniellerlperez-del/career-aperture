@@ -827,6 +827,39 @@ const { useState, useEffect, useCallback, useRef } = React;
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const STORAGE_KEY = 'aperture_v1';
+const KPI_KEY = 'aperture_kpi';
+
+// Pricing per million tokens (as of 2025)
+const MODEL_PRICING = {
+  'claude-haiku-4-5-20251001': { input: 0.80, output: 4.00 },
+  'claude-sonnet-4-6':         { input: 3.00, output: 15.00 },
+};
+
+function calcCost(model, inputTokens, outputTokens) {
+  const p = MODEL_PRICING[model] || { input: 3.00, output: 15.00 };
+  return (inputTokens * p.input + outputTokens * p.output) / 1_000_000;
+}
+
+function trackCall({ callType, model, inputTokens, outputTokens, durationMs, success, error }) {
+  try {
+    const cost = calcCost(model, inputTokens || 0, outputTokens || 0);
+    const entry = {
+      ts: Date.now(),
+      callType,
+      model,
+      inputTokens: inputTokens || 0,
+      outputTokens: outputTokens || 0,
+      cost,
+      durationMs,
+      success,
+      error: error || null,
+    };
+    const raw = localStorage.getItem(KPI_KEY);
+    const kpi = raw ? JSON.parse(raw) : { calls: [] };
+    kpi.calls = [entry, ...(kpi.calls || [])].slice(0, 500); // keep last 500
+    localStorage.setItem(KPI_KEY, JSON.stringify(kpi));
+  } catch(e) {}
+}
 
 const DEFAULTS = {
   profile: {
@@ -1024,10 +1057,10 @@ Background: ${profile.background}
 Edge: ${profile.edge}
 
 Research the named person. Return valid JSON only — no markdown, no prose outside JSON:
-{"name":"full name","company":"company","title":"title","background":"2-3 sentences on their career","howYouFit":"1-2 sentences on overlap with ${firstName}'s background — be specific","sharedGround":"one concrete shared thing — problem space, tech, or career move","suggestedDM":"LinkedIn DM under 75 words, first person as ${firstName}, plain English, warm not salesy","matchScore":"integer 1-10","matchRationale":"1 sentence explaining score","interviewQuestions":["3 specific questions grounded in their work"],"researchNote":"data freshness caveat"}
+{"name":"full name","company":"company","title":"title","background":"2-3 sentences on their career","howYouFit":"1-2 sentences on overlap with ${firstName}'s background — be specific","sharedGround":"one concrete shared thing — problem space, tech, or career move","suggestedDM":"LinkedIn DM under 75 words, first person as ${firstName}, plain English, warm not salesy","matchScore":"integer 1-10","matchRationale":"1 sentence explaining score","interviewQuestions":["3 specific questions grounded in their work"],"researchNote":"data freshness caveat","sources":[{"label":"source description","url":"actual URL or null if not linkable"}]}
 
 Plain English. No em dashes. Specific over generic.
-GUARDRAILS: Only assert what you can verify from public data. Use null for any field you cannot confidently populate. Never fabricate titles, companies, or career history. If uncertain, say so in researchNote — do not smooth over gaps.`;
+GUARDRAILS: Only assert what you can verify from public data. Use null for any field you cannot confidently populate. Never fabricate titles, companies, or career history. If uncertain, say so in researchNote. For sources: only list real, verifiable URLs — do not invent URLs. Use null for url if no direct link available.`;
 }
 
 function buildCompanyPrompt(profile) {
@@ -1040,7 +1073,8 @@ Research the named company. Return valid JSON only — no markdown, no prose out
 {"name":"company name","industry":"sector","stage":"public/private/PE/startup","headcount":"approx size","overview":"3-4 sentences: what they build, who they sell to, why notable","payContext":"comp vs market for ${profile.role} — rough base range, equity culture, above/at/below market","competitors":["2-4 direct competitors"],"workArrangement":"actual remote/hybrid/onsite reality per employee reports not job postings","cultureSignals":"2-3 sentences: culture, management, Glassdoor themes","recentSignals":"notable news last 12 months: funding, layoffs, reorgs, launches","commuteNote":"commute from ${home} — miles, metro vs suburban, congestion, peak-hour range","matchScore":"integer 1-10","matchRationale":"1 sentence on score","fitAngle":"1-2 sentences on fit for ${firstName}'s background","watchoutFlags":[{"severity":"HIGH/MED/LOW","category":"Culture/Stability/Role Clarity/Growth","finding":"specific concern","probe":"interview question to validate"}],"blindSpots":[{"gap":"what is unknown from public data","probe":"question to close the gap"}],"interviewQuestions":["5 company-specific questions"],"researchNote":"estimation vs reported caveat"}
 
 Plain English. Direct on pay and commute. Flag uncertainty once, not throughout.
-GUARDRAILS: Use null for any field you cannot verify from public data. Never invent headcount, funding status, or executive names. If pay data is unavailable, say so — do not guess ranges. Distinguish reported facts from estimates in researchNote.`;
+GUARDRAILS: Use null for any field you cannot verify from public data. Never invent headcount, funding status, or executive names. If pay data is unavailable, say so — do not guess ranges. Distinguish reported facts from estimates in researchNote. For sources: list only real verifiable URLs — do not fabricate. Use null url if no direct link.
+Add to the JSON: "sources":[{"label":"source description","url":"actual URL or null"}]`;
 }
 
 function buildFocusPrompt(profile) {
@@ -1053,7 +1087,8 @@ Return valid JSON only — no markdown, no prose outside JSON:
 {"company":"company name","role":"role title","matchScore":"integer 1-10","matchRationale":"1 sentence on fit","companySnapshot":"2-3 sentences: what they build, who they sell to, why notable now","roleContext":"2-3 sentences: what success looks like, reporting line, first 90 days","whyYouFit":"2-3 sentences: specific reasons ${firstName}'s background matches — cite actual experience","edgeToEmphasize":"the one differentiator ${firstName} has that others won't","watchoutFlags":[{"severity":"HIGH/MED/LOW","category":"Culture/Stability/Role Clarity/Growth","finding":"specific concern for this role","probe":"interview question to validate"}],"interviewQuestions":["8 questions specific to this company and role — mix culture, strategy, scope, team dynamics"],"researchNote":"data freshness caveat"}
 
 Plain English. No em dashes. Specific — cite actual context. No generic advice.
-GUARDRAILS: Only reference the user's actual background as supplied above — do not invent achievements. Use null for role context you cannot verify. If the company or role is too obscure for reliable data, say so in researchNote rather than fabricating plausible-sounding details.`;
+GUARDRAILS: Only reference the user's actual background as supplied above — do not invent achievements. Use null for role context you cannot verify. If the company or role is too obscure for reliable data, say so in researchNote rather than fabricating plausible-sounding details. For sources: list only real verifiable URLs — do not fabricate. Use null url if no direct link.
+Add to the JSON: "sources":[{"label":"source description","url":"actual URL or null"}]`;
 }
 
 function persist(data) {
@@ -2339,9 +2374,11 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
     setError('');
   }, [researchType]);
 
-  async function callApiStreaming(systemPrompt, userMsg, maxTokens, model = 'claude-sonnet-4-6') {
+  async function callApiStreaming(systemPrompt, userMsg, maxTokens, model = 'claude-sonnet-4-6', callType = 'research') {
     if (!apiKey) { onNeedApiKey(); return null; }
     setStreamLen(0);
+    const t0 = Date.now();
+    let inputTokens = 0, outputTokens = 0;
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
@@ -2360,6 +2397,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
     });
     if (!res.ok) {
       const e = await res.json().catch(() => ({}));
+      trackCall({ callType, model, inputTokens: 0, outputTokens: 0, durationMs: Date.now()-t0, success: false, error: e.error?.message });
       throw new Error(e.error?.message || `API error ${res.status}`);
     }
     let fullText = '';
@@ -2375,6 +2413,8 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         if (raw === '[DONE]') continue;
         try {
           const ev = JSON.parse(raw);
+          if (ev.type === 'message_start') inputTokens = ev.message?.usage?.input_tokens || 0;
+          if (ev.type === 'message_delta') outputTokens = ev.usage?.output_tokens || 0;
           if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
             fullText += ev.delta.text;
             setStreamLen(fullText.length);
@@ -2382,6 +2422,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         } catch(_) {}
       }
     }
+    trackCall({ callType, model, inputTokens, outputTokens, durationMs: Date.now()-t0, success: true });
     return JSON.parse(fullText);
   }
 
@@ -2414,7 +2455,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
       if (researchType === 'person') {
         if (!personName.trim()) return;
         const query = { name: personName.trim(), company: personCompany.trim() };
-        const parsed = await callApiStreaming(buildSystemPrompt(profile), `Research ${query.name}${query.company ? ` at ${query.company}` : ''}.`, 800, 'claude-haiku-4-5-20251001');
+        const parsed = await callApiStreaming(buildSystemPrompt(profile), `Research ${query.name}${query.company ? ` at ${query.company}` : ''}.`, 800, 'claude-haiku-4-5-20251001', 'person_research');
         const r = { type: 'person', data: parsed };
         setResult(r);
         saveResult('person', parsed, query);
@@ -2422,7 +2463,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         if (!companyName.trim()) return;
         const query = { company: companyName.trim(), role: roleConsidering.trim() };
         const msg = `Research the company: ${query.company}${query.role ? `. Role I am considering: ${query.role}` : ''}.`;
-        const parsed = await callApiStreaming(buildCompanyPrompt(profile), msg, 1400);
+        const parsed = await callApiStreaming(buildCompanyPrompt(profile), msg, 1400, 'claude-sonnet-4-6', 'company_research');
         const r = { type: 'company', data: parsed };
         setResult(r);
         saveResult('company', parsed, query);
@@ -2430,7 +2471,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         if (!focusCompany.trim() || !focusRole.trim()) return;
         const query = { company: focusCompany.trim(), role: focusRole.trim() };
         const msg = `Company: ${query.company}. Role: ${query.role}.`;
-        const parsed = await callApiStreaming(buildFocusPrompt(profile), msg, 1400);
+        const parsed = await callApiStreaming(buildFocusPrompt(profile), msg, 1400, 'claude-sonnet-4-6', 'interview_prep');
         const r = { type: 'focus', data: parsed };
         setResult(r);
         saveResult('focus', parsed, query);
