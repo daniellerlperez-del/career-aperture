@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Builder — DP</title>
+  <title>Career Aperture — DP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -36,6 +36,9 @@
     body {
       font-family: Georgia, 'Times New Roman', serif;
       background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.14) 0%, transparent 42%),
+        radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.07) 0%, transparent 38%);
       color: var(--text);
       font-size: 15px;
       line-height: 1.65;
@@ -47,17 +50,20 @@
     .sidebar {
       width: 230px;
       flex-shrink: 0;
-      background: var(--bg-2);
-      border-right: 1px solid var(--border);
+      background: rgba(18,14,36,.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-right: 1px solid rgba(240,238,248,.07);
       display: flex;
       flex-direction: column;
       padding: 0 0 16px;
     }
     .sidebar-gradient-bar {
-      height: 2px;
+      height: 3px;
       background: var(--gradient);
-      opacity: .85;
+      opacity: .9;
       flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(240,168,32,.35);
     }
     .sidebar-logo {
       display: flex;
@@ -73,7 +79,17 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .logo-text { font-size: 13px; font-family: var(--mono); color: var(--text); line-height: 1.2; letter-spacing: .04em; }
+    .logo-text {
+      font-size: 15px;
+      font-family: var(--mono);
+      background: linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      letter-spacing: .06em;
+      font-weight: 500;
+    }
     .logo-sub { font-size: 10px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; }
     .nav-section { padding: 4px 10px; flex: 1; }
     .nav-label { font-size: 9px; font-weight: 500; color: var(--muted-2); letter-spacing: .22em; text-transform: uppercase; padding: 12px 8px 5px; font-family: var(--mono); }
@@ -95,7 +111,7 @@
       transition: background 0.15s, color 0.15s;
     }
     .nav-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
-    .nav-btn.active { background: rgba(240,168,32,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; }
+    .nav-btn.active { background: rgba(240,168,32,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; box-shadow: inset 0 0 18px rgba(240,168,32,.04); }
     .nav-icon { display: flex; align-items: center; justify-content: center; width: 18px; flex-shrink: 0; opacity: 0.8; }
     .sidebar-footer { padding: 12px 10px 0; border-top: 1px solid var(--border); }
     .settings-btn {
@@ -116,7 +132,21 @@
     .settings-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
 
     /* Main */
-    .main { flex: 1; overflow-y: auto; padding: 32px 36px; background: var(--bg); }
+    .main { flex: 1; overflow-y: auto; padding: 32px 36px; background: var(--bg); position: relative; }
+    .main::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,0,0,.014) 3px,
+        rgba(0,0,0,.014) 4px
+      );
+      pointer-events: none;
+      z-index: 9997;
+    }
     .page-header { margin-bottom: 28px; }
     .page-title {
       font-size: 22px;
@@ -125,16 +155,26 @@
       color: var(--text);
       margin-bottom: 5px;
       font-family: Georgia, serif;
+      text-shadow: 0 0 28px rgba(240,238,248,.12);
     }
     .page-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: .08em; }
 
     /* Cards */
     .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: rgba(22,17,40,.82);
+      border: 1px solid rgba(240,238,248,.08);
+      border-top: 1px solid rgba(240,238,248,.16);
+      border-radius: 12px;
       padding: 22px 24px;
       margin-bottom: 14px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 1px 0 0 rgba(240,238,248,.04) inset, 0 8px 28px rgba(0,0,0,.22);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(240,238,248,.11);
+      border-top-color: rgba(240,238,248,.22);
     }
     .card-title {
       font-size: 9px;
@@ -167,6 +207,7 @@
       border-color: var(--accent);
       color: #0C0C12;
       font-weight: 500;
+      box-shadow: 0 0 10px rgba(240,168,32,.25);
     }
 
     /* Form elements */
@@ -194,8 +235,8 @@
     }
     .field input:focus, .field textarea:focus, .field select:focus {
       outline: none;
-      border-color: var(--accent-bdr);
-      box-shadow: 0 0 0 3px var(--accent-dim);
+      border-color: rgba(240,168,32,.45);
+      box-shadow: 0 0 0 3px rgba(240,168,32,.07), 0 0 14px rgba(240,168,32,.07);
     }
     .field input::placeholder { color: var(--muted-2); font-family: var(--mono); font-size: 12px; }
     .field textarea { resize: vertical; min-height: 70px; }
@@ -235,10 +276,12 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg-2);
-      border: 1px solid var(--border-gold);
-      border-radius: 8px;
+      background: rgba(14,10,28,.7);
+      border: 1px solid rgba(240,168,32,.22);
+      border-top: 1px solid rgba(240,168,32,.36);
+      border-radius: 9px;
       padding: 10px 12px;
+      box-shadow: 0 0 10px rgba(240,168,32,.04) inset;
     }
     .url-text {
       flex: 1;
@@ -263,10 +306,10 @@
       border: none;
       transition: all 0.15s;
     }
-    .btn-primary { background: var(--accent); color: #0C0C12; }
-    .btn-primary:hover { opacity: 0.88; }
-    .btn-secondary { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); }
+    .btn-primary { background: var(--accent); color: #0C0C12; box-shadow: 0 0 14px rgba(240,168,32,.22), 0 2px 6px rgba(0,0,0,.35); }
+    .btn-primary:hover { opacity: 0.9; box-shadow: 0 0 22px rgba(240,168,32,.38), 0 2px 6px rgba(0,0,0,.35); }
+    .btn-secondary { background: rgba(240,238,248,.03); color: var(--muted); border: 1px solid rgba(240,238,248,.1); backdrop-filter: blur(4px); }
+    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
     .btn-sm { padding: 4px 10px; font-size: 10px; }
     .btn-icon { padding: 5px 8px; }
     .btn-danger { background: rgba(208,24,120,0.10); color: rgba(208,24,120,.85); border: 1px solid rgba(208,24,120,.25); }
@@ -274,11 +317,15 @@
 
     /* Dossier output */
     .dossier-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: rgba(22,17,40,.88);
+      border: 1px solid rgba(240,168,32,.16);
+      border-top: 1px solid rgba(240,168,32,.32);
+      border-radius: 12px;
       padding: 22px 24px;
       margin-top: 12px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 0 0 1px rgba(240,168,32,.04) inset, 0 12px 40px rgba(0,0,0,.28);
     }
     .dossier-name { font-size: 18px; font-weight: normal; font-style: italic; color: var(--text); font-family: Georgia, serif; }
     .dossier-meta { font-size: 10px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono); letter-spacing: .08em; }
@@ -322,7 +369,9 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -330,14 +379,17 @@
       padding: 20px;
     }
     .modal {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
+      background: rgba(22,17,40,.95);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(240,238,248,.1);
+      border-top: 1px solid rgba(240,238,248,.2);
+      border-radius: 14px;
       width: 100%;
       max-width: 600px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+      box-shadow: 0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(240,238,248,.04) inset;
     }
     .modal-header {
       display: flex;
@@ -367,8 +419,11 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--accent-bdr);
+      background: rgba(22,17,40,.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(240,168,32,.35);
+      border-top: 1px solid rgba(240,168,32,.55);
       color: var(--accent);
       padding: 10px 20px;
       border-radius: 20px;
@@ -378,6 +433,7 @@
       text-transform: uppercase;
       z-index: 200;
       animation: slideUp 0.2s ease;
+      box-shadow: 0 0 20px rgba(240,168,32,.18), 0 4px 20px rgba(0,0,0,.45);
     }
     @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -436,13 +492,16 @@
       top: calc(100% + 4px);
       left: 0;
       right: 0;
-      background: var(--bg-card);
-      border: 1px solid var(--border-gold);
-      border-radius: 10px;
+      background: rgba(22,17,40,.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(240,168,32,.28);
+      border-top: 1px solid rgba(240,168,32,.45);
+      border-radius: 12px;
       padding: 8px 0;
       max-height: 280px;
       overflow-y: auto;
-      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      box-shadow: 0 12px 32px rgba(0,0,0,.6), 0 0 16px rgba(240,168,32,.06);
     }
     .role-group-hdr {
       font-size: 8px;
@@ -533,29 +592,32 @@
     .kanban-tabs { display: flex; gap: 4px; margin-bottom: 22px; }
     .ktab {
       padding: 6px 18px;
-      border-radius: 8px;
+      border-radius: 20px;
       font-size: 11px;
       font-family: var(--mono);
       letter-spacing: .08em;
-      border: 1px solid var(--border);
-      background: transparent;
+      border: 1px solid rgba(240,238,248,.1);
+      background: rgba(240,238,248,.03);
       color: var(--muted);
       cursor: pointer;
       transition: all 0.15s;
       text-transform: uppercase;
     }
-    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); }
-    .ktab.active { background: var(--accent-dim); border-color: var(--accent-bdr); color: var(--accent); }
+    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
+    .ktab.active { background: rgba(240,168,32,.12); border-color: rgba(240,168,32,.3); color: var(--accent); box-shadow: 0 0 12px rgba(240,168,32,.15); }
     .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; }
     .kboard-col {
       flex: 0 0 210px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: rgba(22,17,40,.75);
+      border: 1px solid rgba(240,238,248,.08);
+      border-top: 1px solid rgba(240,238,248,.14);
+      border-radius: 12px;
       padding: 14px 12px 12px;
       display: flex;
       flex-direction: column;
       gap: 0;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
     .kboard-col-hdr {
       font-size: 9px;
@@ -577,15 +639,16 @@
       padding: 1px 7px;
     }
     .kcard {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      background: rgba(14,10,28,.6);
+      border: 1px solid rgba(240,238,248,.08);
+      border-top: 1px solid rgba(240,238,248,.13);
+      border-radius: 9px;
       padding: 10px 11px;
       margin-bottom: 6px;
       cursor: default;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .kcard:hover { border-color: var(--accent-bdr); }
+    .kcard:hover { border-color: rgba(240,168,32,.25); box-shadow: 0 0 10px rgba(240,168,32,.06); }
     .kcard-title { font-size: 12px; font-family: var(--mono); color: var(--text); margin-bottom: 4px; line-height: 1.4; }
     .kcard-meta { font-size: 9px; font-family: var(--mono); color: var(--muted-2); display: flex; align-items: center; justify-content: space-between; }
     .kcard-actions { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
@@ -631,11 +694,14 @@
     /* Analytics */
     .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
     .analytics-stat {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      background: rgba(22,17,40,.8);
+      border: 1px solid rgba(240,238,248,.08);
+      border-top: 1px solid rgba(240,238,248,.16);
+      border-radius: 12px;
       padding: 18px 20px;
       text-align: center;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
     }
     .analytics-stat-val { font-size: 28px; font-family: var(--mono); color: var(--accent); font-weight: 500; }
     .analytics-stat-lbl { font-size: 9px; font-family: var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted-2); margin-top: 4px; }
@@ -667,7 +733,7 @@ const { useState, useEffect, useCallback, useRef } = React;
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'dp_cold_open_v1';
+const STORAGE_KEY = 'dp_aperture_v1';
 
 const DEFAULTS = {
   profile: {
@@ -676,6 +742,7 @@ const DEFAULTS = {
     targetDomain: 'Enterprise AI · Regulated Workflows · HCM / Workforce',
     background: '8 years building at Kronos/UKG: led the enterprise AI capability platform from scratch, shipped 20 use cases into production, built governance architecture for regulated high-stakes workflows. Before that: banking, retail operations, insurance systems. I have worked every layer of the systems I build for.',
     edge: 'I build AI platforms that work in regulated, high-stakes enterprise environments — not just demos. Governed multi-agent systems, human in the loop guardrails, compliance grade observability. 20+ enterprise AI use cases shipped. $15M+ ARR influenced. 4 first place innovation awards, with Microsoft, Google, and MongoDB as design partners. The governance layer is not an afterthought for me — it is the design.',
+    homeCity: 'Pelham, NH',
   },
   watchList: [
     { id: 1,  company: 'Salesforce',  tier: 1 },
@@ -887,7 +954,7 @@ Domain: ${profile.targetDomain}
 Background: ${profile.background}
 Edge: ${profile.edge}
 
-YOUR JOB: Research the person the user names. Find real shared ground with ${profile.name.split(' ')[0]}'s background. Generate a concise dossier that helps ${profile.name.split(' ')[0]} open a warm conversation — not cold pitch, not flattery.
+YOUR JOB: Research the person the user names. Write a concise warm-intro brief — not a dossier. Focus on: who this person is, why their work connects to ${profile.name.split(' ')[0]}'s background, a suggested first message, and 3 strong conversation openers.
 
 SHARED GROUND TO LOOK FOR: Enterprise AI in regulated or high-stakes environments, platform thinking over feature thinking, AI governance and compliance, human in the loop design, HCM / workforce systems, operator-to-builder career trajectories, multi-agent systems, enterprise SaaS.
 
@@ -896,14 +963,103 @@ OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose out
   "name": "full name",
   "company": "company",
   "title": "their title",
-  "background": "2-3 sentences on their career and focus",
-  "sharedGround": "1-2 specific things they share with ${profile.name.split(' ')[0]} — be concrete, not generic",
-  "outreachAngle": "one sentence: the honest reason ${profile.name.split(' ')[0]} should reach out to this person specifically",
-  "suggestedDM": "a short LinkedIn DM (under 75 words) written in first person as ${profile.name.split(' ')[0]} — plain English, no em dashes, no abstract nouns, specific over generic",
+  "background": "2-3 sentences on their career and focus — what they actually build or lead",
+  "howYouFit": "1-2 sentences on how ${profile.name.split(' ')[0]}'s background overlaps with this person's work — be specific about what connects them",
+  "sharedGround": "one concrete thing they have in common — a problem space, a technology, a career move, not a generic interest",
+  "suggestedDM": "a short LinkedIn DM (under 75 words) written in first person as ${profile.name.split(' ')[0]} — plain English, no em dashes, specific over generic, warm not salesy",
+  "matchScore": "integer 1–10: how worth reaching out is this person for ${profile.name.split(' ')[0]}'s goals — based on career overlap, shared domain, and warm intro potential. 10 = near-perfect alignment",
+  "matchRationale": "1 sentence explaining the score — what specifically makes this person high or low value as a contact",
+  "interviewQuestions": ["3 specific conversation questions to ask this person in a 30-minute call — grounded in their actual work, not generic"],
   "researchNote": "any caveat about data freshness or uncertainty"
 }
 
 VOICE RULES: Plain English. No em dashes. No abstract nouns (no passionate / innovative / strategic). Hero-active verbs. Specific over generic.`;
+}
+
+function buildCompanyPrompt(profile) {
+  const home = profile.homeCity || 'unknown location';
+  return `You are a company intelligence analyst helping ${profile.name} evaluate a potential employer.
+
+ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
+Role target: ${profile.role}
+Background: ${profile.background}
+Edge: ${profile.edge}
+Home city: ${home}
+
+YOUR JOB: Research the company the user names. Produce a concise but substantive intelligence brief covering everything ${profile.name.split(' ')[0]} needs to evaluate this opportunity — pay grade, culture, work arrangement norms, competitive context, commute reality from ${home}, and 5 sharp interview questions.
+
+OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose outside the JSON. Schema:
+{
+  "name": "company name",
+  "industry": "industry / sector",
+  "stage": "public / private / PE-backed / startup stage",
+  "headcount": "approximate size",
+  "overview": "3-4 sentences: what they build, who they sell to, what makes them notable",
+  "payContext": "how this company's compensation compares to market for a ${profile.role} — include rough base range if known, note equity/bonus culture, call out if they're known to pay above/at/below market",
+  "competitors": ["2-4 direct competitors"],
+  "workArrangement": "what their actual culture is on remote/hybrid/onsite — not just what they say in job postings, but what employees report",
+  "cultureSignals": "2-3 sentences on culture, management style, growth trajectory — any notable Glassdoor themes or known leadership signals",
+  "recentSignals": "any notable news in the last 12 months: funding, layoffs, reorgs, product launches, leadership changes",
+  "commuteNote": "analyze the commute from ${home} to this company's main office. Estimate miles, note whether it is into a major metro core (heavy inbound traffic) or a reverse/suburban commute (lighter traffic). Call out if it is on a notoriously congested corridor. Give a realistic peak-hour time range.",
+  "matchScore": "integer 1–10: how strong a fit is this company for ${profile.name.split(' ')[0]}'s background and role target. Consider: domain overlap, stage fit, role availability, culture match. 10 = near-perfect",
+  "matchRationale": "1 sentence explaining the score — what specifically makes this company a strong or weak match",
+  "fitAngle": "1-2 sentences on why this company is or is not a strong match for ${profile.name.split(' ')[0]}'s background specifically",
+  "watchoutFlags": [
+    {
+      "severity": "HIGH or MED or LOW",
+      "category": "Culture or Stability or Role Clarity or Growth",
+      "finding": "1-sentence description of the specific concern — concrete, not vague",
+      "probe": "exact interview question to validate this — phrased naturally, not generically"
+    }
+  ],
+  "blindSpots": [
+    {
+      "gap": "what is genuinely unknown or unverifiable about this company from public data",
+      "probe": "specific question to ask in the interview to close this gap"
+    }
+  ],
+  "interviewQuestions": ["5 smart questions to ask in an interview — grounded in what is actually known about their culture, product direction, or challenges. Make them specific to this company, not generic."],
+  "researchNote": "data freshness caveat — note what is estimated vs. reported"
+}
+
+VOICE RULES: Plain English. No em dashes. Be direct about pay ranges and commute reality — do not hedge everything. Flag genuine uncertainty once; do not repeat it throughout.`;
+}
+
+function buildFocusPrompt(profile) {
+  const home = profile.homeCity || 'unknown location';
+  return `You are an interview intelligence analyst helping ${profile.name} prepare for a specific role at a specific company.
+
+ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
+Role target: ${profile.role}
+Background: ${profile.background}
+Edge: ${profile.edge}
+Home city: ${home}
+
+YOUR JOB: Produce a focused pre-interview brief combining company context with role-specific preparation — calibrated to ${profile.name.split(' ')[0]}'s background.
+
+OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose outside the JSON. Schema:
+{
+  "company": "company name",
+  "role": "role title",
+  "matchScore": "integer 1–10: how strong a fit is this specific role at this company for ${profile.name.split(' ')[0]}",
+  "matchRationale": "1 sentence: what specifically makes this a strong or weak match",
+  "companySnapshot": "2-3 sentences: what the company builds, who they sell to, what makes them notable right now",
+  "roleContext": "2-3 sentences: what success in this role looks like, who it likely reports to, what the first 90 days probably involve",
+  "whyYouFit": "2-3 sentences: specific reasons ${profile.name.split(' ')[0]}'s background is a match — cite actual experience, not generic skills",
+  "edgeToEmphasize": "the one most differentiated thing ${profile.name.split(' ')[0]} brings that this company is unlikely to find in other candidates",
+  "watchoutFlags": [
+    {
+      "severity": "HIGH or MED or LOW",
+      "category": "Culture or Stability or Role Clarity or Growth",
+      "finding": "1-sentence concern specific to this role or company",
+      "probe": "interview question to validate it"
+    }
+  ],
+  "interviewQuestions": ["8-10 strong questions to ask in the interview — specific to this company AND this role, not generic. Mix of: culture probes, product/strategy questions, role scope clarifiers, and team dynamics questions."],
+  "researchNote": "any data freshness caveat"
+}
+
+VOICE RULES: Plain English. No em dashes. Be specific — cite actual company context, actual role patterns, actual background overlap. No generic advice.`;
 }
 
 function persist(data) {
@@ -917,6 +1073,17 @@ function load() {
     return JSON.parse(raw);
   } catch(e) { return null; }
 }
+
+// One-time migration: copy data from old key → new Career Aperture key
+(function migrateStorage() {
+  const OLD_KEY = 'dp_cold_open_v1';
+  try {
+    if (!localStorage.getItem(STORAGE_KEY) && localStorage.getItem(OLD_KEY)) {
+      localStorage.setItem(STORAGE_KEY, localStorage.getItem(OLD_KEY));
+      localStorage.removeItem(OLD_KEY);
+    }
+  } catch(e) {}
+})();
 
 // ── Toast ─────────────────────────────────────────────────────────────────────
 
@@ -1135,8 +1302,17 @@ function JobSearch() {
         }
         setGeoLoading(false);
         setLocPanelOpen(true);
+        // Mark as asked so we never auto-prompt again
+        const stored = load() || {};
+        persist({ ...stored, jobSearch: { ...(stored.jobSearch || {}), geoAsked: true } });
       },
-      () => { setGeoLoading(false); setGeoDetected(false); },
+      () => {
+        setGeoLoading(false);
+        setGeoDetected(false);
+        // Mark as asked even on denial/error so we don't re-prompt on reload
+        const stored = load() || {};
+        persist({ ...stored, jobSearch: { ...(stored.jobSearch || {}), geoAsked: true } });
+      },
       { timeout: 8000 }
     );
   }
@@ -1157,7 +1333,8 @@ function JobSearch() {
   React.useEffect(() => {
     const saved = load();
     const hasSaved = saved && saved.jobSearch && (saved.jobSearch.selectedLocations || saved.jobSearch.locationCity);
-    if (!hasSaved) detectLocation();
+    const geoAsked = saved && saved.jobSearch && saved.jobSearch.geoAsked;
+    if (!hasSaved && !geoAsked) detectLocation();
   }, []);
 
   // Close location panel on outside click
@@ -1206,6 +1383,17 @@ function JobSearch() {
   const [saveSearchName, setSaveSearchName] = useState('');
   const [showSaveSearch, setShowSaveSearch] = useState(false);
   const [urlsOpen, setUrlsOpen] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState(null);
+  const [addedCards, setAddedCards] = useState({});
+
+  const [topJobs, setTopJobs] = useState(() => { const s = load(); return s?.jobSearch?.topJobs || []; });
+  const [topJobsLoading, setTopJobsLoading] = useState(false);
+  const [topAddedCards, setTopAddedCards] = useState({});
+  const [openBoardDD, setOpenBoardDD] = useState(null);       // search results col picker
+  const [topOpenBoardDD, setTopOpenBoardDD] = useState(null); // top-5 col picker
+  const topDebounceRef = React.useRef(null);
   const [customEngines, setCustomEngines] = useState(() => {
     const saved = load();
     return saved && saved.customEngines ? saved.customEngines : [];
@@ -1276,6 +1464,156 @@ function JobSearch() {
   const laddersUrl = locationUrls[0]?.ladders || '';
   const hasTerms = selectedRoles.length > 0 || mustKeywords.length > 0 || optKeywords.length > 0;
 
+  async function runJobSearch() {
+    const apiKey = load()?.apiKey;
+    if (!apiKey) { setSearchError('Set your Anthropic API key in Settings first.'); return; }
+    setSearching(true);
+    setSearchError(null);
+    setSearchResults([]);
+    setAddedCards({});
+
+    const criteria = [
+      selectedRoles.length > 0    ? `Roles: ${selectedRoles.join(', ')}` : null,
+      mustKeywords.length > 0     ? `Required keywords: ${mustKeywords.join(', ')}` : null,
+      optKeywords.length > 0      ? `Preferred keywords: ${optKeywords.join(', ')}` : null,
+      selectedLocations.length > 0 ? `Locations: ${selectedLocations.join(', ')}` : null,
+      expLevels.length > 0        ? `Experience level: ${expLevels.join(', ')}` : null,
+      workplaceTypes.length > 0   ? `Workplace type: ${workplaceTypes.join(', ')}` : null,
+      jobTypes.length > 0         ? `Job type: ${jobTypes.join(', ')}` : null,
+      dateRange                   ? `Posted within: ${dateRange}` : null,
+    ].filter(Boolean).join('\n');
+
+    const prompt = `You are a job search assistant. Generate 8 realistic job listings that match this search criteria. These should reflect roles you'd actually find on LinkedIn or similar boards today.
+
+${criteria}
+
+Return ONLY a valid JSON array with exactly 8 objects. No markdown, no explanation, no code fences — just the raw JSON array. Each object must have these exact keys:
+- "title": job title string
+- "company": realistic company name string
+- "location": city/state or "Remote" string
+- "type": one of "Full-time", "Part-time", "Contract", "Temporary"
+- "level": one of "Senior", "Mid-Level", "Director", "VP", "Principal", "Staff", "Manager"
+- "posted": string like "Today", "2 days ago", "1 week ago", "3 weeks ago"
+- "salary": realistic range string like "$140,000 – $175,000/yr" or "Competitive"
+- "snippet": 1-2 sentence job description excerpt, max 180 characters
+- "linkedinUrl": a realistic LinkedIn jobs search URL`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'content-type': 'application/json',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 2500,
+          messages: [{ role: 'user', content: prompt }],
+        }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const text = data.content[0].text.trim();
+      const jobs = JSON.parse(text);
+      setSearchResults(Array.isArray(jobs) ? jobs : []);
+    } catch (e) {
+      setSearchError('Search failed — ' + e.message);
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  // General save-to-any-board-column helper (used by both Top 5 and Search Results)
+  function saveToBoardCol(job, colId, colLabel, idx, addedCards, setAddedCards, idPfx) {
+    const stored = load() || {};
+    const kanban = stored.kanban || {};
+    const jobCards = kanban.jobCards || {};
+    const colArr = jobCards[colId] || [];
+    if (colArr.some(c => c.title === job.title && c.company === job.company)) {
+      setToast(`Already in ${colLabel}`); return false;
+    }
+    persist({ ...stored, kanban: { ...kanban, jobCards: { ...jobCards, [colId]: [{
+      id: (idPfx || '') + Date.now() + idx,
+      title: job.title, company: job.company,
+      notes: [job.location, job.type, job.salary].filter(Boolean).join(' · ') + (job.snippet ? '\n\n' + job.snippet : ''),
+      url: job.linkedinUrl || '', created: new Date().toISOString(),
+    }, ...colArr] } } });
+    setAddedCards(prev => ({ ...prev, [idx]: colLabel }));
+    setToast(`${job.company} → ${colLabel}`);
+    return true;
+  }
+
+  // Auto-fetch top 5 whenever core criteria change (debounced 2s)
+  React.useEffect(() => {
+    if (topDebounceRef.current) clearTimeout(topDebounceRef.current);
+    if (!hasTerms) return;
+    topDebounceRef.current = setTimeout(async () => {
+      const apiKey = load()?.apiKey;
+      if (!apiKey) return;
+      setTopJobsLoading(true);
+      setTopAddedCards({});
+      const criteria = [
+        selectedRoles.length > 0     ? `Roles: ${selectedRoles.join(', ')}` : null,
+        mustKeywords.length > 0      ? `Required keywords: ${mustKeywords.join(', ')}` : null,
+        optKeywords.length > 0       ? `Preferred keywords: ${optKeywords.join(', ')}` : null,
+        selectedLocations.length > 0 ? `Locations: ${selectedLocations.join(', ')}` : null,
+      ].filter(Boolean).join('\n');
+      const prompt = `You are a job search assistant. Generate the top 5 best-fit job listings for this search. These should be the most relevant, high-quality matches.
+
+${criteria}
+
+Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation. Each object:
+- "title": job title
+- "company": realistic company name
+- "location": city/state or "Remote"
+- "type": "Full-time", "Part-time", "Contract", or "Temporary"
+- "level": "Senior", "Mid-Level", "Director", "VP", "Principal", "Staff", or "Manager"
+- "posted": e.g. "Today", "2 days ago", "1 week ago"
+- "salary": realistic range like "$140,000 – $175,000/yr" or "Competitive"
+- "snippet": 1–2 sentence job excerpt, max 160 chars
+- "linkedinUrl": realistic LinkedIn jobs search URL`;
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': apiKey,
+            'anthropic-version': '2023-06-01',
+            'content-type': 'application/json',
+            'anthropic-dangerous-direct-browser-access': 'true',
+          },
+          body: JSON.stringify({
+            model: 'claude-haiku-4-5-20251001',
+            max_tokens: 1800,
+            messages: [{ role: 'user', content: prompt }],
+          }),
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message);
+        const jobs = JSON.parse(data.content[0].text.trim());
+        if (Array.isArray(jobs)) {
+          setTopJobs(jobs);
+          const stored = load() || {};
+          persist({ ...stored, jobSearch: { ...(stored.jobSearch || {}), topJobs: jobs } });
+        }
+      } catch (e) {
+        // silent fail — top 5 is best-effort
+      } finally {
+        setTopJobsLoading(false);
+      }
+    }, 2000);
+    return () => { if (topDebounceRef.current) clearTimeout(topDebounceRef.current); };
+  }, [selectedRoles, mustKeywords, optKeywords, selectedLocations]);
+
+  // Close board dropdowns on any outside click
+  React.useEffect(() => {
+    if (openBoardDD === null && topOpenBoardDD === null) return;
+    function h() { setOpenBoardDD(null); setTopOpenBoardDD(null); }
+    document.addEventListener('click', h);
+    return () => document.removeEventListener('click', h);
+  }, [openBoardDD, topOpenBoardDD]);
+
   function saveCurrentSearch() {
     const name = saveSearchName.trim() || `Search ${new Date().toLocaleDateString()}`;
     const entry = {
@@ -1328,8 +1666,85 @@ function JobSearch() {
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
         <div className="page-title">Job Search</div>
-        <div className="page-sub">Build a targeted LinkedIn job search URL. Select roles and domain keywords, then tune the filters.</div>
+        <div className="page-sub">Build targeted search URLs for LinkedIn, Indeed, and Google Jobs. Select roles, domain keywords, and filters. Research companies and people or save results directly to the Board.</div>
       </div>
+
+      {/* ── Top 5 Matches ─────────────────────────────────────────────── */}
+      {(topJobs.length > 0 || topJobsLoading) && (
+        <div className="card" style={{marginBottom:18}}>
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14}}>
+            <div style={{display:'flex', alignItems:'center', gap:10}}>
+              <div className="card-title" style={{marginBottom:0}}>Top 5 Matches</div>
+              {topJobsLoading && (
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite', flexShrink:0}}>
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+              )}
+            </div>
+            <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.06em'}}>AI curated · updates as you refine</span>
+          </div>
+
+          {topJobsLoading && topJobs.length === 0 && (
+            <div style={{padding:'14px 0', fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)'}}>Curating top matches…</div>
+          )}
+
+          {topJobs.map((job, idx) => (
+            <div key={idx} style={{
+              display:'flex', alignItems:'flex-start', gap:12,
+              padding:'11px 14px',
+              marginBottom: idx < topJobs.length - 1 ? 8 : 0,
+              background:'var(--bg-2)',
+              borderRadius:8,
+              border:'1px solid var(--border)',
+            }}>
+              <div style={{flex:1, minWidth:0}}>
+                <div style={{display:'flex', alignItems:'baseline', gap:8, flexWrap:'wrap', marginBottom:3}}>
+                  <span style={{fontSize:12, fontWeight:600, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.01em'}}>{job.title}</span>
+                  <span style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)'}}>@ {job.company}</span>
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)'}}>· {job.posted}</span>
+                </div>
+                <div style={{display:'flex', flexWrap:'wrap', gap:5, marginBottom:5}}>
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>📍 {job.location}</span>
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>{job.level}</span>
+                  {job.salary && job.salary !== 'Competitive' && (
+                    <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'1px 7px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>{job.salary}</span>
+                  )}
+                </div>
+                {job.snippet && (
+                  <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.55}}>{job.snippet}</div>
+                )}
+              </div>
+              <div style={{position:'relative', flexShrink:0, marginTop:2}} onClick={e => e.stopPropagation()}>
+                {topAddedCards[idx] ? (
+                  <button className="btn btn-secondary btn-sm" disabled style={{fontSize:11, padding:'4px 10px', whiteSpace:'nowrap'}}>✓ {topAddedCards[idx]}</button>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => setTopOpenBoardDD(topOpenBoardDD === idx ? null : idx)}
+                      style={{fontSize:11, padding:'4px 10px', display:'flex', alignItems:'center', gap:4}}
+                    >
+                      + Board <span style={{fontSize:8, opacity:.8}}>▾</span>
+                    </button>
+                    {topOpenBoardDD === idx && (
+                      <div style={{position:'absolute', right:0, top:'calc(100% + 4px)', zIndex:400, background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:7, minWidth:130, boxShadow:'0 6px 24px rgba(0,0,0,.55)', overflow:'hidden'}}>
+                        {KANBAN_JOB_COLS.map(col => (
+                          <div key={col.id}
+                            onClick={() => { if (saveToBoardCol(job, col.id, col.label, idx, topAddedCards, setTopAddedCards, 't')) setTopOpenBoardDD(null); }}
+                            style={{padding:'8px 14px', cursor:'pointer', fontSize:12, fontFamily:'var(--mono)', color:'var(--text)', borderBottom:'1px solid var(--border)'}}
+                            onMouseEnter={e => e.currentTarget.style.background='rgba(240,238,248,.06)'}
+                            onMouseLeave={e => e.currentTarget.style.background='transparent'}
+                          >{col.label}</div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="card">
         <div className="card-title">Target Roles</div>
@@ -1532,6 +1947,15 @@ function JobSearch() {
             <span className="toggle-slider"></span>
           </label>
         </div>
+
+        <button
+          className="btn btn-primary"
+          disabled={!hasTerms || searching}
+          onClick={runJobSearch}
+          style={{width:'100%', marginTop:16, fontSize:13, padding:'10px', letterSpacing:'.05em'}}
+        >
+          {searching ? '⟳ Searching…' : '⚡ Search Jobs'}
+        </button>
       </div>
 
       {/* Quick Search — save/load */}
@@ -1685,6 +2109,114 @@ function JobSearch() {
         )}
       </div>
 
+      {/* ── Job Search Results ─────────────────────────────────────────── */}
+      {(searching || searchError || searchResults.length > 0) && (
+        <div className="card">
+          <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14}}>
+            <div className="card-title" style={{marginBottom:0}}>
+              {searching ? 'Searching…' : `Results${searchResults.length > 0 ? ` · ${searchResults.length}` : ''}`}
+            </div>
+            {searchResults.length > 0 && (
+              <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.06em'}}>
+                AI curated · based on your criteria
+              </span>
+            )}
+          </div>
+
+          {searching && (
+            <div style={{display:'flex', alignItems:'center', gap:10, padding:'18px 0', color:'var(--muted-2)', fontFamily:'var(--mono)', fontSize:12}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite'}}>
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+              </svg>
+              Curating matches…
+            </div>
+          )}
+
+          {searchError && !searching && (
+            <div style={{fontSize:12, fontFamily:'var(--mono)', color:'#e06060', padding:'8px 0'}}>{searchError}</div>
+          )}
+
+          {!searching && searchResults.length > 0 && searchResults.map((job, idx) => (
+            <div key={idx} style={{
+              padding:'14px 16px',
+              marginBottom: idx < searchResults.length - 1 ? 10 : 0,
+              background:'var(--bg-2)',
+              borderRadius:8,
+              border:'1px solid var(--border)',
+              display:'flex',
+              flexDirection:'column',
+              gap:7,
+            }}>
+              <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12}}>
+                <div style={{flex:1, minWidth:0}}>
+                  <div style={{fontSize:13, fontWeight:600, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.01em', marginBottom:2}}>{job.title}</div>
+                  <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.02em'}}>{job.company}</div>
+                </div>
+                <div style={{position:'relative', flexShrink:0}} onClick={e => e.stopPropagation()}>
+                  {addedCards[idx] ? (
+                    <button className="btn btn-secondary btn-sm" disabled style={{fontSize:11, padding:'4px 12px', letterSpacing:'.04em', whiteSpace:'nowrap'}}>✓ {addedCards[idx]}</button>
+                  ) : (
+                    <>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => setOpenBoardDD(openBoardDD === idx ? null : idx)}
+                        style={{fontSize:11, padding:'4px 12px', letterSpacing:'.04em', display:'flex', alignItems:'center', gap:5}}
+                      >
+                        + Board <span style={{fontSize:8, opacity:.8}}>▾</span>
+                      </button>
+                      {openBoardDD === idx && (
+                        <div style={{position:'absolute', right:0, top:'calc(100% + 4px)', zIndex:400, background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:7, minWidth:130, boxShadow:'0 6px 24px rgba(0,0,0,.55)', overflow:'hidden'}}>
+                          {KANBAN_JOB_COLS.map(col => (
+                            <div key={col.id}
+                              onClick={() => { if (saveToBoardCol(job, col.id, col.label, idx, addedCards, setAddedCards, 's')) setOpenBoardDD(null); }}
+                              style={{padding:'8px 14px', cursor:'pointer', fontSize:12, fontFamily:'var(--mono)', color:'var(--text)', borderBottom:'1px solid var(--border)'}}
+                              onMouseEnter={e => e.currentTarget.style.background='rgba(240,238,248,.06)'}
+                              onMouseLeave={e => e.currentTarget.style.background='transparent'}
+                            >{col.label}</div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div style={{display:'flex', flexWrap:'wrap', gap:6}}>
+                <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'2px 8px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>
+                  📍 {job.location}
+                </span>
+                <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'2px 8px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>
+                  {job.level}
+                </span>
+                <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'2px 8px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>
+                  {job.type}
+                </span>
+                <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', padding:'2px 8px', background:'rgba(255,255,255,.03)', borderRadius:4, border:'1px solid var(--border)'}}>
+                  {job.posted}
+                </span>
+                {job.salary && job.salary !== 'Competitive' && (
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'2px 8px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>
+                    {job.salary}
+                  </span>
+                )}
+              </div>
+
+              {job.snippet && (
+                <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.6, letterSpacing:'.01em'}}>
+                  {job.snippet}
+                </div>
+              )}
+
+              {job.linkedinUrl && (
+                <a href={job.linkedinUrl} target="_blank" rel="noopener noreferrer" style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', textDecoration:'none', letterSpacing:'.04em', marginTop:2}}>
+                  View on LinkedIn ↗
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
     </div>
   );
 }
@@ -1724,7 +2256,7 @@ function PeopleContacts({ watchList }) {
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
         <div className="page-title">People & Contacts</div>
-        <div className="page-sub">Generate three search URLs per company — LinkedIn network, Google X-ray, and open connections.</div>
+        <div className="page-sub">Generate three search URLs per company: LinkedIn network, Google X-ray, and open connections.</div>
       </div>
 
       <div className="card">
@@ -1760,7 +2292,7 @@ function PeopleContacts({ watchList }) {
 
       {urls && (
         <div className="card">
-          <div className="card-title">Search URLs — {company}</div>
+          <div className="card-title">Search URLs: {company}</div>
           <UrlRow label="LinkedIn (1st & 2nd degree)" url={urls.linkedin} />
           <UrlRow label="Google X-ray" url={urls.xray} />
           <UrlRow label="LinkedIn Open Network" url={urls.open} />
@@ -1777,119 +2309,668 @@ function PeopleContacts({ watchList }) {
 // ── Deep Research Mode ────────────────────────────────────────────────────────
 
 function DeepResearch({ profile, apiKey, onNeedApiKey }) {
-  const [name, setName] = useState('');
-  const [company, setCompany] = useState('');
+  const [researchType, setResearchType] = useState(() => {
+    const s = load(); return s?.deepResearch?.lastType || 'person';
+  });
+  const [personName, setPersonName] = useState('');
+  const [personCompany, setPersonCompany] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [roleConsidering, setRoleConsidering] = useState('');
+  const [focusCompany, setFocusCompany] = useState('');
+  const [focusRole, setFocusRole] = useState('');
   const [loading, setLoading] = useState(false);
-  const [dossier, setDossier] = useState(null);
+  const [streamLen, setStreamLen] = useState(0);
+  const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [toast, setToast] = useState(null);
-  const [watchList] = useState(DEFAULTS.watchList);
+  const [history, setHistory] = useState(() => {
+    const s = load(); return s?.deepResearch?.history || [];
+  });
+  const [showHistory, setShowHistory] = useState(false);
+
+  // Load last result + restore inputs when type tab changes
+  React.useEffect(() => {
+    const s = load();
+    const saved = s?.deepResearch?.[`last_${researchType}`];
+    setResult(saved || null);
+    if (researchType === 'person') {
+      const q = s?.deepResearch?.lastPersonQuery;
+      if (q) { setPersonName(q.name || ''); setPersonCompany(q.company || ''); }
+    } else {
+      const q = s?.deepResearch?.lastCompanyQuery;
+      if (q) { setCompanyName(q.company || ''); setRoleConsidering(q.role || ''); }
+    }
+    setError('');
+  }, [researchType]);
+
+  async function callApiStreaming(systemPrompt, userMsg, maxTokens) {
+    if (!apiKey) { onNeedApiKey(); return null; }
+    setStreamLen(0);
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: maxTokens,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userMsg }],
+        stream: true,
+      }),
+    });
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      throw new Error(e.error?.message || `API error ${res.status}`);
+    }
+    let fullText = '';
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (raw === '[DONE]') continue;
+        try {
+          const ev = JSON.parse(raw);
+          if (ev.type === 'content_block_delta' && ev.delta?.type === 'text_delta') {
+            fullText += ev.delta.text;
+            setStreamLen(fullText.length);
+          }
+        } catch(_) {}
+      }
+    }
+    return JSON.parse(fullText);
+  }
+
+  function saveResult(type, data, query) {
+    const stored = load() || {};
+    const dr = stored.deepResearch || {};
+    const hist = dr.history || [];
+    const label = type === 'person'
+      ? `${query.name}${query.company ? ` · ${query.company}` : ''}`
+      : query.company;
+    const entry = { id: Date.now(), type, label, ts: new Date().toLocaleDateString(), data };
+    const newHist = [entry, ...hist.filter(h => h.label !== label)].slice(0, 10);
+    const queryKey = type === 'person' ? 'lastPersonQuery' : 'lastCompanyQuery';
+    persist({
+      ...stored,
+      deepResearch: {
+        ...dr,
+        lastType: type,
+        [`last_${type}`]: { type, data },
+        [queryKey]: query,
+        history: newHist,
+      }
+    });
+    setHistory(newHist);
+  }
 
   async function runResearch() {
-    if (!name.trim()) return;
-    setLoading(true);
-    setDossier(null);
-    setError('');
+    setLoading(true); setResult(null); setError('');
     try {
-      const res = await fetch('/.netlify/functions/research', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1500,
-          system: buildSystemPrompt(profile),
-          messages: [{ role: 'user', content: `Research ${name.trim()}${company.trim() ? ` at ${company.trim()}` : ''}.` }],
-        }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error?.message || `API error ${res.status}`);
+      if (researchType === 'person') {
+        if (!personName.trim()) return;
+        const query = { name: personName.trim(), company: personCompany.trim() };
+        const parsed = await callApiStreaming(buildSystemPrompt(profile), `Research ${query.name}${query.company ? ` at ${query.company}` : ''}.`, 1800);
+        const r = { type: 'person', data: parsed };
+        setResult(r);
+        saveResult('person', parsed, query);
+      } else if (researchType === 'company') {
+        if (!companyName.trim()) return;
+        const query = { company: companyName.trim(), role: roleConsidering.trim() };
+        const msg = `Research the company: ${query.company}${query.role ? `. Role I am considering: ${query.role}` : ''}.`;
+        const parsed = await callApiStreaming(buildCompanyPrompt(profile), msg, 2400);
+        const r = { type: 'company', data: parsed };
+        setResult(r);
+        saveResult('company', parsed, query);
+      } else {
+        if (!focusCompany.trim() || !focusRole.trim()) return;
+        const query = { company: focusCompany.trim(), role: focusRole.trim() };
+        const msg = `Company: ${query.company}. Role: ${query.role}.`;
+        const parsed = await callApiStreaming(buildFocusPrompt(profile), msg, 2800);
+        const r = { type: 'focus', data: parsed };
+        setResult(r);
+        saveResult('focus', parsed, query);
       }
-      const data = await res.json();
-      const text = data.content?.[0]?.text || '';
-      const parsed = JSON.parse(text);
-      setDossier(parsed);
     } catch(e) {
       setError(e.message || 'Something went wrong. Check your API key.');
     } finally {
-      setLoading(false);
+      setLoading(false); setStreamLen(0);
     }
   }
 
-  function copyDM() {
-    if (!dossier?.suggestedDM) return;
-    navigator.clipboard.writeText(dossier.suggestedDM).then(() => setToast('DM copied'));
+  function copyText(text) {
+    navigator.clipboard.writeText(text).then(() => setToast('Copied'));
   }
+
+  function copyFullBrief() {
+    if (!result) return;
+    const d = result.data;
+    let lines = [];
+    if (result.type === 'person') {
+      lines = [
+        `PERSON BRIEF: ${d.name}`,
+        [d.title, d.company].filter(Boolean).join(' at '),
+        ...(d.matchScore ? [`Match: ${d.matchScore}/10 — ${d.matchRationale || ''}`] : []),
+        '',
+        'BACKGROUND', d.background,
+        '', 'HOW YOU FIT', d.howYouFit,
+        '', 'SHARED GROUND', d.sharedGround,
+        '', 'SUGGESTED FIRST MESSAGE', d.suggestedDM,
+        ...(d.interviewQuestions && d.interviewQuestions.length
+          ? ['', 'CONVERSATION STARTERS', ...d.interviewQuestions.map((q, i) => `${i+1}. ${q}`)]
+          : []),
+        ...(d.researchNote ? ['', `NOTE: ${d.researchNote}`] : []),
+      ];
+    } else {
+      lines = [
+        `COMPANY BRIEF: ${d.name}`,
+        [d.industry, d.stage, d.headcount].filter(Boolean).join(' · '),
+        ...(d.matchScore ? [`Match: ${d.matchScore}/10 — ${d.matchRationale || ''}`] : []),
+        '',
+        'OVERVIEW', d.overview,
+        '', 'PAY CONTEXT', d.payContext,
+        '', 'WORK ARRANGEMENT', d.workArrangement,
+        '', 'CULTURE SIGNALS', d.cultureSignals,
+        ...(d.recentSignals ? ['', 'RECENT SIGNALS', d.recentSignals] : []),
+        '', `COMMUTE FROM ${(profile.homeCity || 'HOME').toUpperCase()}`, d.commuteNote,
+        '', 'HOW YOU FIT', d.fitAngle,
+        ...(d.watchoutFlags?.length ? ['', 'RED FLAGS', ...d.watchoutFlags.map(f => `[${f.severity}] ${f.category}: ${f.finding}\n  → ${f.probe}`)] : []),
+        ...(d.blindSpots?.length ? ['', 'BLIND SPOTS', ...d.blindSpots.map(b => `Gap: ${b.gap}\n  → ${b.probe}`)] : []),
+        ...(d.competitors && d.competitors.length ? ['', 'COMPETITORS', d.competitors.join(', ')] : []),
+        ...(d.interviewQuestions && d.interviewQuestions.length
+          ? ['', 'INTERVIEW QUESTIONS', ...d.interviewQuestions.map((q, i) => `${i+1}. ${q}`)]
+          : []),
+        ...(d.researchNote ? ['', `NOTE: ${d.researchNote}`] : []),
+      ];
+    }
+    copyText(lines.join('\n'));
+  }
+
+  function addToPeople(d) {
+    const stored = load() || {};
+    const people = stored.people || [];
+    if (people.find(p => p.name === d.name && p.company === d.company)) {
+      setToast('Already in People'); return;
+    }
+    persist({ ...stored, people: [...people, {
+      id: Date.now().toString(), name: d.name, title: d.title,
+      company: d.company, sharedGround: d.sharedGround,
+      dm: d.suggestedDM, addedOn: new Date().toLocaleDateString(),
+    }]});
+    setToast(`${d.name} added to People`);
+  }
+
+  function addToWatchList(d) {
+    const stored = load() || {};
+    const watching = stored.kanban?.jobCards?.watching || [];
+    if (watching.find(w => w.company === d.name)) {
+      setToast('Already in Watch List'); return;
+    }
+    const kanban = stored.kanban || {};
+    const jobCards = kanban.jobCards || {};
+    persist({ ...stored, kanban: { ...kanban, jobCards: { ...jobCards, watching: [...watching, {
+      id: Date.now().toString(), type: 'company', company: d.name,
+      title: `[Company Watch] ${d.name}`, location: '',
+      industry: d.industry || '', notes: d.fitAngle || '',
+      addedOn: new Date().toLocaleDateString(),
+    }]}}});
+    setToast(`${d.name} added to Watch List`);
+  }
+
+  function buildLinkedInUrl(name, company) {
+    const q = encodeURIComponent(`${name}${company ? ' ' + company : ''}`);
+    return `https://www.linkedin.com/search/results/people/?keywords=${q}`;
+  }
+
+  function buildCompanyJobsUrl(name) {
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return `https://www.linkedin.com/company/${slug}/jobs/`;
+  }
+
+  function loadFromHistory(item) {
+    if (item.type !== researchType) setResearchType(item.type);
+    setResult({ type: item.type, data: item.data });
+    setShowHistory(false);
+  }
+
+  const canRun = researchType === 'person' ? personName.trim() : researchType === 'company' ? companyName.trim() : (focusCompany.trim() && focusRole.trim());
+
+  const toggleStyle = (active) => ({
+    padding: '8px 22px', border: 'none', borderRadius: 6, cursor: 'pointer',
+    fontSize: 12, fontFamily: 'var(--mono)', fontWeight: 600, letterSpacing: '0.06em',
+    background: active ? 'var(--accent)' : 'rgba(240,238,248,0.06)',
+    color: active ? '#0C0C12' : 'var(--muted)',
+    transition: 'all 0.15s',
+  });
+
+  // Section with hover-reveal copy button
+  function Section({ title, children, text }) {
+    const [hov, setHov] = React.useState(false);
+    return (
+      <div className="dossier-section" onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{position:'relative'}}>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:6}}>
+          <div className="dossier-section-title">{title}</div>
+          {text && hov && (
+            <button
+              onClick={() => copyText(text)}
+              style={{background:'rgba(240,238,248,.08)', border:'1px solid var(--border)', borderRadius:4, padding:'2px 8px', fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', cursor:'pointer', flexShrink:0, marginLeft:8}}
+            >copy</button>
+          )}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  const qRow = (q, i) => (
+    <div key={i} style={{display:'flex', gap:10, marginTop:9, alignItems:'flex-start'}}>
+      <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--accent)', fontWeight:700, paddingTop:2, minWidth:16, flexShrink:0}}>{i+1}</span>
+      <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55}}>{q}</div>
+    </div>
+  );
 
   return (
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
+
       <div className="page-header">
-        <div className="page-title">Deep Research</div>
-        <div className="page-sub">Generate a warm-path dossier on any person — background, shared ground with your profile, and a suggested first message.</div>
+        <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12}}>
+          <div>
+            <div className="page-title">Deep Research</div>
+            <div className="page-sub">Research a person for a warm intro, or a company for a full intelligence brief before you apply or interview.</div>
+          </div>
+          {history.length > 0 && (
+            <div style={{position:'relative', flexShrink:0}}>
+              <button
+                onClick={() => setShowHistory(v => !v)}
+                style={{background:'rgba(240,238,248,.06)', border:'1px solid var(--border)', borderRadius:6, padding:'6px 12px', fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', cursor:'pointer', letterSpacing:'0.05em', whiteSpace:'nowrap'}}
+              >
+                History ({history.length})
+              </button>
+              {showHistory && (
+                <div style={{position:'absolute', right:0, top:'calc(100% + 6px)', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:8, zIndex:200, minWidth:270, boxShadow:'0 8px 28px rgba(0,0,0,.55)'}}>
+                  {history.map(item => (
+                    <div
+                      key={item.id}
+                      onClick={() => loadFromHistory(item)}
+                      style={{padding:'10px 14px', cursor:'pointer', borderBottom:'1px solid var(--border)', fontSize:12, fontFamily:'var(--mono)', display:'flex', alignItems:'center', gap:6}}
+                      onMouseEnter={e => e.currentTarget.style.background='rgba(240,238,248,.05)'}
+                      onMouseLeave={e => e.currentTarget.style.background='transparent'}
+                    >
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color: item.type === 'person' ? 'var(--accent)' : 'var(--muted-2)', textTransform:'uppercase', letterSpacing:'0.07em', flexShrink:0}}>{item.type}</span>
+                      <span style={{color:'var(--text)', flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{item.label}</span>
+                      <span style={{color:'var(--muted)', fontSize:10, flexShrink:0}}>{item.ts}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="card">
-        <div className="field-row">
-          <div className="field">
-            <label>Person's Name</label>
-            <input value={name} onChange={e => setName(e.target.value)}
-              placeholder="Jane Smith"
-              onKeyDown={e => e.key === 'Enter' && runResearch()} />
-          </div>
-          <div className="field">
-            <label>Company (optional)</label>
-            <input value={company} onChange={e => setCompany(e.target.value)}
-              placeholder="Salesforce"
-              onKeyDown={e => e.key === 'Enter' && runResearch()} />
+      {!apiKey && (
+        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
+          <div style={{fontSize:13, color:'var(--accent)'}}>
+            Anthropic API key required.{' '}
+            <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add it in Settings.</button>
           </div>
         </div>
-        <button className="btn btn-primary" onClick={runResearch} disabled={loading || !name.trim()}>
-          {loading ? 'Researching…' : 'Run Research'}
+      )}
+
+      {/* Input card */}
+      <div className="card" style={{paddingBottom:20}}>
+        <div style={{display:'flex', gap:8, marginBottom:20}}>
+          <button style={toggleStyle(researchType === 'person')} onClick={() => setResearchType('person')}>Person</button>
+          <button style={toggleStyle(researchType === 'company')} onClick={() => setResearchType('company')}>Company</button>
+          <button style={{...toggleStyle(researchType === 'focus'), position:'relative'}} onClick={() => setResearchType('focus')}>
+            Focus
+            <span style={{position:'absolute', top:-5, right:-5, fontSize:8, fontFamily:'var(--mono)', padding:'1px 4px', background:'rgba(139,43,190,.7)', borderRadius:3, color:'#fff', letterSpacing:'.04em', lineHeight:1.4}}>new</span>
+          </button>
+        </div>
+
+        {researchType === 'person' && (
+          <div className="field-row">
+            <div className="field">
+              <label>Person's Name</label>
+              <input value={personName} onChange={e => setPersonName(e.target.value)}
+                placeholder="Jane Smith"
+                onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+            </div>
+            <div className="field">
+              <label>Company (optional)</label>
+              <input value={personCompany} onChange={e => setPersonCompany(e.target.value)}
+                placeholder="Salesforce"
+                onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+            </div>
+          </div>
+        )}
+        {researchType === 'company' && (
+          <div className="field-row">
+            <div className="field">
+              <label>Company Name</label>
+              <input value={companyName} onChange={e => setCompanyName(e.target.value)}
+                placeholder="Workday"
+                onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+            </div>
+            <div className="field">
+              <label>Role You're Considering (optional)</label>
+              <input value={roleConsidering} onChange={e => setRoleConsidering(e.target.value)}
+                placeholder="Principal PM, AI Platform"
+                onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+            </div>
+          </div>
+        )}
+        {researchType === 'focus' && (
+          <>
+            <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', marginBottom:12, lineHeight:1.55}}>
+              A focused brief for one specific application. Combines company intel with role specific prep and interview questions tailored to that exact combination.
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Company</label>
+                <input value={focusCompany} onChange={e => setFocusCompany(e.target.value)}
+                  placeholder="Workday"
+                  onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+              </div>
+              <div className="field">
+                <label>Role Title</label>
+                <input value={focusRole} onChange={e => setFocusRole(e.target.value)}
+                  placeholder="Principal PM, AI Platform"
+                  onKeyDown={e => e.key === 'Enter' && canRun && runResearch()} />
+              </div>
+            </div>
+          </>
+        )}
+
+        <button className="btn btn-primary" onClick={runResearch} disabled={loading || !canRun} style={{marginTop:12}}>
+          {loading ? 'Researching…' : researchType === 'person' ? 'Run Person Research' : researchType === 'company' ? 'Run Company Research' : 'Run Focus Brief'}
         </button>
       </div>
 
       {loading && (
         <div className="card">
-          <FlaskLoader text="Finding shared ground with your profile…" />
+          <FlaskLoader text={
+            researchType === 'person'
+              ? `Finding shared ground with your profile${streamLen ? ` · ${streamLen.toLocaleString()} chars` : '…'}`
+              : researchType === 'company'
+              ? `Pulling company intelligence${streamLen ? ` · ${streamLen.toLocaleString()} chars` : '…'}`
+              : `Building focus brief${streamLen ? ` · ${streamLen.toLocaleString()} chars` : '…'}`
+          } />
         </div>
       )}
 
       {error && <div className="error-msg">{error}</div>}
 
-      {dossier && (
-        <div className="dossier-card">
-          <div className="dossier-name">{dossier.name}</div>
-          <div className="dossier-meta">{[dossier.title, dossier.company].filter(Boolean).join(' · ')}</div>
-
-          <div className="dossier-section">
-            <div className="dossier-section-title">Background</div>
-            <div className="dossier-text">{dossier.background}</div>
-          </div>
-
-          <div className="dossier-section">
-            <div className="dossier-section-title">Shared Ground</div>
-            <div className="dossier-text">{dossier.sharedGround}</div>
-          </div>
-
-          <div className="dossier-section">
-            <div className="dossier-section-title">Outreach Angle</div>
-            <div className="dossier-text">{dossier.outreachAngle}</div>
-          </div>
-
-          <div className="dossier-section">
-            <div className="dossier-section-title">Suggested DM</div>
-            <div className="dm-box">{dossier.suggestedDM}</div>
-            <div style={{marginTop: 8}}>
-              <button className="btn btn-secondary btn-sm" onClick={copyDM}>Copy DM</button>
+      {/* ── Person Result ── */}
+      {result && result.type === 'person' && (() => {
+        const d = result.data;
+        return (
+          <div className="dossier-card">
+            {/* Header row */}
+            <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:16}}>
+              <div>
+                <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
+                  <div className="dossier-name">{d.name}</div>
+                  {d.matchScore && (
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                      <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                    </div>
+                  )}
+                </div>
+                <div className="dossier-meta">{[d.title, d.company].filter(Boolean).join(' · ')}</div>
+                {d.matchRationale && <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', marginTop:4, lineHeight:1.4}}>{d.matchRationale}</div>}
+              </div>
+              <div style={{display:'flex', gap:8, flexShrink:0, flexWrap:'wrap'}}>
+                <a href={buildLinkedInUrl(d.name, d.company)} target="_blank" rel="noopener noreferrer"
+                  className="btn btn-secondary btn-sm"
+                  style={{textDecoration:'none', display:'inline-flex', alignItems:'center', gap:4}}>
+                  LinkedIn ↗
+                </a>
+                <button className="btn btn-secondary btn-sm" onClick={() => addToPeople(d)}>+ People</button>
+                <button className="btn btn-secondary btn-sm" onClick={copyFullBrief}>Copy Brief</button>
+              </div>
             </div>
-          </div>
 
-          {dossier.researchNote && (
-            <div className="research-note">{dossier.researchNote}</div>
-          )}
-        </div>
-      )}
+            <Section title="Background" text={d.background}>
+              <div className="dossier-text">{d.background}</div>
+            </Section>
+            <Section title="How You Fit" text={d.howYouFit}>
+              <div className="dossier-text">{d.howYouFit}</div>
+            </Section>
+            <Section title="Shared Ground" text={d.sharedGround}>
+              <div className="dossier-text">{d.sharedGround}</div>
+            </Section>
+            <Section title="Suggested First Message" text={d.suggestedDM}>
+              <div className="dm-box">{d.suggestedDM}</div>
+              <div style={{marginTop:8}}>
+                <button className="btn btn-secondary btn-sm" onClick={() => copyText(d.suggestedDM)}>Copy Message</button>
+              </div>
+            </Section>
+            {d.interviewQuestions?.length > 0 && (
+              <Section title="Conversation Starters">
+                {d.interviewQuestions.map(qRow)}
+              </Section>
+            )}
+            {d.researchNote && <div className="research-note">{d.researchNote}</div>}
+          </div>
+        );
+      })()}
+
+      {/* ── Company Result ── */}
+      {result && result.type === 'company' && (() => {
+        const d = result.data;
+        const chipStyle = { display:'inline-block', padding:'3px 10px', background:'rgba(240,168,32,.12)', border:'1px solid rgba(240,168,32,.22)', borderRadius:12, fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)', marginRight:6, marginBottom:4 };
+        const statBox = (label, value) => (
+          <div style={{flex:1, minWidth:0, background:'rgba(240,238,248,.04)', border:'1px solid var(--border)', borderRadius:8, padding:'12px 14px'}}>
+            <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4}}>{label}</div>
+            <div style={{fontSize:13, fontFamily:'var(--mono)', color:'var(--text)', fontWeight:600, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>{value || '—'}</div>
+          </div>
+        );
+        return (
+          <div className="dossier-card">
+            {/* Header row */}
+            <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:16}}>
+              <div>
+                <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
+                  <div className="dossier-name">{d.name}</div>
+                  {d.matchScore && (
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                      <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                    </div>
+                  )}
+                </div>
+                <div className="dossier-meta">{[d.industry, d.stage, d.headcount].filter(Boolean).join(' · ')}</div>
+                {d.matchRationale && <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', marginTop:4, lineHeight:1.4}}>{d.matchRationale}</div>}
+              </div>
+              <div style={{display:'flex', gap:8, flexShrink:0, flexWrap:'wrap'}}>
+                <a href={buildCompanyJobsUrl(d.name)} target="_blank" rel="noopener noreferrer"
+                  className="btn btn-secondary btn-sm"
+                  style={{textDecoration:'none', display:'inline-flex', alignItems:'center', gap:4}}>
+                  Open Roles ↗
+                </a>
+                <button className="btn btn-secondary btn-sm" onClick={() => addToWatchList(d)}>+ Watch List</button>
+                <button className="btn btn-secondary btn-sm" onClick={copyFullBrief}>Copy Brief</button>
+              </div>
+            </div>
+
+            {/* 3 stat boxes */}
+            <div style={{display:'flex', gap:10, margin:'0 0 20px', flexWrap:'wrap'}}>
+              {statBox('Work Arrangement', d.workArrangement?.split(' ').slice(0,3).join(' '))}
+              {statBox('Pay vs Market', d.payContext?.split(' ').slice(0,4).join(' '))}
+              {statBox('Stage / Size', [d.stage, d.headcount].filter(Boolean).join(' · '))}
+            </div>
+
+            <Section title="Overview" text={d.overview}>
+              <div className="dossier-text">{d.overview}</div>
+            </Section>
+            <Section title="Pay Context" text={d.payContext}>
+              <div className="dossier-text">{d.payContext}</div>
+            </Section>
+            <Section title="Work Arrangement" text={d.workArrangement}>
+              <div className="dossier-text">{d.workArrangement}</div>
+            </Section>
+            <Section title="Culture Signals" text={d.cultureSignals}>
+              <div className="dossier-text">{d.cultureSignals}</div>
+            </Section>
+            {d.recentSignals && (
+              <Section title="Recent Signals" text={d.recentSignals}>
+                <div className="dossier-text">{d.recentSignals}</div>
+              </Section>
+            )}
+            <Section title={`Commute from ${profile.homeCity || 'Home'}`} text={d.commuteNote}>
+              <div className="dossier-text">{d.commuteNote}</div>
+            </Section>
+            {d.competitors?.length > 0 && (
+              <div className="dossier-section">
+                <div className="dossier-section-title">Competitors</div>
+                <div style={{marginTop:6}}>{d.competitors.map(c => <span key={c} style={chipStyle}>{c}</span>)}</div>
+              </div>
+            )}
+            <Section title="How You Fit" text={d.fitAngle}>
+              <div className="dossier-text" style={{color:'var(--accent)'}}>{d.fitAngle}</div>
+            </Section>
+
+            {/* ── Red Flag Report ── */}
+            {d.watchoutFlags?.length > 0 && (
+              <div className="dossier-section">
+                <div className="dossier-section-title">Red Flags</div>
+                {d.watchoutFlags.map((f, i) => {
+                  const sevColor = f.severity === 'HIGH'
+                    ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
+                    : f.severity === 'MED'
+                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
+                    : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
+                  return (
+                    <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
+                      <div style={{display:'flex', flexDirection:'column', gap:4, flexShrink:0}}>
+                        <span style={{fontSize:9, fontFamily:'var(--mono)', fontWeight:700, padding:'2px 6px', background:sevColor.bg, border:`1px solid ${sevColor.border}`, borderRadius:4, color:sevColor.text, letterSpacing:'.06em', whiteSpace:'nowrap'}}>{f.severity}</span>
+                        <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.04em', whiteSpace:'nowrap'}}>{f.category}</span>
+                      </div>
+                      <div style={{flex:1, minWidth:0}}>
+                        <div style={{fontSize:12, color:'var(--text)', lineHeight:1.5, marginBottom:5}}>{f.finding}</div>
+                        <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', lineHeight:1.5, fontStyle:'italic'}}>→ {f.probe}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {/* fallback for old watchouts string format */}
+            {!d.watchoutFlags && d.watchouts && (
+              <Section title="Watch Outs" text={d.watchouts}>
+                <div className="dossier-text" style={{color:'rgba(208,24,120,0.9)'}}>{d.watchouts}</div>
+              </Section>
+            )}
+
+            {/* ── Blind Spots ── */}
+            {d.blindSpots?.length > 0 && (
+              <div className="dossier-section">
+                <div className="dossier-section-title" style={{color:'rgba(139,43,190,.85)'}}>Blind Spots</div>
+                {d.blindSpots.map((b, i) => (
+                  <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
+                    <div style={{width:8, height:8, borderRadius:'50%', background:'rgba(139,43,190,.5)', flexShrink:0, marginTop:5}}/>
+                    <div style={{flex:1, minWidth:0}}>
+                      <div style={{fontSize:12, color:'var(--text)', lineHeight:1.5, marginBottom:5}}>{b.gap}</div>
+                      <div style={{fontSize:11, fontFamily:'var(--mono)', color:'rgba(139,43,190,.7)', lineHeight:1.5, fontStyle:'italic'}}>→ {b.probe}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {d.interviewQuestions?.length > 0 && (
+              <Section title="Interview Prep">
+                {d.interviewQuestions.map(qRow)}
+              </Section>
+            )}
+            {d.researchNote && <div className="research-note">{d.researchNote}</div>}
+          </div>
+        );
+      })()}
+
+      {/* ── Focus Result ── */}
+      {result && result.type === 'focus' && (() => {
+        const d = result.data;
+        return (
+          <div className="dossier-card">
+            <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12, flexWrap:'wrap', marginBottom:16}}>
+              <div>
+                <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
+                  <div className="dossier-name">{d.company}</div>
+                  {d.matchScore && (
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                      <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                    </div>
+                  )}
+                </div>
+                <div className="dossier-meta">{d.role}</div>
+                {d.matchRationale && <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', marginTop:4, lineHeight:1.4}}>{d.matchRationale}</div>}
+              </div>
+              <div style={{display:'flex', gap:8, flexShrink:0, flexWrap:'wrap'}}>
+                <a href={buildCompanyJobsUrl(d.company)} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm" style={{textDecoration:'none', display:'inline-flex', alignItems:'center', gap:4}}>Open Roles ↗</a>
+                <button className="btn btn-secondary btn-sm" onClick={copyFullBrief}>Copy Brief</button>
+              </div>
+            </div>
+
+            <Section title="Company Snapshot" text={d.companySnapshot}>
+              <div className="dossier-text">{d.companySnapshot}</div>
+            </Section>
+            <Section title="Role Context" text={d.roleContext}>
+              <div className="dossier-text">{d.roleContext}</div>
+            </Section>
+            <Section title="Why You Fit" text={d.whyYouFit}>
+              <div className="dossier-text" style={{color:'var(--accent)'}}>{d.whyYouFit}</div>
+            </Section>
+            {d.edgeToEmphasize && (
+              <Section title="Your Edge" text={d.edgeToEmphasize}>
+                <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55, padding:'10px 14px', background:'rgba(240,168,32,.06)', border:'1px solid rgba(240,168,32,.18)', borderRadius:7}}>{d.edgeToEmphasize}</div>
+              </Section>
+            )}
+            {d.watchoutFlags?.length > 0 && (
+              <div className="dossier-section">
+                <div className="dossier-section-title">Red Flags</div>
+                {d.watchoutFlags.map((f, i) => {
+                  const sevColor = f.severity === 'HIGH'
+                    ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
+                    : f.severity === 'MED'
+                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
+                    : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
+                  return (
+                    <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
+                      <div style={{display:'flex', flexDirection:'column', gap:4, flexShrink:0}}>
+                        <span style={{fontSize:9, fontFamily:'var(--mono)', fontWeight:700, padding:'2px 6px', background:sevColor.bg, border:`1px solid ${sevColor.border}`, borderRadius:4, color:sevColor.text, letterSpacing:'.06em', whiteSpace:'nowrap'}}>{f.severity}</span>
+                        <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.04em', whiteSpace:'nowrap'}}>{f.category}</span>
+                      </div>
+                      <div style={{flex:1, minWidth:0}}>
+                        <div style={{fontSize:12, color:'var(--text)', lineHeight:1.5, marginBottom:5}}>{f.finding}</div>
+                        <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', lineHeight:1.5, fontStyle:'italic'}}>→ {f.probe}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {d.interviewQuestions?.length > 0 && (
+              <Section title="Interview Questions">
+                {d.interviewQuestions.map(qRow)}
+              </Section>
+            )}
+            {d.researchNote && <div className="research-note">{d.researchNote}</div>}
+          </div>
+        );
+      })()}
     </div>
   );
 }
@@ -1945,13 +3026,14 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
   }
 
   async function generatePitch() {
+    if (!apiKey) { onNeedApiKey(); return; }
     setLoading(true); setPitch(null); setError('');
     try {
       const systemMsg = `You are a positioning expert helping ${profile.name} pitch consulting services through Perez Creative Labs. Her background: ${profile.background} Her edge: ${profile.edge}. Write punchy, direct prose — no corporate language, no bullet points in the pitch itself.`;
       const userMsg = `Generate a consulting pitch for ${industry} companies at ${stage} stage who need help with "${painPoint}". Target contact: ${role}. Output valid JSON only: { "hook": "one sharp sentence that names the problem they have", "value": "2 sentences on what PCL delivers and how", "proof": "one credibility statement using Danielle's track record", "ask": "specific, low-friction call to action" }`;
-      const res = await fetch('/.netlify/functions/research', {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
         body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 800, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
@@ -2023,7 +3105,7 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
       </div>
 
       <div className="card">
-        <div className="card-title">Search URLs — {industry} · {stage} · {role}</div>
+        <div className="card-title">Search URLs: {industry} · {stage} · {role}</div>
         <UrlRow label="LinkedIn People Search" url={liURL} />
         <UrlRow label="Google X-ray (Decision Makers)" url={googleURL} />
       </div>
@@ -2068,7 +3150,7 @@ const NETWORK_CONTEXTS = [
 ];
 
 const NETWORK_PLATFORMS = [
-  'LinkedIn DM', 'Twitter / X', 'Slack community', 'Email',
+  'LinkedIn DM', 'Twitter / X', 'Slack community', 'Email', 'Facebook', 'Instagram DM',
 ];
 
 const NETWORK_GOALS = [
@@ -2088,14 +3170,15 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
   const [toast, setToast] = useState(null);
 
   async function generateOutreach() {
+    if (!apiKey) { onNeedApiKey(); return; }
     if (!targetName.trim()) return;
     setLoading(true); setOutreach(null); setError('');
     try {
       const systemMsg = `You are helping ${profile.name} with strategic networking. Her background: ${profile.background} Her edge: ${profile.edge}. Write in first person as Danielle. Be warm, direct, and human — not salesy. Match the length and tone to the platform.`;
       const userMsg = `Write a networking outreach message to: ${targetName.trim()}${targetCompany.trim() ? ` at ${targetCompany.trim()}` : ''}. Relationship context: ${context}. Platform: ${platform}. Goal: ${goal}. Output valid JSON only: { "subject": "subject line if email, null if DM", "message": "the full message, natural and human, no placeholder brackets", "followUpNote": "internal note for Danielle — best timing to follow up and what to watch for" }`;
-      const res = await fetch('/.netlify/functions/research', {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
         body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 900, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
@@ -2111,7 +3194,7 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
         <div className="page-title">Networking</div>
-        <div className="page-sub">Generate warm, targeted outreach for any networking context — job referral, consulting lead, coffee chat, or community.</div>
+        <div className="page-sub">Generate warm, targeted outreach for any networking context: job referral, consulting lead, coffee chat, or community connection.</div>
       </div>
 
       <div className="card">
@@ -2256,6 +3339,10 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <input value={localProfile.role} onChange={e => setLocalProfile({...localProfile, role: e.target.value})} />
               </div>
               <div className="field">
+                <label>Home City (used for commute analysis in Company Research)</label>
+                <input value={localProfile.homeCity || ''} onChange={e => setLocalProfile({...localProfile, homeCity: e.target.value})} placeholder="Boston, MA" />
+              </div>
+              <div className="field">
                 <label>Domain Focus</label>
                 <input value={localProfile.targetDomain} onChange={e => setLocalProfile({...localProfile, targetDomain: e.target.value})} />
               </div>
@@ -2264,7 +3351,7 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <textarea rows={4} value={localProfile.background} onChange={e => setLocalProfile({...localProfile, background: e.target.value})} />
               </div>
               <div className="field">
-                <label>Edge — What makes you different (used in Deep Research prompts)</label>
+                <label>Edge: What makes you different (used in Deep Research prompts)</label>
                 <textarea rows={5} value={localProfile.edge} onChange={e => setLocalProfile({...localProfile, edge: e.target.value})} />
                 <div className="edge-meter">
                   <div className="edge-bar-track">
@@ -2328,8 +3415,8 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
                   placeholder="sk-ant-…" />
                 <div className="api-key-note">
-                  Not required — AI features now run through a secure server proxy. Your key is never exposed in the browser.
-                  This field is kept for local development only.
+                  Required for Deep Research. Stored locally in your browser — never sent anywhere except Anthropic.
+                  Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'#f59c00'}}>console.anthropic.com</a>.
                 </div>
               </div>
             </div>
@@ -2361,7 +3448,7 @@ function WatchListSummary({ watchList, onPeopleSearch }) {
         return (
           <div key={t} className="card section-gap">
             <div className="card-title">
-              Tier {t} — {t===1 ? 'Top Priority' : t===2 ? 'Strong Interest' : 'On Radar'}
+              Tier {t}: {t===1 ? 'Top Priority' : t===2 ? 'Strong Interest' : 'On Radar'}
             </div>
             <div className="chips-wrap">
               {companies.map(w => (
@@ -2646,7 +3733,915 @@ function RoleSelector({ selected, setSelected }) {
   );
 }
 
+// ── Job Fit Mode ──────────────────────────────────────────────────────────────
+
+function JobValue() {
+  const [toast, setToast] = useState(null);
+
+  // Offer
+  const [company, setCompany]       = useState('');
+  const [role, setRole]             = useState('');
+  const [base, setBase]             = useState('');
+  const [bonusPct, setBonusPct]     = useState('');
+  const [equity, setEquity]         = useState('');
+  const [signing, setSigning]       = useState('');
+
+  // Benefits
+  const [healthMo, setHealthMo]         = useState('');
+  const [k401Match, setK401Match]       = useState('');
+  const [k401Contrib, setK401Contrib]   = useState('6');
+  const [ptoDays, setPtoDays]           = useState('');
+  const [remoteStipend, setRemoteStipend] = useState('');
+  const [learningBudget, setLearningBudget] = useState('');
+
+  // Work style
+  const [arrangement, setArrangement]   = useState('hybrid');
+  const [officeDays, setOfficeDays]     = useState('2');
+  const [weeklyHours, setWeeklyHours]   = useState('40');
+
+  // QoL (1–5)
+  const [growth, setGrowth]         = useState(3);
+  const [manager, setManager]       = useState(3);
+  const [culture, setCulture]       = useState(3);
+  const [wlb, setWlb]               = useState(3);
+  const [excitement, setExcitement] = useState(3);
+
+  // Commute
+  const [miles, setMiles]           = useState('');
+  const [gasPrice, setGasPrice]     = useState('3.50');
+  const [mpg, setMpg]               = useState('28');
+  const [depPerMile, setDepPerMile] = useState('0.21');
+  const [parking, setParking]       = useState('0');
+  const [tolls, setTolls]           = useState('0');
+  const [commuteMin, setCommuteMin] = useState('');
+
+  // Negotiation rounds
+  const [rounds, setRounds]               = useState([]);
+  const [roundForm, setRoundForm]         = useState({ label: '', base: '', bonus: '', equity: '', signing: '', notes: '' });
+  const [showRoundForm, setShowRoundForm] = useState(false);
+
+  // Helpers
+  const n   = v => parseFloat(v) || 0;
+  const fmt = v => v >= 1000 ? '$' + Math.round(v).toLocaleString('en-US') : '$' + Math.round(v);
+  const fmtK = v => v >= 1000 ? '$' + (v / 1000).toFixed(0) + 'K' : '$' + Math.round(v);
+
+  // ---- Calculations ----
+  const baseNum      = n(base);
+  const bonusDollars = baseNum * (n(bonusPct) / 100);
+  const equityNum    = n(equity);
+  const signingAmort = n(signing) / 2;
+
+  const healthValue  = n(healthMo) * 12;
+  const matchPct     = Math.min(n(k401Match), n(k401Contrib));
+  const k401Value    = baseNum * (matchPct / 100);
+  const ptoValue     = baseNum > 0 ? (baseNum / 260) * n(ptoDays) : 0;
+  const totalBenefits = healthValue + k401Value + ptoValue + n(remoteStipend) + n(learningBudget);
+  const grossComp    = baseNum + bonusDollars + equityNum + signingAmort + totalBenefits;
+
+  // Commute
+  const commuteDays  = arrangement === 'remote' ? 0 : n(officeDays);
+  const annualTrips  = commuteDays * 52;
+  const annualMiles  = n(miles) * 2 * annualTrips;
+  const gasCost      = n(mpg) > 0 ? (annualMiles / n(mpg)) * n(gasPrice) : 0;
+  const depCost      = annualMiles * n(depPerMile);
+  const parkCost     = n(parking) * 12;
+  const tollCost     = n(tolls) * 12;
+  const commuteHrs   = (n(commuteMin) / 60) * 2 * annualTrips;
+  const hourlyRate   = baseNum / 2080;
+  const timeCost     = commuteHrs * hourlyRate;
+  const totalCommute = gasCost + depCost + parkCost + tollCost + timeCost;
+  const netAdjusted  = grossComp - totalCommute;
+
+  // QoL 0–100
+  const qolScore  = Math.round(((growth + manager + culture + wlb + excitement) / 25) * 100);
+  const hrsPenalty = weeklyHours === '45' ? 11 : weeklyHours === '50+' ? 20 : 0;
+
+  function getRating(q) {
+    if (q >= 80) return { label: 'Strong Accept', color: '#3aad6e',  bg: 'rgba(58,173,110,.10)',  border: 'rgba(58,173,110,.28)' };
+    if (q >= 60) return { label: 'Accept',        color: '#7dd4a0',  bg: 'rgba(58,173,110,.06)',  border: 'rgba(58,173,110,.18)' };
+    if (q >= 40) return { label: 'Negotiate',     color: 'var(--accent)', bg: 'var(--accent-dim)', border: 'var(--accent-bdr)' };
+    if (q >= 20) return { label: 'Caution',       color: '#E86020',  bg: 'rgba(232,96,32,.10)',   border: 'rgba(232,96,32,.28)' };
+    return          { label: 'Decline',           color: '#D01878',  bg: 'rgba(208,24,120,.10)',  border: 'rgba(208,24,120,.28)' };
+  }
+  const rating = getRating(qolScore);
+
+  function addRound() {
+    if (!roundForm.label && !roundForm.base) return;
+    setRounds(prev => [...prev, {
+      id: Date.now(),
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      ...roundForm,
+    }]);
+    setRoundForm({ label: '', base: '', bonus: '', equity: '', signing: '', notes: '' });
+    setShowRoundForm(false);
+  }
+
+  function copyOfferSummary() {
+    const lines = [
+      `OFFER ANALYSIS — ${company || 'Company'} / ${role || 'Role'}`,
+      ``,
+      `BASE SALARY          ${fmt(baseNum)}`,
+      `ANNUAL BONUS         ${fmt(bonusDollars)}  (${n(bonusPct)}%)`,
+      `EQUITY (annual)      ${fmt(equityNum)}`,
+      `SIGNING (amort/yr)   ${fmt(signingAmort)}`,
+      `BENEFITS VALUE       ${fmt(totalBenefits)}`,
+      `GROSS TOTAL COMP     ${fmt(grossComp)}`,
+      ``,
+      `ANNUAL COMMUTE COST  ${fmt(totalCommute)}`,
+      `NET ADJUSTED COMP    ${fmt(netAdjusted)}`,
+      ``,
+      `QOL SCORE            ${qolScore}/100  —  ${rating.label}`,
+      `ARRANGEMENT          ${arrangement.toUpperCase()}  |  ${weeklyHours}hrs/wk`,
+      hrsPenalty > 0 ? `HOURS PENALTY        effective hourly rate is ~${hrsPenalty}% lower than 40hr baseline` : '',
+    ].filter(l => l !== null);
+    navigator.clipboard.writeText(lines.join('\n')).then(() => setToast('Summary copied'));
+  }
+
+  const RatingSlider = ({ label, value, onChange }) => (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+        <span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted)', letterSpacing: '.04em' }}>{label}</span>
+        <span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--accent)' }}>{value}/5</span>
+      </div>
+      <input type="range" min="1" max="5" value={value} onChange={e => onChange(Number(e.target.value))}
+        style={{ width: '100%', accentColor: 'var(--accent)', cursor: 'pointer', height: 4 }} />
+    </div>
+  );
+
+  const StatRow = ({ label, val, accent, dim }) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: '1px solid var(--border)' }}>
+      <span style={{ fontSize: 11, fontFamily: 'var(--mono)', color: 'var(--muted)' }}>{label}</span>
+      <span style={{ fontSize: 12, fontFamily: 'var(--mono)', color: val > 0 ? (accent || 'var(--text)') : 'var(--muted-2)' }}>{fmt(val)}</span>
+    </div>
+  );
+
+  return (
+    <div>
+      {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
+      <div className="page-header">
+        <div className="page-title">Job Fit</div>
+        <div className="page-sub">Negotiate from numbers. Model the true value of any offer: compensation, benefits, commute cost, and quality of life.</div>
+      </div>
+
+      {/* ── Three input columns ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12 }}>
+
+        {/* Col 1: Offer + Benefits */}
+        <div>
+          <div className="card" style={{ marginBottom: 10 }}>
+            <div className="card-title">Offer Details</div>
+            <div className="field">
+              <label>Company</label>
+              <input value={company} onChange={e => setCompany(e.target.value)} placeholder="Acme Corp" />
+            </div>
+            <div className="field">
+              <label>Role</label>
+              <input value={role} onChange={e => setRole(e.target.value)} placeholder="Principal PM, AI" />
+            </div>
+            <div className="field">
+              <label>Base Salary ($)</label>
+              <input type="number" value={base} onChange={e => setBase(e.target.value)} placeholder="180,000" />
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Annual Bonus (%)</label>
+                <input type="number" value={bonusPct} onChange={e => setBonusPct(e.target.value)} placeholder="15" />
+              </div>
+              <div className="field">
+                <label>Equity / RSU ($/yr)</label>
+                <input type="number" value={equity} onChange={e => setEquity(e.target.value)} placeholder="40,000" />
+              </div>
+            </div>
+            <div className="field">
+              <label>Signing Bonus ($)</label>
+              <input type="number" value={signing} onChange={e => setSigning(e.target.value)} placeholder="20,000" />
+            </div>
+          </div>
+
+          <div className="card" style={{ marginBottom: 0 }}>
+            <div className="card-title">Benefits</div>
+            <div className="field">
+              <label>Health Insurance (employer $/mo)</label>
+              <input type="number" value={healthMo} onChange={e => setHealthMo(e.target.value)} placeholder="600" />
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>401k Match (%)</label>
+                <input type="number" value={k401Match} onChange={e => setK401Match(e.target.value)} placeholder="4" />
+              </div>
+              <div className="field">
+                <label>Your Contribution (%)</label>
+                <input type="number" value={k401Contrib} onChange={e => setK401Contrib(e.target.value)} placeholder="6" />
+              </div>
+            </div>
+            <div className="field">
+              <label>PTO Days</label>
+              <input type="number" value={ptoDays} onChange={e => setPtoDays(e.target.value)} placeholder="20" />
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Remote Stipend ($/yr)</label>
+                <input type="number" value={remoteStipend} onChange={e => setRemoteStipend(e.target.value)} placeholder="1,200" />
+              </div>
+              <div className="field">
+                <label>Learning Budget ($/yr)</label>
+                <input type="number" value={learningBudget} onChange={e => setLearningBudget(e.target.value)} placeholder="2,000" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Col 2: Work Style + QoL */}
+        <div>
+          <div className="card" style={{ marginBottom: 10 }}>
+            <div className="card-title">Work Style</div>
+            <div className="field">
+              <label>Arrangement</label>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {['remote', 'hybrid', 'onsite'].map(a => (
+                  <button key={a} onClick={() => setArrangement(a)}
+                    className={`chip ${arrangement === a ? 'active' : ''}`}
+                    style={{ flex: 1, textAlign: 'center', textTransform: 'capitalize' }}>
+                    {a}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {arrangement !== 'remote' && (
+              <div className="field">
+                <label>Office Days / Week</label>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {['1','2','3','4','5'].map(d => (
+                    <button key={d} onClick={() => setOfficeDays(d)}
+                      className={`chip ${officeDays === d ? 'active' : ''}`}
+                      style={{ flex: 1, textAlign: 'center' }}>{d}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="field">
+              <label>Expected Weekly Hours</label>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {['40','45','50+'].map(h => (
+                  <button key={h} onClick={() => setWeeklyHours(h)}
+                    className={`chip ${weeklyHours === h ? 'active' : ''}`}
+                    style={{ flex: 1, textAlign: 'center' }}>{h}</button>
+                ))}
+              </div>
+            </div>
+            {hrsPenalty > 0 && (
+              <div style={{ marginTop: 6, fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted-2)', padding: '6px 10px', background: 'rgba(240,238,248,.04)', borderRadius: 6, lineHeight: 1.6 }}>
+                ⚠ At {weeklyHours}hrs/wk your effective hourly rate is ~{hrsPenalty}% lower than a 40hr role at the same base.
+              </div>
+            )}
+          </div>
+
+          <div className="card" style={{ marginBottom: 0 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <div className="card-title" style={{ marginBottom: 0 }}>Quality of Life</div>
+              <span style={{ fontSize: 18, fontFamily: 'var(--mono)', color: rating.color, fontWeight: 500 }}>{qolScore}<span style={{ fontSize: 10, color: 'var(--muted-2)' }}>/100</span></span>
+            </div>
+            <RatingSlider label="Career Growth Potential" value={growth}     onChange={setGrowth} />
+            <RatingSlider label="Manager Quality"         value={manager}    onChange={setManager} />
+            <RatingSlider label="Team Culture Fit"        value={culture}    onChange={setCulture} />
+            <RatingSlider label="Work-Life Balance"       value={wlb}        onChange={setWlb} />
+            <RatingSlider label="Role Excitement"         value={excitement} onChange={setExcitement} />
+            <div style={{ marginTop: 10, display: 'flex', justifyContent: 'center' }}>
+              <span style={{ padding: '4px 16px', borderRadius: 20, fontSize: 10, fontFamily: 'var(--mono)', letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 500, color: rating.color, background: rating.bg, border: `1px solid ${rating.border}` }}>
+                {rating.label}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Col 3: Commute */}
+        <div className="card" style={{ marginBottom: 0 }}>
+          <div className="card-title">Commute Cost Calculator</div>
+          {arrangement === 'remote' ? (
+            <div style={{ padding: '20px 0', textAlign: 'center' }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>🌐</div>
+              <div style={{ fontSize: 12, fontFamily: 'var(--mono)', color: 'var(--muted)', letterSpacing: '.06em' }}>Remote — no commute cost</div>
+            </div>
+          ) : (
+            <>
+              <div className="field-row">
+                <div className="field">
+                  <label>One-Way Miles</label>
+                  <input type="number" value={miles} onChange={e => setMiles(e.target.value)} placeholder="18" />
+                </div>
+                <div className="field">
+                  <label>One-Way Time (min)</label>
+                  <input type="number" value={commuteMin} onChange={e => setCommuteMin(e.target.value)} placeholder="35" />
+                </div>
+              </div>
+              <div className="field-row">
+                <div className="field">
+                  <label>Gas Price ($/gal)</label>
+                  <input type="number" step="0.01" value={gasPrice} onChange={e => setGasPrice(e.target.value)} />
+                </div>
+                <div className="field">
+                  <label>Vehicle MPG</label>
+                  <input type="number" value={mpg} onChange={e => setMpg(e.target.value)} />
+                </div>
+              </div>
+              <div className="field-row">
+                <div className="field">
+                  <label>Depreciation ($/mi)</label>
+                  <input type="number" step="0.01" value={depPerMile} onChange={e => setDepPerMile(e.target.value)} />
+                </div>
+                <div className="field">
+                  <label>Monthly Parking ($)</label>
+                  <input type="number" value={parking} onChange={e => setParking(e.target.value)} placeholder="0" />
+                </div>
+              </div>
+              <div className="field">
+                <label>Monthly Tolls ($)</label>
+                <input type="number" value={tolls} onChange={e => setTolls(e.target.value)} placeholder="0" />
+              </div>
+
+              {annualMiles > 0 && (
+                <div style={{ marginTop: 12, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 8, padding: 12 }}>
+                  <div style={{ fontSize: 9, fontFamily: 'var(--mono)', color: 'var(--muted-2)', letterSpacing: '.16em', textTransform: 'uppercase', marginBottom: 8 }}>Annual Breakdown</div>
+                  {[
+                    { label: 'Gas',            val: gasCost },
+                    { label: 'Depreciation',   val: depCost },
+                    { label: 'Parking',        val: parkCost },
+                    { label: 'Tolls',          val: tollCost },
+                    { label: `Time Cost (${Math.round(commuteHrs)}hrs × ${fmt(hourlyRate)}/hr)`, val: timeCost },
+                  ].map(c => (
+                    <div key={c.label} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', fontSize: 11 }}>
+                      <span style={{ fontFamily: 'var(--mono)', color: 'var(--muted)', fontSize: 10 }}>{c.label}</span>
+                      <span style={{ fontFamily: 'var(--mono)', color: c.val > 0 ? '#e06090' : 'var(--muted-2)' }}>{fmt(c.val)}</span>
+                    </div>
+                  ))}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0 0', borderTop: '1px solid var(--border)', marginTop: 4 }}>
+                    <span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted-2)', letterSpacing: '.08em', textTransform: 'uppercase' }}>Total Annual Cost</span>
+                    <span style={{ fontSize: 13, fontFamily: 'var(--mono)', color: '#D01878', fontWeight: 500 }}>{fmt(totalCommute)}</span>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* ── True Value Summary ── */}
+      {baseNum > 0 && (
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div className="card-title" style={{ marginBottom: 0 }}>True Value Analysis</div>
+            <button className="btn btn-secondary btn-sm" onClick={copyOfferSummary}>Copy Summary</button>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, padding: '14px 16px' }}>
+              <div style={{ fontSize: 9, fontFamily: 'var(--mono)', color: 'var(--accent)', letterSpacing: '.2em', textTransform: 'uppercase', marginBottom: 10 }}>Compensation Breakdown</div>
+              <StatRow label="Base Salary"                       val={baseNum} />
+              <StatRow label={`Bonus (${n(bonusPct)}%)`}        val={bonusDollars} />
+              <StatRow label="Equity / RSU (annual)"            val={equityNum} />
+              <StatRow label="Signing Bonus (amort / 2yr)"      val={signingAmort} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 8 }}>
+                <span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted-2)', letterSpacing: '.08em', textTransform: 'uppercase' }}>Cash + Equity</span>
+                <span style={{ fontSize: 13, fontFamily: 'var(--mono)', color: 'var(--accent)', fontWeight: 500 }}>{fmt(baseNum + bonusDollars + equityNum + signingAmort)}</span>
+              </div>
+            </div>
+
+            <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 8, padding: '14px 16px' }}>
+              <div style={{ fontSize: 9, fontFamily: 'var(--mono)', color: 'var(--accent)', letterSpacing: '.2em', textTransform: 'uppercase', marginBottom: 10 }}>Benefits Breakdown</div>
+              <StatRow label="Health Insurance (employer)"          val={healthValue} />
+              <StatRow label={`401k Match (${matchPct.toFixed(1)}% effective)`} val={k401Value} />
+              <StatRow label={`PTO Value (${n(ptoDays)} days)`}     val={ptoValue} />
+              <StatRow label="Remote / WFH Stipend"                 val={n(remoteStipend)} />
+              <StatRow label="Learning & Dev Budget"                 val={n(learningBudget)} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 8 }}>
+                <span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted-2)', letterSpacing: '.08em', textTransform: 'uppercase' }}>Benefits Value</span>
+                <span style={{ fontSize: 13, fontFamily: 'var(--mono)', color: 'var(--accent)', fontWeight: 500 }}>{fmt(totalBenefits)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Three summary stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
+            <div style={{ background: 'rgba(61,26,136,.12)', border: '1px solid rgba(139,43,190,.25)', borderRadius: 8, padding: '16px', textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontFamily: 'var(--mono)', color: 'var(--text)', fontWeight: 500 }}>{fmtK(grossComp)}</div>
+              <div style={{ fontSize: 8, fontFamily: 'var(--mono)', color: 'var(--muted-2)', textTransform: 'uppercase', letterSpacing: '.18em', marginTop: 5 }}>Gross Total Comp</div>
+            </div>
+            <div style={{ background: 'rgba(208,24,120,.06)', border: '1px solid rgba(208,24,120,.22)', borderRadius: 8, padding: '16px', textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontFamily: 'var(--mono)', color: '#e06090', fontWeight: 500 }}>−{fmtK(totalCommute)}</div>
+              <div style={{ fontSize: 8, fontFamily: 'var(--mono)', color: 'rgba(208,24,120,.5)', textTransform: 'uppercase', letterSpacing: '.18em', marginTop: 5 }}>Annual Commute Cost</div>
+            </div>
+            <div style={{ background: 'rgba(27,107,58,.08)', border: '1px solid rgba(27,107,58,.28)', borderRadius: 8, padding: '16px', textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontFamily: 'var(--mono)', color: '#3aad6e', fontWeight: 500 }}>{fmtK(netAdjusted)}</div>
+              <div style={{ fontSize: 8, fontFamily: 'var(--mono)', color: 'rgba(27,107,58,.7)', textTransform: 'uppercase', letterSpacing: '.18em', marginTop: 5 }}>Net Adjusted Comp</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Negotiation Rounds ── */}
+      <div className="card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+          <div className="card-title" style={{ marginBottom: 0 }}>Negotiation Rounds</div>
+          <button className="btn btn-secondary btn-sm" onClick={() => setShowRoundForm(s => !s)}>
+            {showRoundForm ? 'Cancel' : '+ Add Round'}
+          </button>
+        </div>
+
+        {showRoundForm && (
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--accent-bdr)', borderRadius: 8, padding: 14, marginBottom: 14 }}>
+            <div className="field-row">
+              <div className="field">
+                <label>Round Label</label>
+                <input value={roundForm.label} onChange={e => setRoundForm(f => ({...f, label: e.target.value}))} placeholder="Initial Offer" />
+              </div>
+              <div className="field">
+                <label>Base ($)</label>
+                <input type="number" value={roundForm.base} onChange={e => setRoundForm(f => ({...f, base: e.target.value}))} placeholder="175,000" />
+              </div>
+            </div>
+            <div className="field-row">
+              <div className="field">
+                <label>Bonus (%)</label>
+                <input type="number" value={roundForm.bonus} onChange={e => setRoundForm(f => ({...f, bonus: e.target.value}))} placeholder="12" />
+              </div>
+              <div className="field">
+                <label>Equity ($/yr)</label>
+                <input type="number" value={roundForm.equity} onChange={e => setRoundForm(f => ({...f, equity: e.target.value}))} placeholder="30,000" />
+              </div>
+              <div className="field">
+                <label>Signing ($)</label>
+                <input type="number" value={roundForm.signing} onChange={e => setRoundForm(f => ({...f, signing: e.target.value}))} placeholder="15,000" />
+              </div>
+            </div>
+            <div className="field">
+              <label>Notes</label>
+              <input value={roundForm.notes} onChange={e => setRoundForm(f => ({...f, notes: e.target.value}))} placeholder="Countered via recruiter — deadline Friday" />
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={addRound} disabled={!roundForm.label && !roundForm.base}>Save Round</button>
+          </div>
+        )}
+
+        {rounds.length === 0 ? (
+          <div className="empty-state" style={{ padding: '28px 0' }}>No rounds tracked yet. Log your initial offer to start the negotiation record.</div>
+        ) : (
+          <table className="watch-table">
+            <thead>
+              <tr>
+                <th>Round</th>
+                <th>Date</th>
+                <th>Base</th>
+                <th>Bonus</th>
+                <th>Equity/yr</th>
+                <th>Signing</th>
+                <th>Total Cash</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {rounds.map((r, i) => {
+                const rBase   = n(r.base);
+                const rBonus  = rBase * (n(r.bonus) / 100);
+                const rEq     = n(r.equity);
+                const rSign   = n(r.signing);
+                const rTotal  = rBase + rBonus + rEq;
+                const prev    = rounds[i - 1];
+                const delta   = prev && r.base && prev.base ? rBase - n(prev.base) : null;
+                return (
+                  <tr key={r.id}>
+                    <td><span style={{ fontSize: 11, fontFamily: 'var(--mono)', color: 'var(--accent)' }}>{r.label || `Round ${i+1}`}</span></td>
+                    <td><span style={{ fontSize: 10, fontFamily: 'var(--mono)', color: 'var(--muted-2)' }}>{r.date}</span></td>
+                    <td>
+                      <div style={{ fontSize: 12, fontFamily: 'var(--mono)' }}>{r.base ? fmt(rBase) : '—'}</div>
+                      {delta !== null && <div style={{ fontSize: 9, fontFamily: 'var(--mono)', color: delta >= 0 ? '#3aad6e' : '#D01878' }}>{delta >= 0 ? '+' : ''}{fmt(delta)}</div>}
+                    </td>
+                    <td><span style={{ fontSize: 12, fontFamily: 'var(--mono)' }}>{r.bonus ? `${r.bonus}%` : '—'}</span></td>
+                    <td><span style={{ fontSize: 12, fontFamily: 'var(--mono)' }}>{r.equity ? fmt(rEq) : '—'}</span></td>
+                    <td><span style={{ fontSize: 12, fontFamily: 'var(--mono)' }}>{r.signing ? fmt(rSign) : '—'}</span></td>
+                    <td><span style={{ fontSize: 12, fontFamily: 'var(--mono)', color: 'var(--accent)' }}>{r.base ? fmt(rTotal) : '—'}</span></td>
+                    <td><span style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'Georgia, serif', fontStyle: 'italic' }}>{r.notes}</span></td>
+                    <td><button style={{ background: 'none', border: 'none', color: 'var(--muted-2)', cursor: 'pointer', fontSize: 14, lineHeight: 1 }} onClick={() => setRounds(prev => prev.filter(x => x.id !== r.id))}>×</button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Nav Icons ─────────────────────────────────────────────────────────────────
+
+// ── Signal Feed ───────────────────────────────────────────────────────────────
+
+function SignalFeed({ apiKey, onNeedApiKey }) {
+  const [companies, setCompanies] = useState(() => { const s = load(); return s?.signalFeed || []; });
+  const [newCompany, setNewCompany] = useState('');
+  const [loadingMap, setLoadingMap] = useState({});
+  const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    const stored = load() || {};
+    persist({ ...stored, signalFeed: companies });
+  }, [companies]);
+
+  function addCompany() {
+    const name = newCompany.trim();
+    if (!name) return;
+    if (companies.some(c => c.name.toLowerCase() === name.toLowerCase())) { setToast('Already in feed'); return; }
+    setCompanies(prev => [{ id: Date.now(), name, addedOn: new Date().toLocaleDateString(), lastRefreshed: null, brief: null }, ...prev]);
+    setNewCompany('');
+  }
+
+  function removeCompany(id) { setCompanies(prev => prev.filter(c => c.id !== id)); }
+
+  async function refreshCompany(company) {
+    if (!apiKey) { onNeedApiKey(); return; }
+    setLoadingMap(prev => ({ ...prev, [company.id]: true }));
+    try {
+      const prompt = `You are a company intelligence analyst. Research ${company.name} and report on notable signals from the last 90 days relevant to a job seeker evaluating this company.
+
+Return ONLY valid JSON, no markdown, no fences. Schema:
+{
+  "funding": "funding rounds, valuation, investment news — or null if none",
+  "layoffs": "layoffs, reductions, hiring freeze — or null if none",
+  "leadership": "executive hires, departures, org changes — or null if none",
+  "productLaunches": "product launches, acquisitions, pivots — or null if none",
+  "reorgs": "restructuring, rebranding, strategic shifts — or null if none",
+  "summary": "1-2 sentences: overall signal picture for a job seeker — what does this mean for someone considering joining?",
+  "sentiment": "POSITIVE or NEUTRAL or CAUTIOUS"
+}
+
+Use null for any category with no notable signals. Be specific and direct.`;
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 700, messages: [{ role: 'user', content: prompt }] }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error.message);
+      const brief = JSON.parse(data.content[0].text.trim());
+      setCompanies(prev => prev.map(c => c.id === company.id ? { ...c, brief, lastRefreshed: new Date().toLocaleDateString() } : c));
+    } catch(e) {
+      setToast(`Refresh failed: ${e.message}`);
+    } finally {
+      setLoadingMap(prev => ({ ...prev, [company.id]: false }));
+    }
+  }
+
+  function addToResearch(name) {
+    window.__apertureCompany = name;
+  }
+
+  const sentColor = s => s === 'POSITIVE' ? 'rgba(61,226,136,.85)' : s === 'CAUTIOUS' ? 'rgba(208,24,120,.85)' : 'var(--muted)';
+  const sigLabel = (label, text) => text ? (
+    <div style={{display:'flex', gap:8, alignItems:'flex-start'}}>
+      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.06em', padding:'2px 6px', background:'rgba(240,168,32,.1)', border:'1px solid rgba(240,168,32,.2)', borderRadius:4, flexShrink:0, marginTop:1}}>{label}</span>
+      <span style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.5}}>{text}</span>
+    </div>
+  ) : null;
+
+  return (
+    <div>
+      {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
+      <div className="page-header">
+        <div className="page-title">Signal Feed</div>
+        <div className="page-sub">Track target companies for funding, layoffs, leadership changes, and product moves. Hit Refresh on any company to pull a 90 day intel brief.</div>
+      </div>
+      {!apiKey && (
+        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
+          <div style={{fontSize:13, color:'var(--accent)'}}>API key required. <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add in Settings.</button></div>
+        </div>
+      )}
+      <div className="card">
+        <div style={{display:'flex', gap:8}}>
+          <input value={newCompany} onChange={e => setNewCompany(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCompany()} placeholder="Add a company to watch…" style={{flex:1}} />
+          <button className="btn btn-primary" onClick={addCompany} disabled={!newCompany.trim()}>Add</button>
+        </div>
+      </div>
+      {companies.length === 0 && (
+        <div style={{textAlign:'center', padding:'48px 24px', color:'var(--muted-2)', fontFamily:'var(--mono)', fontSize:12}}>Add companies above to start tracking signals.</div>
+      )}
+      {companies.map(company => {
+        const b = company.brief;
+        const sigs = b ? [
+          b.funding && ['Funding', b.funding],
+          b.layoffs && ['Layoffs', b.layoffs],
+          b.leadership && ['Leadership', b.leadership],
+          b.productLaunches && ['Product', b.productLaunches],
+          b.reorgs && ['Reorg', b.reorgs],
+        ].filter(Boolean) : [];
+        return (
+          <div key={company.id} style={{background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:10, padding:'16px 18px', marginBottom:10}}>
+            <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:12, marginBottom: b ? 10 : 0}}>
+              <div style={{flex:1, minWidth:0}}>
+                <div style={{display:'flex', alignItems:'center', gap:8}}>
+                  <span style={{fontSize:13, fontWeight:600, fontFamily:'var(--mono)', color:'var(--text)'}}>{company.name}</span>
+                  {b?.sentiment && <span style={{fontSize:9, fontFamily:'var(--mono)', color:sentColor(b.sentiment), letterSpacing:'.07em'}}>{b.sentiment}</span>}
+                </div>
+                <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', marginTop:2}}>
+                  Added {company.addedOn}{company.lastRefreshed ? ` · refreshed ${company.lastRefreshed}` : ''}
+                </div>
+              </div>
+              <div style={{display:'flex', gap:6, flexShrink:0}}>
+                <button className="btn btn-primary btn-sm" onClick={() => refreshCompany(company)} disabled={loadingMap[company.id]} style={{fontSize:11, padding:'4px 10px'}}>
+                  {loadingMap[company.id] ? '⟳' : b ? 'Refresh' : 'Get Signals'}
+                </button>
+                <button onClick={() => removeCompany(company.id)} style={{background:'none',border:'none',color:'var(--muted-2)',cursor:'pointer',fontSize:16,padding:'2px 6px',lineHeight:1}}>×</button>
+              </div>
+            </div>
+            {b?.summary && <div style={{fontSize:12, color:'var(--text)', lineHeight:1.55, marginBottom: sigs.length ? 10 : 0}}>{b.summary}</div>}
+            {sigs.length > 0 && (
+              <div style={{display:'flex', flexDirection:'column', gap:6}}>
+                {sigs.map(([label, text], i) => sigLabel(label, text) && <React.Fragment key={i}>{sigLabel(label, text)}</React.Fragment>)}
+              </div>
+            )}
+            {!b && <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', fontStyle:'italic', marginTop:4}}>Hit Get Signals to pull recent intel.</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Activity Report (MA Unemployment Work Search Log) ─────────────────────────
+
+function ActivityReport() {
+  const MA_MINIMUM = 3;
+
+  // MA unemployment week: Saturday through Friday
+  function getWeekBounds(offset) {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun … 6=Sat
+    const daysSinceSat = day === 6 ? 0 : day + 1;
+    const start = new Date(now);
+    start.setDate(now.getDate() - daysSinceSat + (offset * 7));
+    start.setHours(0,0,0,0);
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    end.setHours(23,59,59,999);
+    return { start, end };
+  }
+
+  const [weekOffset, setWeekOffset] = useState(0);
+  const [manualActs, setManualActs] = useState(() => { const s = load(); return s?.activityReport?.manual || []; });
+  const [showAdd, setShowAdd] = useState(false);
+  const [form, setForm] = useState({ date: new Date().toISOString().slice(0,10), employer:'', city:'', method:'Applied online', position:'', result:'' });
+  const [toast, setToast] = useState(null);
+
+  const { start, end } = getWeekBounds(weekOffset);
+
+  function fmt(d) { return d.toLocaleDateString('en-US', { month:'2-digit', day:'2-digit', year:'numeric' }); }
+
+  function inRange(str) {
+    if (!str) return false;
+    try { const d = new Date(str); return !isNaN(d) && d >= start && d <= end; } catch(_){ return false; }
+  }
+
+  function gatherActs() {
+    const stored = load() || {};
+    const acts = [];
+
+    // Board — job cards
+    const colMap = {
+      watching:  ['Online job board research', 'Identified opportunity'],
+      applied:   ['Applied online', 'Application submitted'],
+      screen:    ['Employer phone screen', 'Interview completed'],
+      interview: ['Employer interview (video/in-person)', 'Interview completed'],
+      offer:     ['Employer contact', 'Offer received'],
+    };
+    Object.entries(stored.kanban?.jobCards || {}).forEach(([col, cards]) => {
+      (cards || []).forEach(card => {
+        if (!inRange(card.created)) return;
+        const [method, result] = colMap[col] || ['Job search activity', 'In progress'];
+        acts.push({ date: new Date(card.created), employer: card.title || '', city:'', method, position: card.sub || card.title || '', result, source:'board' });
+      });
+    });
+
+    // Deep Research history
+    (stored.deepResearch?.history || []).forEach(item => {
+      if (!inRange(item.ts)) return;
+      acts.push({
+        date: new Date(item.ts),
+        employer: item.label?.split(' · ')[0] || item.label || '',
+        city: '',
+        method: item.type === 'person' ? 'Professional networking (online)' : 'Online employer research',
+        position: 'General inquiry',
+        result: 'Research completed',
+        source: 'research',
+      });
+    });
+
+    // People contacts
+    (stored.people || []).forEach(p => {
+      if (!inRange(p.addedOn)) return;
+      acts.push({ date: new Date(p.addedOn), employer: p.company || '', city:'', method:'Professional networking (LinkedIn)', position: p.title || 'Networking contact', result:'Contact established', source:'people' });
+    });
+
+    // Signal Feed refreshes
+    (stored.signalFeed || []).forEach(co => {
+      if (!inRange(co.lastRefreshed)) return;
+      acts.push({ date: new Date(co.lastRefreshed), employer: co.name || '', city:'', method:'Online company research', position:'General inquiry', result:'Research completed', source:'signals' });
+    });
+
+    // Manual entries
+    manualActs.forEach(m => {
+      if (!inRange(m.date)) return;
+      acts.push({ date: new Date(m.date), employer: m.employer, city: m.city || '', method: m.method, position: m.position, result: m.result, source:'manual', id: m.id });
+    });
+
+    acts.sort((a,b) => a.date - b.date);
+    return acts;
+  }
+
+  const activities = gatherActs();
+  const met = activities.length >= MA_MINIMUM;
+
+  function saveManual() {
+    if (!form.employer.trim()) return;
+    const entry = { ...form, id: Date.now() };
+    const updated = [...manualActs, entry];
+    setManualActs(updated);
+    const stored = load() || {};
+    persist({ ...stored, activityReport: { ...(stored.activityReport || {}), manual: updated } });
+    setForm({ date: new Date().toISOString().slice(0,10), employer:'', city:'', method:'Applied online', position:'', result:'' });
+    setShowAdd(false);
+    setToast('Activity added');
+  }
+
+  function removeManual(id) {
+    const updated = manualActs.filter(m => m.id !== id);
+    setManualActs(updated);
+    const stored = load() || {};
+    persist({ ...stored, activityReport: { ...(stored.activityReport || {}), manual: updated } });
+  }
+
+  function copyReport() {
+    const pad = (s, n) => String(s || '').slice(0, n).padEnd(n);
+    const lines = [
+      'MASSACHUSETTS UNEMPLOYMENT WEEKLY WORK SEARCH LOG',
+      `Week of: ${fmt(start)} through ${fmt(end)}`,
+      '',
+      `${'#'.padEnd(4)}${'DATE'.padEnd(13)}${'EMPLOYER'.padEnd(28)}${'CITY/STATE'.padEnd(16)}${'CONTACT METHOD'.padEnd(35)}${'POSITION'.padEnd(28)}RESULT`,
+      `${'-'.repeat(4)}${'-'.repeat(13)}${'-'.repeat(28)}${'-'.repeat(16)}${'-'.repeat(35)}${'-'.repeat(28)}${'-'.repeat(24)}`,
+    ];
+    activities.forEach((a, i) => {
+      lines.push(`${String(i+1).padEnd(4)}${fmt(a.date).padEnd(13)}${pad(a.employer,28)}${pad(a.city,16)}${pad(a.method,35)}${pad(a.position,28)}${a.result || ''}`);
+    });
+    lines.push('');
+    lines.push(`Total activities: ${activities.length}  |  Minimum required: ${MA_MINIMUM}/week  |  Status: ${met ? 'REQUIREMENT MET' : `NEED ${MA_MINIMUM - activities.length} MORE`}`);
+    navigator.clipboard.writeText(lines.join('\n')).then(() => setToast('Report copied to clipboard'));
+  }
+
+  const METHODS = [
+    'Applied online','Applied by email','Applied in person','Phone inquiry',
+    'Interview (phone)','Interview (video)','Interview (in-person)',
+    'Job fair / career fair','Networking event','Professional networking (LinkedIn)',
+    'Online employer research','Staffing / recruiting agency','Career center services',
+    'Resume or profile updated','Other',
+  ];
+
+  const weekLabel = weekOffset === 0 ? 'This week' : weekOffset === -1 ? 'Last week' : `${Math.abs(weekOffset)} weeks ago`;
+  const sourceTag = s => ({ board:'board', research:'research', people:'network', signals:'signals', manual:null }[s]);
+
+  return (
+    <div>
+      {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
+
+      <div className="page-header">
+        <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap'}}>
+          <div>
+            <div className="page-title">Activity Report</div>
+            <div className="page-sub">Massachusetts DUA weekly work search log. Minimum 3 activities required per certification week.</div>
+          </div>
+          <div style={{display:'flex', gap:8, alignItems:'center', flexShrink:0}}>
+            <button className="btn btn-secondary btn-sm" onClick={() => setWeekOffset(w => w - 1)}>← Prev</button>
+            <span style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted)', whiteSpace:'nowrap', minWidth:80, textAlign:'center'}}>{weekLabel}</span>
+            <button className="btn btn-secondary btn-sm" onClick={() => setWeekOffset(w => Math.min(0, w+1))} disabled={weekOffset === 0}>Next →</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Week status bar */}
+      <div className="card" style={{borderColor: met ? 'rgba(61,226,136,.25)' : 'rgba(240,168,32,.3)', background: met ? 'rgba(61,226,136,.04)' : 'rgba(240,168,32,.05)'}}>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12}}>
+          <div>
+            <div style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:3}}>Certification Week</div>
+            <div style={{fontSize:14, fontFamily:'var(--mono)', color:'var(--text)', fontWeight:500}}>
+              {fmt(start)} through {fmt(end)}
+            </div>
+            <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', marginTop:2}}>Saturday through Friday (MA DUA format)</div>
+          </div>
+          <div style={{textAlign:'right'}}>
+            <div style={{fontSize:30, fontFamily:'var(--mono)', fontWeight:700, color: met ? 'rgba(61,226,136,.9)' : 'var(--accent)', lineHeight:1}}>
+              {activities.length}
+              <span style={{fontSize:14, fontWeight:400, color:'var(--muted-2)'}}> / {MA_MINIMUM}</span>
+            </div>
+            <div style={{fontSize:10, fontFamily:'var(--mono)', letterSpacing:'.08em', marginTop:2, color: met ? 'rgba(61,226,136,.8)' : 'rgba(240,168,32,.8)'}}>
+              {met ? 'REQUIREMENT MET' : `NEED ${MA_MINIMUM - activities.length} MORE`}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="card" style={{padding:'18px 20px'}}>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16, flexWrap:'wrap', gap:8}}>
+          <div className="card-title" style={{marginBottom:0}}>Work Search Activities</div>
+          <div style={{display:'flex', gap:8}}>
+            <button className="btn btn-secondary btn-sm" onClick={() => setShowAdd(v => !v)}>{showAdd ? 'Cancel' : '+ Add manually'}</button>
+            <button className="btn btn-primary btn-sm" onClick={copyReport} disabled={activities.length === 0}>Copy Report</button>
+          </div>
+        </div>
+
+        {/* Manual add form */}
+        {showAdd && (
+          <div style={{background:'rgba(240,168,32,.05)', border:'1px solid rgba(240,168,32,.18)', borderRadius:10, padding:16, marginBottom:16}}>
+            <div className="field-row">
+              <div className="field" style={{flex:'0 0 140px'}}>
+                <label>Date</label>
+                <input type="date" value={form.date} onChange={e => setForm(f => ({...f, date:e.target.value}))} style={{colorScheme:'dark'}} />
+              </div>
+              <div className="field" style={{flex:2}}>
+                <label>Employer / Organization</label>
+                <input value={form.employer} onChange={e => setForm(f => ({...f, employer:e.target.value}))} placeholder="Company name" onKeyDown={e => e.key === 'Enter' && saveManual()} />
+              </div>
+              <div className="field" style={{flex:1}}>
+                <label>City, State</label>
+                <input value={form.city} onChange={e => setForm(f => ({...f, city:e.target.value}))} placeholder="Boston, MA" />
+              </div>
+            </div>
+            <div className="field-row">
+              <div className="field" style={{flex:2}}>
+                <label>Contact Method</label>
+                <div style={{position:'relative'}}>
+                  <select value={form.method} onChange={e => setForm(f => ({...f, method:e.target.value}))}>
+                    {METHODS.map(m => <option key={m} value={m}>{m}</option>)}
+                  </select>
+                  <span style={{position:'absolute', right:8, top:'50%', transform:'translateY(-50%)', pointerEvents:'none', color:'var(--muted-2)', fontSize:11}}>▾</span>
+                </div>
+              </div>
+              <div className="field" style={{flex:2}}>
+                <label>Position / Type of Work</label>
+                <input value={form.position} onChange={e => setForm(f => ({...f, position:e.target.value}))} placeholder="Principal PM, AI Platform" />
+              </div>
+              <div className="field" style={{flex:2}}>
+                <label>Result</label>
+                <input value={form.result} onChange={e => setForm(f => ({...f, result:e.target.value}))} placeholder="Applied, Interview scheduled..." />
+              </div>
+            </div>
+            <button className="btn btn-primary btn-sm" onClick={saveManual} disabled={!form.employer.trim()}>Add to log</button>
+          </div>
+        )}
+
+        {activities.length === 0 ? (
+          <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', fontStyle:'italic', padding:'12px 0'}}>
+            No activities tracked for this week. Add entries manually, or use the Board, Deep Research, People, and Signal Feed to auto-log activities.
+          </div>
+        ) : (
+          <div style={{overflowX:'auto'}}>
+            <table style={{width:'100%', borderCollapse:'collapse', fontSize:11, fontFamily:'var(--mono)'}}>
+              <thead>
+                <tr style={{borderBottom:'1px solid var(--border)'}}>
+                  {['#','Date','Employer','City / State','Contact Method','Position','Result',''].map((h,i) => (
+                    <th key={i} style={{textAlign:'left', padding:'5px 10px', fontSize:9, color:'var(--muted-2)', letterSpacing:'.1em', fontWeight:400, textTransform:'uppercase', whiteSpace:'nowrap'}}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {activities.map((a, i) => (
+                  <tr key={i} style={{borderBottom:'1px solid var(--border)'}}>
+                    <td style={{padding:'9px 10px', color:'var(--muted-2)', fontSize:10}}>{i+1}</td>
+                    <td style={{padding:'9px 10px', color:'var(--muted)', whiteSpace:'nowrap'}}>{fmt(a.date)}</td>
+                    <td style={{padding:'9px 10px', color:'var(--text)', fontWeight:500, maxWidth:160, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{a.employer}</td>
+                    <td style={{padding:'9px 10px', color:'var(--muted-2)', whiteSpace:'nowrap'}}>{a.city || '—'}</td>
+                    <td style={{padding:'9px 10px', color:'var(--muted)', maxWidth:200, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{a.method}</td>
+                    <td style={{padding:'9px 10px', color:'var(--muted)', maxWidth:160, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{a.position || '—'}</td>
+                    <td style={{padding:'9px 10px', color:'var(--muted-2)', maxWidth:140, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}}>{a.result}</td>
+                    <td style={{padding:'9px 6px', whiteSpace:'nowrap'}}>
+                      {a.source === 'manual'
+                        ? <button onClick={() => removeManual(a.id)} style={{background:'none', border:'none', color:'var(--muted-2)', cursor:'pointer', fontSize:14, padding:'1px 5px', lineHeight:1}}>×</button>
+                        : <span style={{fontSize:9, padding:'1px 6px', background:'rgba(240,238,248,.06)', borderRadius:4, color:'var(--muted-2)'}}>{sourceTag(a.source)}</span>
+                      }
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.75, padding:'2px'}}>
+        Activities are auto-populated from your Board (job applications), Deep Research history, People contacts, and Signal Feed refreshes.
+        Add manually for job fairs, phone inquiries, staffing agencies, or anything else not tracked in the app.
+        Massachusetts DUA requires a minimum of 3 work search contacts per week. Keep records for at least one year.
+      </div>
+    </div>
+  );
+}
 
 function NavIcon({ id, size = 14 }) {
   const s = { width: size, height: size, display: 'block', flexShrink: 0 };
@@ -2666,6 +4661,14 @@ function NavIcon({ id, size = 14 }) {
       return <svg style={s} viewBox="0 0 14 14" {...p}><path d="M3 1h8a1 1 0 0 1 1 1v10.5l-5-3-5 3V2a1 1 0 0 1 1-1z"/></svg>;
     case 'board':
       return <svg style={s} viewBox="0 0 14 14" {...p}><rect x="1" y="1" width="3" height="9" rx="0.5"/><rect x="5.5" y="1" width="3" height="6" rx="0.5"/><rect x="10" y="1" width="3" height="11" rx="0.5"/></svg>;
+    case 'value':
+      return <svg style={s} viewBox="0 0 14 14" {...p}><line x1="1" y1="7" x2="13" y2="7"/><polyline points="4,4 7,1 10,4"/><rect x="4" y="7" width="6" height="5" rx="0.5"/></svg>;
+    case 'analytics':
+      return <svg style={s} viewBox="0 0 14 14" {...p}><polyline points="1,12 4,7 7,9.5 10,4 13,2"/><line x1="1" y1="12" x2="13" y2="12"/></svg>;
+    case 'signals':
+      return <svg style={s} viewBox="0 0 14 14" {...p}><polyline points="1,8 3.5,5.5 6,7 9,3 13,1"/><line x1="1" y1="13" x2="13" y2="13"/><circle cx="3.5" cy="5.5" r="1" fill="currentColor" stroke="none"/><circle cx="6" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="3" r="1" fill="currentColor" stroke="none"/></svg>;
+    case 'report':
+      return <svg style={s} viewBox="0 0 14 14" {...p}><rect x="2" y="1" width="10" height="12" rx="1"/><line x1="4.5" y1="4.5" x2="9.5" y2="4.5"/><line x1="4.5" y1="7" x2="9.5" y2="7"/><line x1="4.5" y1="9.5" x2="7.5" y2="9.5"/><circle cx="3.5" cy="4.5" r=".8" fill="currentColor" stroke="none"/><circle cx="3.5" cy="7" r=".8" fill="currentColor" stroke="none"/><circle cx="3.5" cy="9.5" r=".8" fill="currentColor" stroke="none"/></svg>;
     case 'settings':
       return <svg style={s} viewBox="0 0 14 14" {...p}><circle cx="7" cy="7" r="2"/><path d="M7 1.5v1.2M7 11.3v1.2M1.5 7h1.2M11.3 7h1.2M3.4 3.4l.85.85M9.75 9.75l.85.85M3.4 10.6l.85-.85M9.75 4.25l.85-.85"/></svg>;
     default:
@@ -2689,6 +4692,14 @@ const KANBAN_SMB_COLS = [
   { id: 'proposal',   label: 'Proposal',   color: 'rgba(208,24,120,.22)' },
   { id: 'won',        label: 'Won',        color: 'rgba(61,226,136,.20)' },
 ];
+const KANBAN_PROJECT_COLS = [
+  { id: 'kickoff',    label: 'Kickoff',    color: 'rgba(240,238,248,.12)' },
+  { id: 'inprogress', label: 'In Progress',color: 'rgba(240,168,32,.18)' },
+  { id: 'review',     label: 'Review',     color: 'rgba(139,43,190,.22)' },
+  { id: 'delivered',  label: 'Delivered',  color: 'rgba(208,24,120,.22)' },
+  { id: 'invoiced',   label: 'Invoiced',   color: 'rgba(61,226,136,.20)' },
+  { id: 'paid',       label: 'Paid',       color: 'rgba(61,226,136,.38)' },
+];
 
 function KanbanBoard() {
   const [activeTab, setActiveTab] = useState('jobs');
@@ -2698,28 +4709,37 @@ function KanbanBoard() {
   const [smbCards, setSmbCards] = useState(() => {
     const s = load(); return s && s.kanban && s.kanban.smbCards ? s.kanban.smbCards : {};
   });
+  const [projectCards, setProjectCards] = useState(() => {
+    const s = load(); return s && s.kanban && s.kanban.projectCards ? s.kanban.projectCards : {};
+  });
   const [adding, setAdding]   = useState(null);  // colId or null
   const [addText, setAddText] = useState('');
   const [addSub,  setAddSub]  = useState('');
+  const [addDate, setAddDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [toast, setToast]     = useState(null);
+  const [sheetView, setSheetView] = useState(() => { const s = load(); return s?.kanban?.sheetView || false; });
 
   useEffect(() => {
     const stored = load() || {};
-    persist({ ...stored, kanban: { jobCards, smbCards } });
-  }, [jobCards, smbCards]);
+    persist({ ...stored, kanban: { jobCards, smbCards, projectCards } });
+  }, [jobCards, smbCards, projectCards]);
 
-  const cols    = activeTab === 'jobs' ? KANBAN_JOB_COLS : KANBAN_SMB_COLS;
-  const cards   = activeTab === 'jobs' ? jobCards : smbCards;
-  const setCards= activeTab === 'jobs' ? setJobCards : setSmbCards;
+  const cols    = activeTab === 'jobs' ? KANBAN_JOB_COLS : activeTab === 'smb' ? KANBAN_SMB_COLS : KANBAN_PROJECT_COLS;
+  const cards   = activeTab === 'jobs' ? jobCards : activeTab === 'smb' ? smbCards : projectCards;
+  const setCards= activeTab === 'jobs' ? setJobCards : activeTab === 'smb' ? setSmbCards : setProjectCards;
 
   function getCol(id) { return cards[id] || []; }
 
   function addCard(colId) {
     const title = addText.trim();
     if (!title) return;
-    const card = { id: Date.now(), title, sub: addSub.trim(), date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) };
+    const displayDate = addDate
+      ? new Date(addDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const card = { id: Date.now(), title, sub: addSub.trim(), date: displayDate };
     setCards(prev => ({ ...prev, [colId]: [...(prev[colId] || []), card] }));
     setAdding(null); setAddText(''); setAddSub('');
+    setAddDate(new Date().toISOString().slice(0, 10));
   }
 
   function removeCard(colId, id) {
@@ -2757,109 +4777,85 @@ function KanbanBoard() {
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
         <div className="page-title">Board</div>
-        <div className="page-sub">Track your pipeline — job applications and SMB prospecting in one place.</div>
+        <div className="page-sub">Track your pipeline: job applications, SMB prospects, and active projects.</div>
       </div>
 
-      <div className="kanban-tabs">
-        <button className={`ktab ${activeTab === 'jobs' ? 'active' : ''}`} onClick={() => setActiveTab('jobs')}>Job Hunting</button>
-        <button className={`ktab ${activeTab === 'smb' ? 'active' : ''}`} onClick={() => setActiveTab('smb')}>SMB Clients</button>
-        <button className={`ktab ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
-      </div>
-
-      {/* ── Analytics Tab ─────────────────────────────────────────── */}
-      {activeTab === 'analytics' && (
-        <div>
-          <div style={{marginBottom:20}}>
-            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>Job Hunting Funnel</div>
-            <div className="analytics-grid">
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{jobTotal}</div>
-                <div className="analytics-stat-lbl">Total tracked</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{jobApps}</div>
-                <div className="analytics-stat-lbl">Applications</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{jobOffers}</div>
-                <div className="analytics-stat-lbl">Offers</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{jobApps > 0 ? `${pct(jobOffers, jobApps)}%` : '—'}</div>
-                <div className="analytics-stat-lbl">Offer rate</div>
-              </div>
-            </div>
-
-            <div className="card" style={{marginTop:0}}>
-              <div className="card-title">Conversion Funnel — Jobs</div>
-              {[
-                { label: 'Applied → Screen',     a: jobScreens,    b: jobApps,       pctVal: pct(jobScreens, jobApps) },
-                { label: 'Screen → Interview',   a: jobInterviews, b: jobScreens,    pctVal: pct(jobInterviews, jobScreens) },
-                { label: 'Interview → Offer',    a: jobOffers,     b: jobInterviews, pctVal: pct(jobOffers, jobInterviews) },
-                { label: 'Applied → Offer',      a: jobOffers,     b: jobApps,       pctVal: pct(jobOffers, jobApps) },
-              ].map(row => (
-                <div key={row.label} className="funnel-bar-wrap">
-                  <div className="funnel-bar-label">
-                    <span>{row.label}</span>
-                    <span>{row.a} / {row.b} &nbsp;·&nbsp; {row.b > 0 ? `${row.pctVal}%` : '—'}</span>
-                  </div>
-                  <div className="funnel-bar-track">
-                    <div className="funnel-bar-fill" style={{width: row.b > 0 ? `${row.pctVal}%` : '0%'}} />
-                  </div>
-                </div>
-              ))}
-              {jobTotal === 0 && <div style={{fontSize:12, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)'}}>Add cards to the Job Hunting board to see funnel data.</div>}
-            </div>
-          </div>
-
-          <div>
-            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>SMB Pipeline</div>
-            <div className="analytics-grid">
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{smbTotal}</div>
-                <div className="analytics-stat-lbl">Total tracked</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{smbOutreach}</div>
-                <div className="analytics-stat-lbl">Outreach</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{smbMeetings}</div>
-                <div className="analytics-stat-lbl">Meetings</div>
-              </div>
-              <div className="analytics-stat">
-                <div className="analytics-stat-val">{smbWon}</div>
-                <div className="analytics-stat-lbl">Won</div>
-              </div>
-            </div>
-
-            <div className="card" style={{marginTop:0}}>
-              <div className="card-title">Conversion Funnel — SMB</div>
-              {[
-                { label: 'Prospect → Outreach',  a: smbOutreach, b: smbColCounts.find(c=>c.id==='prospect')?.count || 0,  pctVal: pct(smbOutreach, smbColCounts.find(c=>c.id==='prospect')?.count || 0) },
-                { label: 'Outreach → Meeting',   a: smbMeetings, b: smbOutreach,  pctVal: pct(smbMeetings, smbOutreach) },
-                { label: 'Meeting → Won',         a: smbWon,      b: smbMeetings,  pctVal: pct(smbWon, smbMeetings) },
-                { label: 'Outreach → Won',        a: smbWon,      b: smbOutreach,  pctVal: pct(smbWon, smbOutreach) },
-              ].map(row => (
-                <div key={row.label} className="funnel-bar-wrap">
-                  <div className="funnel-bar-label">
-                    <span>{row.label}</span>
-                    <span>{row.a} / {row.b} &nbsp;·&nbsp; {row.b > 0 ? `${row.pctVal}%` : '—'}</span>
-                  </div>
-                  <div className="funnel-bar-track">
-                    <div className="funnel-bar-fill" style={{width: row.b > 0 ? `${row.pctVal}%` : '0%'}} />
-                  </div>
-                </div>
-              ))}
-              {smbTotal === 0 && <div style={{fontSize:12, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)'}}>Add cards to the SMB board to see pipeline data.</div>}
-            </div>
-          </div>
+      <div className="kanban-tabs" style={{display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:8}}>
+        <div style={{display:'flex', gap:4}}>
+          <button className={`ktab ${activeTab === 'jobs' ? 'active' : ''}`} onClick={() => { setActiveTab('jobs'); setSheetView(false); }}>Job Hunting</button>
+          <button className={`ktab ${activeTab === 'smb' ? 'active' : ''}`} onClick={() => { setActiveTab('smb'); setSheetView(false); }}>SMB Clients</button>
+          <button className={`ktab ${activeTab === 'projects' ? 'active' : ''}`} onClick={() => { setActiveTab('projects'); setSheetView(false); }}>Projects</button>
         </div>
-      )}
+        <button
+          onClick={() => { const v = !sheetView; setSheetView(v); const stored = load() || {}; persist({ ...stored, kanban: { ...(stored.kanban||{}), sheetView: v } }); }}
+          title="Contact Sheet: all cards across all boards"
+          style={{background: sheetView ? 'var(--accent)' : 'rgba(240,238,248,.06)', border:'1px solid var(--border)', borderRadius:6, padding:'5px 10px', fontSize:11, fontFamily:'var(--mono)', color: sheetView ? '#0C0C12' : 'var(--muted)', cursor:'pointer', letterSpacing:'.04em', display:'flex', alignItems:'center', gap:5}}
+        >
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.4"><rect x="1" y="1" width="3.5" height="3.5" rx=".5"/><rect x="6.5" y="1" width="3.5" height="3.5" rx=".5"/><rect x="1" y="6.5" width="3.5" height="3.5" rx=".5"/><rect x="6.5" y="6.5" width="3.5" height="3.5" rx=".5"/></svg>
+          Contact Sheet
+        </button>
+      </div>
+
+      {/* ── Contact Sheet View ───────────────────────────────────────── */}
+      {sheetView && (() => {
+        const allBoards = [
+          { label: 'Jobs', cols: KANBAN_JOB_COLS, cards: jobCards },
+          { label: 'SMB', cols: KANBAN_SMB_COLS, cards: smbCards },
+          { label: 'Projects', cols: KANBAN_PROJECT_COLS, cards: projectCards },
+        ];
+        const allRows = [];
+        allBoards.forEach(board => {
+          board.cols.forEach(col => {
+            (board.cards[col.id] || []).forEach(card => {
+              allRows.push({ board: board.label, stage: col.label, stageColor: col.color, company: card.title || '', title: card.sub || '', date: card.date || card.created?.slice(0,10) || '' });
+            });
+          });
+        });
+        allRows.sort((a, b) => (b.date > a.date ? 1 : -1));
+        const boardBadge = b => ({ Jobs:'rgba(240,168,32,.15)', SMB:'rgba(139,43,190,.2)', Projects:'rgba(61,226,136,.15)' }[b] || 'rgba(240,238,248,.1)');
+        const boardText = b => ({ Jobs:'var(--accent)', SMB:'rgba(139,43,190,.9)', Projects:'rgba(61,226,136,.85)' }[b] || 'var(--muted)');
+        return (
+          <div className="card">
+            <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:14}}>
+              <div className="card-title" style={{marginBottom:0}}>Contact Sheet</div>
+              <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)'}}>{allRows.length} cards · all boards</span>
+            </div>
+            {allRows.length === 0 ? (
+              <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', fontStyle:'italic'}}>No cards on any board yet.</div>
+            ) : (
+              <table style={{width:'100%', borderCollapse:'collapse', fontSize:12, fontFamily:'var(--mono)'}}>
+                <thead>
+                  <tr style={{borderBottom:'1px solid var(--border)'}}>
+                    {['Board','Stage','Company / Title','Date'].map(h => (
+                      <th key={h} style={{textAlign:'left', padding:'5px 10px', fontSize:10, color:'var(--muted-2)', letterSpacing:'.07em', fontWeight:400, textTransform:'uppercase'}}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {allRows.map((row, i) => (
+                    <tr key={i} style={{borderBottom:'1px solid var(--border)'}}>
+                      <td style={{padding:'8px 10px'}}>
+                        <span style={{fontSize:10, padding:'2px 7px', background:boardBadge(row.board), borderRadius:4, color:boardText(row.board)}}>{row.board}</span>
+                      </td>
+                      <td style={{padding:'8px 10px', color:'var(--muted)'}}>
+                        <span style={{fontSize:10, padding:'2px 7px', background:row.stageColor, borderRadius:4, color:'var(--text)', whiteSpace:'nowrap'}}>{row.stage}</span>
+                      </td>
+                      <td style={{padding:'8px 10px', color:'var(--text)'}}>
+                        <div style={{fontWeight:500}}>{row.company}</div>
+                        {row.title && <div style={{fontSize:11, color:'var(--muted-2)', marginTop:1}}>{row.title}</div>}
+                      </td>
+                      <td style={{padding:'8px 10px', color:'var(--muted-2)', whiteSpace:'nowrap'}}>{row.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        );
+      })()}
 
       {/* ── Kanban Columns ───────────────────────────────────────── */}
-      {activeTab !== 'analytics' && (
-        <div className="kanban-board">
+      {!sheetView && <div className="kanban-board">
           {cols.map(col => {
             const colCards = getCol(col.id);
             const otherCols = cols.filter(c => c.id !== col.id);
@@ -2896,18 +4892,24 @@ function KanbanBoard() {
                       autoFocus
                       value={addText}
                       onChange={e => setAddText(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') addCard(col.id); if (e.key === 'Escape') { setAdding(null); setAddText(''); setAddSub(''); } }}
-                      placeholder={activeTab === 'jobs' ? 'Company · Role…' : 'Company · Contact…'}
+                      onKeyDown={e => { if (e.key === 'Enter') addCard(col.id); if (e.key === 'Escape') { setAdding(null); setAddText(''); setAddSub(''); setAddDate(new Date().toISOString().slice(0,10)); } }}
+                      placeholder={activeTab === 'jobs' ? 'Company · Role…' : activeTab === 'smb' ? 'Company · Contact…' : 'Project name · Client…'}
                     />
                     <input
                       value={addSub}
                       onChange={e => setAddSub(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') addCard(col.id); if (e.key === 'Escape') { setAdding(null); setAddText(''); setAddSub(''); } }}
+                      onKeyDown={e => { if (e.key === 'Enter') addCard(col.id); if (e.key === 'Escape') { setAdding(null); setAddText(''); setAddSub(''); setAddDate(new Date().toISOString().slice(0,10)); } }}
                       placeholder="Notes (optional)"
+                    />
+                    <input
+                      type="date"
+                      value={addDate}
+                      onChange={e => setAddDate(e.target.value)}
+                      style={{colorScheme:'dark'}}
                     />
                     <div className="kadd-form-row">
                       <button className="btn btn-primary btn-sm" onClick={() => addCard(col.id)} disabled={!addText.trim()}>Add</button>
-                      <button className="btn btn-secondary btn-sm" onClick={() => { setAdding(null); setAddText(''); setAddSub(''); }}>Cancel</button>
+                      <button className="btn btn-secondary btn-sm" onClick={() => { setAdding(null); setAddText(''); setAddSub(''); setAddDate(new Date().toISOString().slice(0,10)); }}>Cancel</button>
                     </div>
                   </div>
                 ) : (
@@ -2916,6 +4918,132 @@ function KanbanBoard() {
               </div>
             );
           })}
+        </div>}
+    </div>
+  );
+}
+
+// ── Analytics ─────────────────────────────────────────────────────────────────
+
+function Analytics() {
+  const [activeTab, setActiveTab] = useState('jobs');
+  const [jCards, setJCards] = useState({});
+  const [sCards, setSCards] = useState({});
+
+  function refresh() {
+    const s = load() || {};
+    setJCards(s.kanban?.jobCards || {});
+    setSCards(s.kanban?.smbCards || {});
+  }
+
+  useEffect(() => { refresh(); }, [activeTab]);
+
+  function pct(a, b) { return b === 0 ? 0 : Math.round((a / b) * 100); }
+
+  const jobColCounts = KANBAN_JOB_COLS.map(c => ({ ...c, count: (jCards[c.id] || []).length }));
+  const smbColCounts = KANBAN_SMB_COLS.map(c => ({ ...c, count: (sCards[c.id] || []).length }));
+
+  const jobApps       = jobColCounts.find(c => c.id === 'applied')?.count || 0;
+  const jobScreens    = jobColCounts.find(c => c.id === 'screen')?.count || 0;
+  const jobInterviews = jobColCounts.find(c => c.id === 'interview')?.count || 0;
+  const jobOffers     = jobColCounts.find(c => c.id === 'offer')?.count || 0;
+  const jobTotal      = jobColCounts.reduce((s, c) => s + c.count, 0);
+
+  const smbTotal      = smbColCounts.reduce((s, c) => s + c.count, 0);
+  const smbProspects  = smbColCounts.find(c => c.id === 'prospect')?.count || 0;
+  const smbOutreach   = smbColCounts.find(c => c.id === 'outreach')?.count || 0;
+  const smbMeetings   = smbColCounts.find(c => c.id === 'meeting')?.count || 0;
+  const smbWon        = smbColCounts.find(c => c.id === 'won')?.count || 0;
+
+  return (
+    <div>
+      <div className="page-header">
+        <div className="page-title">Analytics</div>
+        <div className="page-sub">Performance metrics across your job hunt, SMB pipeline, and gig work.</div>
+      </div>
+
+      <div className="kanban-tabs">
+        <button className={`ktab ${activeTab === 'jobs' ? 'active' : ''}`} onClick={() => setActiveTab('jobs')}>Job Hunting</button>
+        <button className={`ktab ${activeTab === 'smb' ? 'active' : ''}`} onClick={() => setActiveTab('smb')}>SMB Lead Tracking</button>
+        <button className={`ktab ${activeTab === 'gig' ? 'active' : ''}`} onClick={() => setActiveTab('gig')}>Gig Work</button>
+      </div>
+
+      {/* ── Job Hunting ───────────────────────────────────────────── */}
+      {activeTab === 'jobs' && (
+        <div>
+          <div style={{marginBottom:20}}>
+            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>Job Hunting Funnel</div>
+            <div className="analytics-grid">
+              <div className="analytics-stat"><div className="analytics-stat-val">{jobTotal}</div><div className="analytics-stat-lbl">Total tracked</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{jobApps}</div><div className="analytics-stat-lbl">Applications</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{jobOffers}</div><div className="analytics-stat-lbl">Offers</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{jobApps > 0 ? `${pct(jobOffers, jobApps)}%` : '—'}</div><div className="analytics-stat-lbl">Offer rate</div></div>
+            </div>
+            <div className="card" style={{marginTop:0}}>
+              <div className="card-title">Conversion Funnel</div>
+              {[
+                { label: 'Applied → Screen',   a: jobScreens,    b: jobApps,       pctVal: pct(jobScreens, jobApps) },
+                { label: 'Screen → Interview', a: jobInterviews, b: jobScreens,    pctVal: pct(jobInterviews, jobScreens) },
+                { label: 'Interview → Offer',  a: jobOffers,     b: jobInterviews, pctVal: pct(jobOffers, jobInterviews) },
+                { label: 'Applied → Offer',    a: jobOffers,     b: jobApps,       pctVal: pct(jobOffers, jobApps) },
+              ].map(row => (
+                <div key={row.label} className="funnel-bar-wrap">
+                  <div className="funnel-bar-label"><span>{row.label}</span><span>{row.a} / {row.b} &nbsp;·&nbsp; {row.b > 0 ? `${row.pctVal}%` : '—'}</span></div>
+                  <div className="funnel-bar-track"><div className="funnel-bar-fill" style={{width: row.b > 0 ? `${row.pctVal}%` : '0%'}} /></div>
+                </div>
+              ))}
+              {jobTotal === 0 && <div style={{fontSize:12, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)'}}>Add cards to the Job Hunting board to see funnel data.</div>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── SMB Lead Tracking ─────────────────────────────────────── */}
+      {activeTab === 'smb' && (
+        <div>
+          <div style={{marginBottom:20}}>
+            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>SMB Pipeline</div>
+            <div className="analytics-grid">
+              <div className="analytics-stat"><div className="analytics-stat-val">{smbTotal}</div><div className="analytics-stat-lbl">Total tracked</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{smbOutreach}</div><div className="analytics-stat-lbl">Outreach</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{smbMeetings}</div><div className="analytics-stat-lbl">Meetings</div></div>
+              <div className="analytics-stat"><div className="analytics-stat-val">{smbWon}</div><div className="analytics-stat-lbl">Won</div></div>
+            </div>
+            <div className="card" style={{marginTop:0}}>
+              <div className="card-title">Conversion Funnel</div>
+              {[
+                { label: 'Prospect → Outreach', a: smbOutreach, b: smbProspects, pctVal: pct(smbOutreach, smbProspects) },
+                { label: 'Outreach → Meeting',  a: smbMeetings, b: smbOutreach,  pctVal: pct(smbMeetings, smbOutreach) },
+                { label: 'Meeting → Won',        a: smbWon,      b: smbMeetings,  pctVal: pct(smbWon, smbMeetings) },
+                { label: 'Outreach → Won',       a: smbWon,      b: smbOutreach,  pctVal: pct(smbWon, smbOutreach) },
+              ].map(row => (
+                <div key={row.label} className="funnel-bar-wrap">
+                  <div className="funnel-bar-label"><span>{row.label}</span><span>{row.a} / {row.b} &nbsp;·&nbsp; {row.b > 0 ? `${row.pctVal}%` : '—'}</span></div>
+                  <div className="funnel-bar-track"><div className="funnel-bar-fill" style={{width: row.b > 0 ? `${row.pctVal}%` : '0%'}} /></div>
+                </div>
+              ))}
+              {smbTotal === 0 && <div style={{fontSize:12, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)'}}>Add cards to the SMB board to see pipeline data.</div>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Gig Work ──────────────────────────────────────────────── */}
+      {activeTab === 'gig' && (
+        <div>
+          <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>Gig Work Pipeline</div>
+          <div className="analytics-grid">
+            <div className="analytics-stat"><div className="analytics-stat-val">—</div><div className="analytics-stat-lbl">Active gigs</div></div>
+            <div className="analytics-stat"><div className="analytics-stat-val">—</div><div className="analytics-stat-lbl">Pitching</div></div>
+            <div className="analytics-stat"><div className="analytics-stat-val">—</div><div className="analytics-stat-lbl">Completed</div></div>
+            <div className="analytics-stat"><div className="analytics-stat-val">—</div><div className="analytics-stat-lbl">Win rate</div></div>
+          </div>
+          <div className="card" style={{marginTop:0}}>
+            <div className="card-title">Gig Work Tracker</div>
+            <div style={{fontSize:12, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)', lineHeight:1.7}}>
+              Gig work tracking coming soon. Covers freelance, contract, consulting, and platform gigs (Upwork, Toptal, direct). Add a Gig Work board to start tracking pipeline, revenue, and conversion rates here.
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -2949,17 +5077,21 @@ function App() {
   function handlePeopleSearch(company) {
     setMode('people');
     // Small delay to let mode switch render, then we'd set company — handled in child
-    window.__coldOpenCompany = company;
+    window.__apertureCompany = company;
   }
 
   const nav = [
     { id: 'jobs', label: 'Job Search' },
     { id: 'board', label: 'Board' },
+    { id: 'analytics', label: 'Analytics' },
     { id: 'people', label: 'People & Contacts' },
     { id: 'research', label: 'Deep Research' },
+    { id: 'signals', label: 'Signal Feed' },
+    { id: 'report', label: 'Activity Report' },
     { id: 'smb', label: 'SMB Prospecting' },
     { id: 'networking', label: 'Networking' },
     { id: 'watchlist', label: 'Watch List' },
+    { id: 'value', label: 'Job Fit' },
   ];
 
   return (
@@ -2968,8 +5100,9 @@ function App() {
         <div className="sidebar-logo">
           <LogoFlask />
           <div>
-            <div className="logo-text">Career Builder</div>
-            <div className="logo-sub">{profile.name.split(' ')[0]}'s Job & Client CRM</div>
+            <div className="logo-text">Career Aperture</div>
+            <div className="logo-sub">Career Intelligence</div>
+            <div style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.08em', marginTop:5, opacity:.6}}>a Perez Creative Labs product</div>
           </div>
         </div>
 
@@ -2995,10 +5128,32 @@ function App() {
         {mode === 'jobs' && <JobSearch />}
         {mode === 'people' && <PeopleContacts watchList={watchList} />}
         {mode === 'research' && <DeepResearch profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
+        {mode === 'signals' && <SignalFeed apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
+        {mode === 'report' && <ActivityReport />}
         {mode === 'smb' && <SMBProspecting profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
         {mode === 'networking' && <Networking profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
-        {mode === 'board' && <KanbanBoard />}
+        {mode === 'board' && (
+          apiKey
+            ? <KanbanBoard />
+            : <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:320, gap:16, textAlign:'center', padding:40}}>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <div style={{fontSize:15, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.02em'}}>Sign in required</div>
+                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Set your Anthropic API key in Settings to unlock the Board.</div>
+                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Open Settings</button>
+              </div>
+        )}
+        {mode === 'analytics' && (
+          apiKey
+            ? <Analytics />
+            : <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:320, gap:16, textAlign:'center', padding:40}}>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <div style={{fontSize:15, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.02em'}}>Sign in required</div>
+                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Set your Anthropic API key in Settings to unlock Analytics.</div>
+                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Open Settings</button>
+              </div>
+        )}
         {mode === 'watchlist' && <WatchListSummary watchList={watchList} onPeopleSearch={handlePeopleSearch} />}
+        {mode === 'value' && <JobValue />}
       </main>
 
       {showSettings && (
