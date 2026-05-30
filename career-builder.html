@@ -1016,120 +1016,44 @@ function scoreEdge(text) {
 }
 
 function buildSystemPrompt(profile) {
-  return `You are a warm-path research assistant for ${profile.name}.
-
-ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
+  const firstName = (profile.name || 'the user').split(' ')[0];
+  return `You are a warm-path research assistant for ${profile.name || 'the user'}.
 Role target: ${profile.role}
 Domain: ${profile.targetDomain}
 Background: ${profile.background}
 Edge: ${profile.edge}
 
-YOUR JOB: Research the person the user names. Write a concise warm-intro brief — not a dossier. Focus on: who this person is, why their work connects to ${profile.name.split(' ')[0]}'s background, a suggested first message, and 3 strong conversation openers.
+Research the named person. Return valid JSON only — no markdown, no prose outside JSON:
+{"name":"full name","company":"company","title":"title","background":"2-3 sentences on their career","howYouFit":"1-2 sentences on overlap with ${firstName}'s background — be specific","sharedGround":"one concrete shared thing — problem space, tech, or career move","suggestedDM":"LinkedIn DM under 75 words, first person as ${firstName}, plain English, warm not salesy","matchScore":"integer 1-10","matchRationale":"1 sentence explaining score","interviewQuestions":["3 specific questions grounded in their work"],"researchNote":"data freshness caveat"}
 
-SHARED GROUND TO LOOK FOR: Enterprise AI in regulated or high-stakes environments, platform thinking over feature thinking, AI governance and compliance, human in the loop design, HCM / workforce systems, operator-to-builder career trajectories, multi-agent systems, enterprise SaaS.
-
-OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose outside the JSON. Schema:
-{
-  "name": "full name",
-  "company": "company",
-  "title": "their title",
-  "background": "2-3 sentences on their career and focus — what they actually build or lead",
-  "howYouFit": "1-2 sentences on how ${profile.name.split(' ')[0]}'s background overlaps with this person's work — be specific about what connects them",
-  "sharedGround": "one concrete thing they have in common — a problem space, a technology, a career move, not a generic interest",
-  "suggestedDM": "a short LinkedIn DM (under 75 words) written in first person as ${profile.name.split(' ')[0]} — plain English, no em dashes, specific over generic, warm not salesy",
-  "matchScore": "integer 1–10: how worth reaching out is this person for ${profile.name.split(' ')[0]}'s goals — based on career overlap, shared domain, and warm intro potential. 10 = near-perfect alignment",
-  "matchRationale": "1 sentence explaining the score — what specifically makes this person high or low value as a contact",
-  "interviewQuestions": ["3 specific conversation questions to ask this person in a 30-minute call — grounded in their actual work, not generic"],
-  "researchNote": "any caveat about data freshness or uncertainty"
-}
-
-VOICE RULES: Plain English. No em dashes. No abstract nouns (no passionate / innovative / strategic). Hero-active verbs. Specific over generic.`;
+Plain English. No em dashes. Specific over generic.
+GUARDRAILS: Only assert what you can verify from public data. Use null for any field you cannot confidently populate. Never fabricate titles, companies, or career history. If uncertain, say so in researchNote — do not smooth over gaps.`;
 }
 
 function buildCompanyPrompt(profile) {
   const home = profile.homeCity || 'unknown location';
-  return `You are a company intelligence analyst helping ${profile.name} evaluate a potential employer.
+  const firstName = (profile.name || 'the user').split(' ')[0];
+  return `Company intelligence analyst helping ${profile.name || 'the user'} evaluate an employer.
+Role target: ${profile.role} | Background: ${profile.background} | Edge: ${profile.edge} | Home: ${home}
 
-ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
-Role target: ${profile.role}
-Background: ${profile.background}
-Edge: ${profile.edge}
-Home city: ${home}
+Research the named company. Return valid JSON only — no markdown, no prose outside JSON:
+{"name":"company name","industry":"sector","stage":"public/private/PE/startup","headcount":"approx size","overview":"3-4 sentences: what they build, who they sell to, why notable","payContext":"comp vs market for ${profile.role} — rough base range, equity culture, above/at/below market","competitors":["2-4 direct competitors"],"workArrangement":"actual remote/hybrid/onsite reality per employee reports not job postings","cultureSignals":"2-3 sentences: culture, management, Glassdoor themes","recentSignals":"notable news last 12 months: funding, layoffs, reorgs, launches","commuteNote":"commute from ${home} — miles, metro vs suburban, congestion, peak-hour range","matchScore":"integer 1-10","matchRationale":"1 sentence on score","fitAngle":"1-2 sentences on fit for ${firstName}'s background","watchoutFlags":[{"severity":"HIGH/MED/LOW","category":"Culture/Stability/Role Clarity/Growth","finding":"specific concern","probe":"interview question to validate"}],"blindSpots":[{"gap":"what is unknown from public data","probe":"question to close the gap"}],"interviewQuestions":["5 company-specific questions"],"researchNote":"estimation vs reported caveat"}
 
-YOUR JOB: Research the company the user names. Produce a concise but substantive intelligence brief covering everything ${profile.name.split(' ')[0]} needs to evaluate this opportunity — pay grade, culture, work arrangement norms, competitive context, commute reality from ${home}, and 5 sharp interview questions.
-
-OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose outside the JSON. Schema:
-{
-  "name": "company name",
-  "industry": "industry / sector",
-  "stage": "public / private / PE-backed / startup stage",
-  "headcount": "approximate size",
-  "overview": "3-4 sentences: what they build, who they sell to, what makes them notable",
-  "payContext": "how this company's compensation compares to market for a ${profile.role} — include rough base range if known, note equity/bonus culture, call out if they're known to pay above/at/below market",
-  "competitors": ["2-4 direct competitors"],
-  "workArrangement": "what their actual culture is on remote/hybrid/onsite — not just what they say in job postings, but what employees report",
-  "cultureSignals": "2-3 sentences on culture, management style, growth trajectory — any notable Glassdoor themes or known leadership signals",
-  "recentSignals": "any notable news in the last 12 months: funding, layoffs, reorgs, product launches, leadership changes",
-  "commuteNote": "analyze the commute from ${home} to this company's main office. Estimate miles, note whether it is into a major metro core (heavy inbound traffic) or a reverse/suburban commute (lighter traffic). Call out if it is on a notoriously congested corridor. Give a realistic peak-hour time range.",
-  "matchScore": "integer 1–10: how strong a fit is this company for ${profile.name.split(' ')[0]}'s background and role target. Consider: domain overlap, stage fit, role availability, culture match. 10 = near-perfect",
-  "matchRationale": "1 sentence explaining the score — what specifically makes this company a strong or weak match",
-  "fitAngle": "1-2 sentences on why this company is or is not a strong match for ${profile.name.split(' ')[0]}'s background specifically",
-  "watchoutFlags": [
-    {
-      "severity": "HIGH or MED or LOW",
-      "category": "Culture or Stability or Role Clarity or Growth",
-      "finding": "1-sentence description of the specific concern — concrete, not vague",
-      "probe": "exact interview question to validate this — phrased naturally, not generically"
-    }
-  ],
-  "blindSpots": [
-    {
-      "gap": "what is genuinely unknown or unverifiable about this company from public data",
-      "probe": "specific question to ask in the interview to close this gap"
-    }
-  ],
-  "interviewQuestions": ["5 smart questions to ask in an interview — grounded in what is actually known about their culture, product direction, or challenges. Make them specific to this company, not generic."],
-  "researchNote": "data freshness caveat — note what is estimated vs. reported"
-}
-
-VOICE RULES: Plain English. No em dashes. Be direct about pay ranges and commute reality — do not hedge everything. Flag genuine uncertainty once; do not repeat it throughout.`;
+Plain English. Direct on pay and commute. Flag uncertainty once, not throughout.
+GUARDRAILS: Use null for any field you cannot verify from public data. Never invent headcount, funding status, or executive names. If pay data is unavailable, say so — do not guess ranges. Distinguish reported facts from estimates in researchNote.`;
 }
 
 function buildFocusPrompt(profile) {
   const home = profile.homeCity || 'unknown location';
-  return `You are an interview intelligence analyst helping ${profile.name} prepare for a specific role at a specific company.
+  const firstName = (profile.name || 'the user').split(' ')[0];
+  return `Interview intelligence analyst helping ${profile.name || 'the user'} prep for a specific role.
+Role target: ${profile.role} | Background: ${profile.background} | Edge: ${profile.edge} | Home: ${home}
 
-ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
-Role target: ${profile.role}
-Background: ${profile.background}
-Edge: ${profile.edge}
-Home city: ${home}
+Return valid JSON only — no markdown, no prose outside JSON:
+{"company":"company name","role":"role title","matchScore":"integer 1-10","matchRationale":"1 sentence on fit","companySnapshot":"2-3 sentences: what they build, who they sell to, why notable now","roleContext":"2-3 sentences: what success looks like, reporting line, first 90 days","whyYouFit":"2-3 sentences: specific reasons ${firstName}'s background matches — cite actual experience","edgeToEmphasize":"the one differentiator ${firstName} has that others won't","watchoutFlags":[{"severity":"HIGH/MED/LOW","category":"Culture/Stability/Role Clarity/Growth","finding":"specific concern for this role","probe":"interview question to validate"}],"interviewQuestions":["8 questions specific to this company and role — mix culture, strategy, scope, team dynamics"],"researchNote":"data freshness caveat"}
 
-YOUR JOB: Produce a focused pre-interview brief combining company context with role-specific preparation — calibrated to ${profile.name.split(' ')[0]}'s background.
-
-OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose outside the JSON. Schema:
-{
-  "company": "company name",
-  "role": "role title",
-  "matchScore": "integer 1–10: how strong a fit is this specific role at this company for ${profile.name.split(' ')[0]}",
-  "matchRationale": "1 sentence: what specifically makes this a strong or weak match",
-  "companySnapshot": "2-3 sentences: what the company builds, who they sell to, what makes them notable right now",
-  "roleContext": "2-3 sentences: what success in this role looks like, who it likely reports to, what the first 90 days probably involve",
-  "whyYouFit": "2-3 sentences: specific reasons ${profile.name.split(' ')[0]}'s background is a match — cite actual experience, not generic skills",
-  "edgeToEmphasize": "the one most differentiated thing ${profile.name.split(' ')[0]} brings that this company is unlikely to find in other candidates",
-  "watchoutFlags": [
-    {
-      "severity": "HIGH or MED or LOW",
-      "category": "Culture or Stability or Role Clarity or Growth",
-      "finding": "1-sentence concern specific to this role or company",
-      "probe": "interview question to validate it"
-    }
-  ],
-  "interviewQuestions": ["8-10 strong questions to ask in the interview — specific to this company AND this role, not generic. Mix of: culture probes, product/strategy questions, role scope clarifiers, and team dynamics questions."],
-  "researchNote": "any data freshness caveat"
-}
-
-VOICE RULES: Plain English. No em dashes. Be specific — cite actual company context, actual role patterns, actual background overlap. No generic advice.`;
+Plain English. No em dashes. Specific — cite actual context. No generic advice.
+GUARDRAILS: Only reference the user's actual background as supplied above — do not invent achievements. Use null for role context you cannot verify. If the company or role is too obscure for reliable data, say so in researchNote rather than fabricating plausible-sounding details.`;
 }
 
 function persist(data) {
@@ -1581,7 +1505,7 @@ Return ONLY a valid JSON array with exactly 8 objects. No markdown, no explanati
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: 2500,
+          max_tokens: 1400,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
@@ -1657,7 +1581,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
           },
           body: JSON.stringify({
             model: 'claude-haiku-4-5-20251001',
-            max_tokens: 1800,
+            max_tokens: 900,
             messages: [{ role: 'user', content: prompt }],
           }),
         });
@@ -2415,7 +2339,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
     setError('');
   }, [researchType]);
 
-  async function callApiStreaming(systemPrompt, userMsg, maxTokens) {
+  async function callApiStreaming(systemPrompt, userMsg, maxTokens, model = 'claude-sonnet-4-6') {
     if (!apiKey) { onNeedApiKey(); return null; }
     setStreamLen(0);
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -2427,7 +2351,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         'anthropic-dangerous-direct-browser-access': 'true',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model,
         max_tokens: maxTokens,
         system: systemPrompt,
         messages: [{ role: 'user', content: userMsg }],
@@ -2490,7 +2414,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
       if (researchType === 'person') {
         if (!personName.trim()) return;
         const query = { name: personName.trim(), company: personCompany.trim() };
-        const parsed = await callApiStreaming(buildSystemPrompt(profile), `Research ${query.name}${query.company ? ` at ${query.company}` : ''}.`, 1800);
+        const parsed = await callApiStreaming(buildSystemPrompt(profile), `Research ${query.name}${query.company ? ` at ${query.company}` : ''}.`, 800, 'claude-haiku-4-5-20251001');
         const r = { type: 'person', data: parsed };
         setResult(r);
         saveResult('person', parsed, query);
@@ -2498,7 +2422,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         if (!companyName.trim()) return;
         const query = { company: companyName.trim(), role: roleConsidering.trim() };
         const msg = `Research the company: ${query.company}${query.role ? `. Role I am considering: ${query.role}` : ''}.`;
-        const parsed = await callApiStreaming(buildCompanyPrompt(profile), msg, 2400);
+        const parsed = await callApiStreaming(buildCompanyPrompt(profile), msg, 1400);
         const r = { type: 'company', data: parsed };
         setResult(r);
         saveResult('company', parsed, query);
@@ -2506,7 +2430,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         if (!focusCompany.trim() || !focusRole.trim()) return;
         const query = { company: focusCompany.trim(), role: focusRole.trim() };
         const msg = `Company: ${query.company}. Role: ${query.role}.`;
-        const parsed = await callApiStreaming(buildFocusPrompt(profile), msg, 2800);
+        const parsed = await callApiStreaming(buildFocusPrompt(profile), msg, 1400);
         const r = { type: 'focus', data: parsed };
         setResult(r);
         saveResult('focus', parsed, query);
@@ -3106,7 +3030,7 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 800, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 550, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
       const data = await res.json();
@@ -3251,7 +3175,7 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 900, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 600, system: systemMsg, messages: [{ role: 'user', content: userMsg }] }),
       });
       if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `API error ${res.status}`); }
       const data = await res.json();
@@ -4350,7 +4274,7 @@ Use null for any category with no notable signals. Be specific and direct.`;
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 700, messages: [{ role: 'user', content: prompt }] }),
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 500, messages: [{ role: 'user', content: prompt }] }),
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error.message);
