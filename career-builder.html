@@ -3388,7 +3388,7 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <textarea rows={4} value={localProfile.background} onChange={e => setLocalProfile({...localProfile, background: e.target.value})} />
               </div>
               <div className="field">
-                <label>Edge: What makes you different (used in Deep Research prompts)</label>
+                <label>Competitive Edge (your signal — drives all AI research and outreach)</label>
                 <textarea rows={5} value={localProfile.edge} onChange={e => setLocalProfile({...localProfile, edge: e.target.value})} />
                 <div className="edge-meter">
                   <div className="edge-bar-track">
@@ -3452,7 +3452,7 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                 <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
                   placeholder="sk-ant-…" />
                 <div className="api-key-note">
-                  Required for Deep Research. Stored locally in your browser — never sent anywhere except Anthropic.
+                  Stored in your browser only. Calls go directly to Anthropic — nothing passes through a server.
                   Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'#f59c00'}}>console.anthropic.com</a>.
                 </div>
               </div>
@@ -5150,15 +5150,18 @@ function App() {
           <div style={{fontFamily:'var(--mono)', fontSize:9, color:'var(--muted-2)', letterSpacing:'.18em', textTransform:'uppercase', marginBottom:36}}>
             Career Intelligence · a Perez Creative Labs product
           </div>
-          <div style={{fontSize:15, color:'var(--text)', marginBottom:12, lineHeight:1.7}}>
-            Set up your profile to get started.
+          <div style={{fontSize:16, color:'var(--text)', marginBottom:12, lineHeight:1.6, fontFamily:'Georgia, serif', letterSpacing:'.01em'}}>
+            Your background is the intelligence.
           </div>
-          <div style={{fontSize:13, color:'var(--muted)', marginBottom:32, lineHeight:1.7}}>
-            Your data stays local — nothing leaves your browser. Bring your own Anthropic API key to unlock AI-powered research and outreach.
+          <div style={{fontSize:13, color:'var(--muted)', marginBottom:8, lineHeight:1.75}}>
+            Set your career context once. Every search, brief, and outreach runs on it — with your signal as the competitive advantage.
+          </div>
+          <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', marginBottom:32, lineHeight:1.6}}>
+            All data stays in your browser. Nothing is stored externally. Bring your own Anthropic API key.
           </div>
           <button className="btn btn-primary" style={{padding:'12px 32px', fontSize:14}}
             onClick={() => setShowSettings(true)}>
-            Set Up My Profile
+            Build My Profile
           </button>
         </div>
         {showSettings && (
@@ -5196,6 +5199,13 @@ function App() {
         </div>
 
         <div className="sidebar-footer">
+          <a href="kpi.html" target="_blank" rel="noopener"
+            style={{display:'flex',alignItems:'center',gap:10,width:'100%',padding:'9px 14px',borderRadius:8,textDecoration:'none',color:'var(--muted-2)',fontFamily:'var(--mono)',fontSize:12,letterSpacing:'.04em',marginBottom:2}}
+            onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(240,168,32,.04)'}}
+            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.background='none'}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            KPI Dashboard ↗
+          </a>
           <button className="settings-btn" onClick={() => setShowSettings(true)}>
             <span className="nav-icon"><NavIcon id="settings" /></span>
             Settings
@@ -5216,9 +5226,9 @@ function App() {
             ? <KanbanBoard />
             : <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:320, gap:16, textAlign:'center', padding:40}}>
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <div style={{fontSize:15, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.02em'}}>Sign in required</div>
-                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Set your Anthropic API key in Settings to unlock the Board.</div>
-                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Open Settings</button>
+                <div style={{fontSize:13, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.04em', textTransform:'uppercase'}}>API Key Required</div>
+                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Add your Anthropic key in Settings to activate the Board.</div>
+                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Add API Key</button>
               </div>
         )}
         {mode === 'analytics' && (
@@ -5226,9 +5236,9 @@ function App() {
             ? <Analytics />
             : <div style={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:320, gap:16, textAlign:'center', padding:40}}>
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <div style={{fontSize:15, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.02em'}}>Sign in required</div>
-                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Set your Anthropic API key in Settings to unlock Analytics.</div>
-                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Open Settings</button>
+                <div style={{fontSize:13, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.04em', textTransform:'uppercase'}}>API Key Required</div>
+                <div style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--muted-2)', maxWidth:300, lineHeight:1.6}}>Add your Anthropic key in Settings to activate Analytics.</div>
+                <button className="btn btn-primary" onClick={() => setShowSettings(true)}>Add API Key</button>
               </div>
         )}
         {mode === 'watchlist' && <WatchListSummary watchList={watchList} onPeopleSearch={handlePeopleSearch} />}

@@ -406,7 +406,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
         <div className="header-left">
           <div>
             <div className="logo">Career Aperture · KPI</div>
-            <div className="logo-sub">Quality, Performance & Cost Dashboard</div>
+            <div className="logo-sub">Know what every call costs. Know if it earned it.</div>
           </div>
           <span className={`env-badge ${env.cls}`}>{env.label}</span>
         </div>
@@ -482,7 +482,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               <div className="section-title">Cost by Call Type</div>
               <div className="card">
                 {Object.keys(byType).length === 0
-                  ? <div className="empty">No calls tracked yet.<br/>Use Career Aperture to generate data.</div>
+                  ? <div className="empty">No signal yet. Open Career Aperture, run a research call, and return here — data populates automatically.</div>
                   : Object.entries(byType).sort((a,b)=>b[1].cost-a[1].cost).map(([type, d]) => {
                     const maxCost = Math.max(...Object.values(byType).map(x=>x.cost));
                     return (
@@ -537,7 +537,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
             <div className="section-title">Benchmark Suite · Standardised Quality Tests</div>
             <div className="card" style={{marginBottom:16}}>
               <div style={{fontSize:13,color:'var(--muted)',marginBottom:16,lineHeight:1.7}}>
-                Runs {BENCH_CASES.length} standardised test calls against your Anthropic API key. Tests for: hallucination risk, JSON format compliance, source legitimacy, null-handling on unknown entities, and completeness. Same tests run on every branch — compare results across environments.
+                {BENCH_CASES.length} standardised tests: hallucination detection, source legitimacy, JSON compliance, null-handling on unknown entities. Run on any branch and compare results across environments.
               </div>
               <button className="btn btn-primary" onClick={runBenchmark} disabled={benchRunning || !apiKey}>
                 {benchRunning ? 'Running…' : '▶ Run Benchmark'}
@@ -662,7 +662,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
           <div className="section">
             <div className="section-title">Raw Call History · Last {calls.length} calls</div>
             {calls.length === 0
-              ? <div className="empty">No calls tracked yet. Use Career Aperture and return here.</div>
+              ? <div className="empty">No calls tracked yet. Use Career Aperture to start capturing data.</div>
               : (
                 <div className="card">
                   <div style={{display:'grid',gridTemplateColumns:'130px 60px 80px 80px 55px 40px',gap:8,fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.12em',textTransform:'uppercase',marginBottom:8,paddingBottom:8,borderBottom:'1px solid var(--border)'}}>
@@ -698,7 +698,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
             <div className="section-title">Manual Verification · Paste Any Research Output</div>
             <div className="card" style={{marginBottom:12}}>
               <div style={{fontSize:13,color:'var(--muted)',marginBottom:14,lineHeight:1.7}}>
-                Paste any JSON output from Career Aperture. A Haiku verification pass checks for hallucination risk, source legitimacy, fabricated data, and internal consistency. Results are scored PASS / CAUTION / FAIL.
+                Paste any Career Aperture JSON output. A verification pass checks for hallucination risk, source legitimacy, fabricated data, and internal consistency — scored PASS / CAUTION / FAIL.
               </div>
               <textarea rows={8} value={verifyInput} onChange={e => setVerifyInput(e.target.value)}
                 placeholder='{"name":"...","company":"...","sources":[...]}' />
