@@ -1,0 +1,15 @@
+# Internal dev docs — not for public repo
+ARCHITECTURE_REVIEW.md
+
+# OS / editor
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*.swp
+*.swo
+
+# Node (if ever added)
+node_modules/

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Aperture · Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    :root {
+      --bg:          #09080A;
+      --bg-2:        #100F0C;
+      --bg-card:     #16140E;
+      --border:      rgba(245,240,232,.08);
+      --border-gold: rgba(201,168,76,.24);
+      --text:        #EDE5D5;
+      --muted:       rgba(237,229,213,.55);
+      --muted-2:     rgba(237,229,213,.32);
+      --accent:      #C9A84C;
+      --accent-dim:  rgba(201,168,76,.10);
+      --accent-bdr:  rgba(201,168,76,.30);
+      --green:       #4ADE80;
+      --red:         #F87171;
+      --yellow:      #FBBF24;
+      --violet:      #3D1A88;
+      --magenta:     #8B2BBE;
+      --crimson:     #D01878;
+      --ember:       #E86020;
+      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
+      --mono:        'JetBrains Mono', monospace;
+      --display:     'Cormorant Garamond', Georgia, serif;
+    }
+    body { font-family: Georgia, 'Times New Roman', serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+    /* Layout */
+    .layout { display: flex; height: 100vh; overflow: hidden; }
+    .sidebar { width: 220px; flex-shrink: 0; background: var(--bg-2); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 0 0 16px; }
+    .sidebar-bar { height: 2px; background: var(--gradient); opacity: .85; flex-shrink: 0; }
+    .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 20px 18px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+    .logo-text { font-size: 13px; font-family: var(--display); color: var(--text); letter-spacing: .28em; text-transform: uppercase; font-weight: 400; display: block; }
+    .logo-sub { font-size: 9px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .09em; text-transform: uppercase; margin-top: 3px; display: block; }
+    .nav-section { padding: 4px 10px; flex: 1; }
+    .nav-label { font-size: 8px; font-weight: 500; color: var(--muted-2); letter-spacing: .3em; text-transform: uppercase; padding: 12px 8px 5px; font-family: var(--mono); }
+    .nav-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border: none; background: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-family: Georgia, serif; color: var(--muted); text-align: left; transition: all .15s; }
+    .nav-btn:hover { background: rgba(201,168,76,.06); color: var(--text); }
+    .nav-btn.active { background: rgba(201,168,76,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; }
+    .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+    .sidebar-footer { padding: 12px 10px 0; border-top: 1px solid var(--border); margin-top: auto; }
+
+    /* Main */
+    .main { flex: 1; overflow-y: auto; background: var(--bg); }
+    .main-inner { max-width: 1100px; padding: 36px 40px; margin: 0 auto; }
+
+    /* Page header */
+    .page-header { margin-bottom: 32px; }
+    .page-title { font-family: var(--display); font-size: 2.2rem; font-weight: 300; color: var(--text); letter-spacing: .02em; line-height: 1.1; }
+    .page-sub { font-size: 10px; color: var(--accent); font-family: var(--mono); letter-spacing: .28em; text-transform: uppercase; margin-top: 6px; opacity: .7; }
+    .page-meta { font-size: 11px; color: var(--muted-2); font-family: var(--mono); margin-top: 4px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; margin-bottom: 28px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
+    .tab { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 7px 18px; border-radius: 7px; border: none; cursor: pointer; background: none; color: var(--muted-2); transition: all .15s; }
+    .tab.active { background: var(--accent-dim); color: var(--accent); border: 1px solid var(--accent-bdr); }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* Section */
+    .section { margin-bottom: 36px; }
+    .section-title { font-size: 9px; font-weight: 500; color: rgba(201,168,76,.6); letter-spacing: .38em; text-transform: uppercase; font-family: var(--mono); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,.12); }
+
+    /* Cards */
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-top: 1px solid rgba(201,168,76,.13); border-radius: 12px; padding: 18px 20px; }
+    .stat-val { font-family: var(--mono); font-size: 28px; font-weight: 500; color: var(--accent); line-height: 1.1; }
+    .stat-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted-2); margin-top: 5px; }
+    .stat-sub { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: var(--mono); }
+    .stat-delta { font-family: var(--mono); font-size: 10px; margin-top: 3px; }
+    .delta-up { color: var(--green); }
+    .delta-dn { color: var(--red); }
+
+    /* Funnel */
+    .funnel { display: flex; flex-direction: column; gap: 6px; }
+    .funnel-row { display: flex; align-items: center; gap: 12px; }
+    .funnel-label { font-family: var(--mono); font-size: 10px; color: var(--muted); width: 110px; flex-shrink: 0; }
+    .funnel-track { flex: 1; height: 28px; background: rgba(245,240,232,.04); border-radius: 6px; overflow: hidden; position: relative; }
+    .funnel-fill { height: 100%; border-radius: 6px; transition: width .5s ease; display: flex; align-items: center; padding-left: 10px; }
+    .funnel-count { font-family: var(--mono); font-size: 10px; font-weight: 500; color: rgba(255,255,255,.85); }
+    .funnel-pct { font-family: var(--mono); font-size: 9px; color: var(--muted-2); width: 38px; text-align: right; flex-shrink: 0; }
+
+    /* Bar chart */
+    .bar-row { margin-bottom: 11px; }
+    .bar-label { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+    .bar-val { color: var(--text); }
+    .bar-track { height: 4px; background: rgba(245,240,232,.06); border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+
+    /* Activity list */
+    .activity-list { display: flex; flex-direction: column; gap: 0; }
+    .activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+    .activity-dot.green { background: var(--green); }
+    .activity-dot.violet { background: var(--magenta); }
+    .activity-dot.muted { background: var(--muted-2); }
+    .activity-text { flex: 1; color: var(--text); }
+    .activity-meta { font-family: var(--mono); font-size: 10px; color: var(--muted-2); margin-top: 2px; }
+    .activity-time { font-family: var(--mono); font-size: 10px; color: var(--muted-2); flex-shrink: 0; }
+
+    /* Rate card */
+    .rate-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .rate-row:last-child { border-bottom: none; }
+    .rate-label { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .rate-val { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 500; }
+    .rate-val.accent { color: var(--accent); }
+    .rate-val.green { color: var(--green); }
+    .rate-val.red { color: var(--red); }
+
+    /* Empty */
+    .empty { text-align: center; padding: 40px 20px; color: var(--muted-2); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; }
+    .empty-icon { font-size: 28px; margin-bottom: 10px; opacity: .4; }
+
+    /* Tags */
+    .tag { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: .1em; padding: 2px 8px; border-radius: 20px; }
+    .tag-active { background: rgba(201,168,76,.1); color: var(--accent); border: 1px solid rgba(201,168,76,.25); }
+    .tag-win { background: rgba(74,222,128,.1); color: var(--green); border: 1px solid rgba(74,222,128,.25); }
+    .tag-muted { background: rgba(237,229,213,.05); color: var(--muted); border: 1px solid var(--border); }
+
+    /* Refresh */
+    .refresh-btn { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border); background: none; color: var(--muted); cursor: pointer; transition: all .15s; }
+    .refresh-btn:hover { border-color: var(--accent-bdr); color: var(--accent); }
+
+    /* SVG ring */
+    .ring-wrap { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
+    .ring-val { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--accent); }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+const STORAGE_KEY = 'dp_aperture_v1';
+
+const JOB_COLS = [
+  { id: 'watching',  label: 'Light Table',  color: '#C9A84C', bg: 'rgba(201,168,76,.18)' },
+  { id: 'applied',   label: 'Exposed',       color: '#C9A84C', bg: 'rgba(201,168,76,.28)' },
+  { id: 'screen',    label: 'Developing',    color: '#8B2BBE', bg: 'rgba(139,43,190,.28)' },
+  { id: 'interview', label: 'In the Fixer',  color: '#D01878', bg: 'rgba(208,24,120,.28)' },
+  { id: 'offer',     label: 'Final Print',   color: '#4ADE80', bg: 'rgba(74,222,128,.28)' },
+];
+
+const SMB_COLS = [
+  { id: 'prospect',  label: 'Spotted',    color: '#C9A84C', bg: 'rgba(201,168,76,.18)' },
+  { id: 'outreach',  label: 'Framed',     color: '#C9A84C', bg: 'rgba(201,168,76,.28)' },
+  { id: 'meeting',   label: 'Developing', color: '#8B2BBE', bg: 'rgba(139,43,190,.28)' },
+  { id: 'proposal',  label: 'Proof',      color: '#D01878', bg: 'rgba(208,24,120,.28)' },
+  { id: 'won',       label: 'Delivered',  color: '#4ADE80', bg: 'rgba(74,222,128,.28)' },
+];
+
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('dp_cold_open_v1');
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function pct(a, b) { return b === 0 ? '—' : Math.round((a / b) * 100) + '%'; }
+function pctNum(a, b) { return b === 0 ? 0 : Math.round((a / b) * 100); }
+
+function Ring({ value, color='#C9A84C', size=72 }) {
+  const r = (size - 10) / 2;
+  const circ = 2 * Math.PI * r;
+  const dash = (value / 100) * circ;
+  return (
+    <div className="ring-wrap" style={{width: size, height: size}}>
+      <svg width={size} height={size}>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(245,240,232,.07)" strokeWidth="5"/>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth="5"
+          strokeDasharray={`${dash} ${circ}`} strokeLinecap="round"
+          transform={`rotate(-90 ${size/2} ${size/2})`} style={{transition:'stroke-dasharray .5s'}}/>
+      </svg>
+      <div className="ring-val" style={{color}}>{value}%</div>
+    </div>
+  );
+}
+
+function FunnelChart({ cols, cards, maxCap }) {
+  const total = cols.reduce((s, c) => s + (cards[c.id] || []).length, 0);
+  const top = Math.max(...cols.map(c => (cards[c.id] || []).length), 1);
+  return (
+    <div className="funnel">
+      {cols.map((col, i) => {
+        const count = (cards[col.id] || []).length;
+        const w = top === 0 ? 0 : pctNum(count, top);
+        return (
+          <div key={col.id} className="funnel-row">
+            <div className="funnel-label">{col.label}</div>
+            <div className="funnel-track">
+              <div className="funnel-fill" style={{width: w + '%', background: col.bg}}>
+                {count > 0 && <span className="funnel-count">{count}</span>}
+              </div>
+            </div>
+            <div className="funnel-pct">{i === 0 ? '—' : pct(count, (cards[cols[0].id] || []).length)}</div>
+          </div>
+        );
+      })}
+      {total === 0 && <div className="empty" style={{padding:'16px 0'}}>No data yet — add cards in Develop</div>}
+    </div>
+  );
+}
+
+function JobReport({ data }) {
+  const { kanban = {}, networkContacts = [], activityReport = {} } = data;
+  const jobCards = kanban.jobCards || {};
+  const counts = JOB_COLS.map(c => ({ ...c, n: (jobCards[c.id] || []).length }));
+  const totalTracked = counts.reduce((s, c) => s + c.n, 0);
+  const applied = counts.find(c => c.id === 'applied')?.n || 0;
+  const screens  = counts.find(c => c.id === 'screen')?.n || 0;
+  const interviews = counts.find(c => c.id === 'interview')?.n || 0;
+  const offers = counts.find(c => c.id === 'offer')?.n || 0;
+
+  const convRate = pctNum(offers, Math.max(applied, 1));
+
+  // Activity log
+  const manual = activityReport?.manual || [];
+
+  return (
+    <div>
+      <div className="section">
+        <div className="section-title">Pipeline overview</div>
+        <div className="grid-4" style={{marginBottom: 20}}>
+          {[
+            { v: totalTracked, l: 'Total tracked', s: 'across all stages' },
+            { v: applied,      l: 'Exposed',        s: 'applications sent' },
+            { v: interviews,   l: 'In the Fixer',   s: 'active interviews' },
+            { v: offers,       l: 'Final Print',    s: 'offers received' },
+          ].map(s => (
+            <div key={s.l} className="card">
+              <div className="stat-val">{s.v}</div>
+              <div className="stat-lbl">{s.l}</div>
+              <div className="stat-sub">{s.s}</div>
+            </div>
+          ))}
+        </div>
+        <div className="card">
+          <FunnelChart cols={JOB_COLS} cards={jobCards} />
+        </div>
+      </div>
+
+      <div className="section">
+        <div className="section-title">Conversion rates</div>
+        <div className="grid-2">
+          <div className="card">
+            {[
+              { l: 'Watching → Applied', v: pct(applied, counts.find(c=>c.id==='watching')?.n||0) },
+              { l: 'Applied → Screen',   v: pct(screens, applied) },
+              { l: 'Screen → Interview', v: pct(interviews, screens) },
+              { l: 'Interview → Offer',  v: pct(offers, interviews) },
+              { l: 'Overall (App → Offer)', v: pct(offers, applied) },
+            ].map(r => (
+              <div key={r.l} className="rate-row">
+                <span className="rate-label">{r.l}</span>
+                <span className={`rate-val ${r.v !== '—' && parseInt(r.v) >= 20 ? 'green' : ''}`}>{r.v}</span>
+              </div>
+            ))}
+          </div>
+          <div className="card" style={{display:'flex', flexDirection:'column', gap:16}}>
+            <div style={{display:'flex', gap:16, alignItems:'center'}}>
+              <Ring value={pctNum(interviews, Math.max(applied,1))} color="#8B2BBE" />
+              <div>
+                <div style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--text)'}}>App → Interview rate</div>
+                <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', marginTop:3}}>Industry avg ~10–15%</div>
+              </div>
+            </div>
+            <div style={{display:'flex', gap:16, alignItems:'center'}}>
+              <Ring value={pctNum(offers, Math.max(applied,1))} color="#4ADE80" />
+              <div>
+                <div style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--text)'}}>App → Offer rate</div>
+                <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', marginTop:3}}>Industry avg ~2–5%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="section">
+        <div className="section-title">Network</div>
+        <div className="grid-3">
+          <div className="card">
+            <div className="stat-val">{networkContacts.length}</div>
+            <div className="stat-lbl">Contacts tracked</div>
+            <div className="stat-sub">in Contact Sheet</div>
+          </div>
+          <div className="card">
+            <div className="stat-val">{[...new Set(networkContacts.map(c => c.company).filter(Boolean))].length}</div>
+            <div className="stat-lbl">Companies covered</div>
+            <div className="stat-sub">unique employers</div>
+          </div>
+          <div className="card">
+            <div className="stat-val">{networkContacts.filter(c => c.linkedin).length}</div>
+            <div className="stat-lbl">LinkedIn verified</div>
+            <div className="stat-sub">warm path ready</div>
+          </div>
+        </div>
+      </div>
+
+      {manual.length > 0 && (
+        <div className="section">
+          <div className="section-title">Activity log</div>
+          <div className="card">
+            <div className="activity-list">
+              {manual.slice().reverse().slice(0, 10).map((a, i) => (
+                <div key={a.id || i} className="activity-item">
+                  <div className="activity-dot" />
+                  <div>
+                    <div className="activity-text">{a.note || a.type}</div>
+                    <div className="activity-meta">{a.date || ''}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CRMReport({ data }) {
+  const { kanban = {}, networkContacts = [] } = data;
+  const smbCards = kanban.smbCards || {};
+  const counts = SMB_COLS.map(c => ({ ...c, n: (smbCards[c.id] || []).length }));
+  const total = counts.reduce((s, c) => s + c.n, 0);
+  const spotted = counts.find(c => c.id === 'prospect')?.n || 0;
+  const framed = counts.find(c => c.id === 'outreach')?.n || 0;
+  const meetings = counts.find(c => c.id === 'meeting')?.n || 0;
+  const proposals = counts.find(c => c.id === 'proposal')?.n || 0;
+  const won = counts.find(c => c.id === 'won')?.n || 0;
+
+  return (
+    <div>
+      <div className="section">
+        <div className="section-title">SMB pipeline overview</div>
+        <div className="grid-4" style={{marginBottom:20}}>
+          {[
+            { v: total,     l: 'Total prospects', s: 'in pipeline' },
+            { v: spotted,   l: 'Spotted',          s: 'identified targets' },
+            { v: meetings,  l: 'Developing',       s: 'active meetings' },
+            { v: won,       l: 'Delivered',        s: 'engagements won' },
+          ].map(s => (
+            <div key={s.l} className="card">
+              <div className="stat-val">{s.v}</div>
+              <div className="stat-lbl">{s.l}</div>
+              <div className="stat-sub">{s.s}</div>
+            </div>
+          ))}
+        </div>
+        <div className="card">
+          <FunnelChart cols={SMB_COLS} cards={smbCards} />
+        </div>
+      </div>
+
+      <div className="section">
+        <div className="section-title">Conversion rates</div>
+        <div className="card">
+          {[
+            { l: 'Spotted → Framed',       v: pct(framed, spotted) },
+            { l: 'Framed → Meeting',        v: pct(meetings, framed) },
+            { l: 'Meeting → Proposal',      v: pct(proposals, meetings) },
+            { l: 'Proposal → Won',          v: pct(won, proposals) },
+            { l: 'Overall (Spotted → Won)', v: pct(won, spotted) },
+          ].map(r => (
+            <div key={r.l} className="rate-row">
+              <span className="rate-label">{r.l}</span>
+              <span className={`rate-val ${r.v !== '—' && parseInt(r.v) >= 20 ? 'green' : ''}`}>{r.v}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {proposals > 0 || won > 0 ? (
+        <div className="section">
+          <div className="section-title">Pipeline health</div>
+          <div className="grid-3">
+            <div className="card">
+              <div style={{display:'flex', gap:14, alignItems:'center'}}>
+                <Ring value={pctNum(meetings, Math.max(spotted,1))} color="#8B2BBE" />
+                <div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--text)'}}>Engagement rate</div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', marginTop:3}}>Spotted → meeting</div>
+                </div>
+              </div>
+            </div>
+            <div className="card">
+              <div style={{display:'flex', gap:14, alignItems:'center'}}>
+                <Ring value={pctNum(proposals, Math.max(meetings,1))} color="#D01878" />
+                <div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--text)'}}>Proposal rate</div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', marginTop:3}}>Meeting → proposal</div>
+                </div>
+              </div>
+            </div>
+            <div className="card">
+              <div style={{display:'flex', gap:14, alignItems:'center'}}>
+                <Ring value={pctNum(won, Math.max(proposals,1))} color="#4ADE80" />
+                <div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--text)'}}>Win rate</div>
+                  <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', marginTop:3}}>Proposal → won</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function App() {
+  const [tab, setTab] = useState('jobs');
+  const [data, setData] = useState({});
+  const [ts, setTs] = useState(null);
+
+  function refresh() {
+    const d = load() || {};
+    setData(d);
+    setTs(new Date().toLocaleTimeString());
+  }
+
+  useEffect(() => { refresh(); }, []);
+
+  const hasData = Object.keys(data).length > 0;
+
+  return (
+    <div className="layout">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="sidebar-bar" />
+        <div className="sidebar-logo">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="14" stroke="#C9A84C" strokeWidth="1.2" opacity=".4"/>
+            <circle cx="16" cy="16" r="7"  stroke="#C9A84C" strokeWidth="1.4" opacity=".8"/>
+            {[0,60,120,180,240,300].map(a => {
+              const r=a*Math.PI/180, x1=16+10*Math.cos(r), y1=16+10*Math.sin(r), x2=16+14*Math.cos(r), y2=16+14*Math.sin(r);
+              return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#C9A84C" strokeWidth="1.2" opacity=".5"/>;
+            })}
+          </svg>
+          <div>
+            <span className="logo-text">Aperture</span>
+            <span className="logo-sub">Career Intelligence</span>
+          </div>
+        </div>
+        <div className="nav-section">
+          <div className="nav-label">Navigate</div>
+          {[
+            { icon: '⟡', label: 'Shoot',         href: 'career-builder.html' },
+            { icon: '◫', label: 'Develop',        href: 'career-builder.html#develop' },
+            { icon: '◉', label: 'Contact Sheet',  href: 'career-builder.html#contacts' },
+            { icon: '◈', label: 'Loupe',          href: 'career-builder.html#research' },
+            { icon: '◧', label: 'Field Work',     href: 'career-builder.html#smb' },
+            { icon: '◦', label: 'Reach',          href: 'career-builder.html#reach' },
+            { icon: '◫', label: 'Light Table',    href: 'career-builder.html#light' },
+          ].map(n => (
+            <a key={n.label} href={n.href} style={{textDecoration:'none'}}>
+              <button className="nav-btn">
+                <span className="nav-icon">{n.icon}</span>{n.label}
+              </button>
+            </a>
+          ))}
+          <div className="nav-label" style={{marginTop:8}}>Reports</div>
+          <button className="nav-btn active">
+            <span className="nav-icon">◈</span>Report
+          </button>
+          <a href="company-fit.html" style={{textDecoration:'none'}}>
+            <button className="nav-btn">
+              <span className="nav-icon">◎</span>Company Fit
+            </button>
+          </a>
+          <a href="kpi.html" style={{textDecoration:'none'}}>
+            <button className="nav-btn">
+              <span className="nav-icon">◌</span>KPI
+            </button>
+          </a>
+        </div>
+      </div>
+
+      {/* Main */}
+      <div className="main">
+        <div className="main-inner">
+          <div className="page-header" style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start'}}>
+            <div>
+              <div className="page-title">Report</div>
+              <div className="page-sub">Pipeline · Conversion · Activity</div>
+              {ts && <div className="page-meta">Last refreshed {ts}</div>}
+            </div>
+            <button className="refresh-btn" onClick={refresh}>↻ Refresh</button>
+          </div>
+
+          {!hasData ? (
+            <div className="empty">
+              <div className="empty-icon">◈</div>
+              No data found. Open Career Aperture and add some cards to your pipeline.
+            </div>
+          ) : (
+            <>
+              <div className="tabs">
+                <button className={`tab ${tab === 'jobs' ? 'active' : ''}`} onClick={() => setTab('jobs')}>Job Search</button>
+                <button className={`tab ${tab === 'crm' ? 'active' : ''}`} onClick={() => setTab('crm')}>Business CRM</button>
+              </div>
+              {tab === 'jobs' ? <JobReport data={data} /> : <CRMReport data={data} />}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

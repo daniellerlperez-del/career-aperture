@@ -1,11 +1,27 @@
 <!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║  CAREER APERTURE — PRIVACY GUARDRAILS                                   ║
+  ║  This file lives in a PUBLIC GitHub repo. Before editing, confirm:      ║
+  ║                                                                          ║
+  ║  ✗ NO dollar amounts (severance, salary, settlement, net pay)           ║
+  ║  ✗ NO employer contact info (HR emails, attorney names, case numbers)   ║
+  ║  ✗ NO legal dates (DocuSign dates, filing deadlines, court dates)       ║
+  ║  ✗ NO specific financial accounts or routing details                    ║
+  ║  ✗ NO ADA / accommodation / medical detail                              ║
+  ║                                                                          ║
+  ║  Layer 2/3 data belongs in HomeFlow OS canonical files only.            ║
+  ║  Watch dates load from localStorage key: aperture_watch_dates           ║
+  ║  Run: grep -i "severance|salary|hrets|DocuSign|63,0|44,1" before push  ║
+  ╚══════════════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Builder — DP</title>
+  <title>Career Aperture — DP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -14,23 +30,24 @@
     html, body { height: 100%; }
 
     :root {
-      --bg:          #0C0C12;
-      --bg-2:        #14102A;
-      --bg-card:     #18142C;
-      --border:      rgba(240,238,248,.09);
-      --border-gold: rgba(240,168,32,.22);
-      --text:        #F0EEF8;
-      --muted:       rgba(240,238,248,.55);
-      --muted-2:     rgba(240,238,248,.30);
-      --accent:      #F0A820;
-      --accent-dim:  rgba(240,168,32,.10);
-      --accent-bdr:  rgba(240,168,32,.28);
+      --bg:          #09080A;
+      --bg-2:        #100F0C;
+      --bg-card:     #16140E;
+      --border:      rgba(245,240,232,.08);
+      --border-gold: rgba(201,168,76,.24);
+      --text:        #EDE5D5;
+      --muted:       rgba(237,229,213,.55);
+      --muted-2:     rgba(237,229,213,.32);
+      --accent:      #C9A84C;
+      --accent-dim:  rgba(201,168,76,.10);
+      --accent-bdr:  rgba(201,168,76,.30);
       --violet:      #3D1A88;
       --magenta:     #8B2BBE;
       --crimson:     #D01878;
-      --ember:       #E86020;
-      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#F0A820);
+      --ember:       #C9A84C;
+      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
       --mono:        'JetBrains Mono', monospace;
+      --display:     'Cormorant Garamond', Georgia, serif;
     }
 
     body {
@@ -73,10 +90,10 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .logo-text { font-size: 13px; font-family: var(--mono); color: var(--text); line-height: 1.2; letter-spacing: .04em; }
-    .logo-sub { font-size: 10px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .logo-text { font-size: 14px; font-family: var(--display); color: var(--text); line-height: 1.15; letter-spacing: .28em; text-transform: uppercase; font-weight: 400; display: block; }
+    .logo-sub { font-size: 9px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .09em; text-transform: uppercase; margin-top: 4px; display: block; white-space: nowrap; }
     .nav-section { padding: 4px 10px; flex: 1; }
-    .nav-label { font-size: 9px; font-weight: 500; color: var(--muted-2); letter-spacing: .22em; text-transform: uppercase; padding: 12px 8px 5px; font-family: var(--mono); }
+    .nav-label { font-size: 8px; font-weight: 500; color: var(--muted-2); letter-spacing: .3em; text-transform: uppercase; padding: 14px 8px 5px; font-family: var(--mono); opacity: 0.7; }
     .nav-btn {
       display: flex;
       align-items: center;
@@ -116,17 +133,23 @@
     .settings-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
 
     /* Main */
-    .main { flex: 1; overflow-y: auto; padding: 32px 36px; background: var(--bg); }
+    .main { flex: 1; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; }
+    .main-content { flex: 1; overflow-y: auto; padding: 32px 36px; }
+    .pcl-footer { flex-shrink: 0; border-top: 1px solid var(--border); padding: 13px 36px; display: flex; align-items: center; justify-content: flex-end; }
+    .pcl-footer a { display: flex; align-items: center; gap: 10px; text-decoration: none; opacity: 0.32; transition: opacity 0.2s; }
+    .pcl-footer a:hover { opacity: 0.78; }
     .page-header { margin-bottom: 28px; }
     .page-title {
-      font-size: 22px;
-      font-weight: normal;
+      font-size: 28px;
+      font-weight: 300;
       font-style: italic;
       color: var(--text);
-      margin-bottom: 5px;
-      font-family: Georgia, serif;
+      margin-bottom: 6px;
+      font-family: var(--display);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
     }
-    .page-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); letter-spacing: .08em; }
+    .page-sub { font-size: 10px; color: var(--muted); font-family: var(--mono); letter-spacing: .08em; line-height: 1.6; }
 
     /* Cards */
     .card {
@@ -280,7 +303,7 @@
       padding: 22px 24px;
       margin-top: 12px;
     }
-    .dossier-name { font-size: 18px; font-weight: normal; font-style: italic; color: var(--text); font-family: Georgia, serif; }
+    .dossier-name { font-size: 22px; font-weight: 300; font-style: italic; color: var(--text); font-family: var(--display); letter-spacing: -0.01em; }
     .dossier-meta { font-size: 10px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono); letter-spacing: .08em; }
     .dossier-section { margin-bottom: 14px; }
     .dossier-section-title { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: .28em; color: var(--accent); margin-bottom: 6px; font-family: var(--mono); }
@@ -350,7 +373,7 @@
       background: var(--bg-card);
       z-index: 1;
     }
-    .modal-title { font-size: 16px; font-weight: normal; font-style: italic; color: var(--text); font-family: Georgia, serif; }
+    .modal-title { font-size: 20px; font-weight: 300; font-style: italic; color: var(--text); font-family: var(--display); letter-spacing: -0.01em; }
     .modal-body { padding: 20px 24px; }
     .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
     .close-btn { background: none; border: none; cursor: pointer; font-size: 20px; color: var(--muted); padding: 2px 6px; border-radius: 6px; line-height: 1; }
@@ -403,7 +426,7 @@
     .keyword-input-row input { font-family: Georgia, serif !important; }
 
     /* Select dropdown */
-    select option { background: #18142C; color: #F0EEF8; }
+    select option { background: #16140E; color: #EDE5D5; }
     select { -webkit-appearance: none; appearance: none; }
     .keyword-input-row { display: flex; gap: 8px; margin-bottom: 10px; }
     .keyword-input-row input { flex: 1; }
@@ -644,6 +667,31 @@
     .funnel-bar-track { height: 6px; background: rgba(240,238,248,.08); border-radius: 3px; overflow: hidden; }
     .funnel-bar-fill { height: 100%; border-radius: 3px; background: var(--gradient); transition: width 0.4s; }
 
+    /* ── Custom Cursor ─────────────────────────────────────────────────────── */
+    html,body,*{cursor:none!important}
+    #cur-outer{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:opacity .2s}
+    .cur-ring{transition:stroke .18s}
+    .cur-ring-inner{transition:opacity .18s;opacity:0}
+    .cur-center-dot{transition:fill .15s}
+    body.cur-hovering .cur-ring-inner{opacity:1}
+    body.cur-hovering .cur-center-dot{fill:#EDE5D5}
+    @keyframes cur-ticks-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes cur-bk-nw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,3.5px)}}
+    @keyframes cur-bk-ne{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,3.5px)}}
+    @keyframes cur-bk-sw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,-3.5px)}}
+    @keyframes cur-bk-se{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,-3.5px)}}
+    body.cur-thinking .cur-ring{stroke:#C9A84C!important}
+    body.cur-thinking .cur-ring-inner{opacity:1}
+    body.cur-thinking .cur-ticks-g{animation:cur-ticks-spin 2.2s linear infinite;transform-box:fill-box;transform-origin:center}
+    body.cur-thinking .cur-nw{animation:cur-bk-nw 1.1s ease-in-out infinite}
+    body.cur-thinking .cur-ne{animation:cur-bk-ne 1.1s ease-in-out infinite .13s}
+    body.cur-thinking .cur-sw{animation:cur-bk-sw 1.1s ease-in-out infinite .26s}
+    body.cur-thinking .cur-se{animation:cur-bk-se 1.1s ease-in-out infinite .39s}
+
+    /* ── Page shutter transition ─────────────────────────────────────────── */
+    .main{transition:opacity 0.07s ease-in-out}
+    .main.shutter{opacity:0}
+
     /* Flask logo */
     .logo-flask { height: 42px; width: auto; display: block; flex-shrink: 0; }
 
@@ -661,21 +709,114 @@
   </style>
 </head>
 <body>
+
+<!-- ── PREVIEW GATE (password from localStorage — never hardcoded) ─────────── -->
+<style id="gate-styles">
+  #aperture-gate { position:fixed; inset:0; background:rgba(9,8,10,.97); backdrop-filter:blur(8px); z-index:9999; display:none; align-items:center; justify-content:center; font-family:Georgia,'Times New Roman',serif; }
+  #aperture-gate-box { background:#100F0C; border:1px solid rgba(201,168,76,.22); border-radius:16px; padding:40px 44px; width:380px; box-shadow:0 24px 80px rgba(0,0,0,.7); text-align:center; }
+  #aperture-gate-iris { margin:0 auto 20px; width:48px; height:48px; }
+  #aperture-gate-name { font-family:'Cormorant Garamond',Georgia,serif; font-size:1.55rem; font-weight:300; color:#EDE5D5; letter-spacing:.22em; text-transform:uppercase; margin-bottom:4px; }
+  #aperture-gate-sub { font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(237,229,213,.35); letter-spacing:.3em; text-transform:uppercase; margin-bottom:28px; }
+  #aperture-gate-label { font-family:'JetBrains Mono',monospace; font-size:9px; color:rgba(201,168,76,.65); letter-spacing:.24em; text-transform:uppercase; margin-bottom:8px; }
+  #aperture-gate-input { width:100%; padding:11px 14px; background:rgba(245,240,232,.03); border:1px solid rgba(201,168,76,.2); border-radius:8px; color:#EDE5D5; font-family:'JetBrains Mono',monospace; font-size:14px; outline:none; text-align:center; letter-spacing:.12em; margin-bottom:12px; }
+  #aperture-gate-input:focus { border-color:rgba(201,168,76,.5); }
+  #aperture-gate-btn { width:100%; padding:11px; background:linear-gradient(90deg,#C9A84C,#a8883a); border:none; border-radius:8px; color:#09080A; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; cursor:pointer; transition:opacity .15s; }
+  #aperture-gate-btn:hover { opacity:.88; }
+  #aperture-gate-error { font-family:'JetBrains Mono',monospace; font-size:10px; color:#F87171; margin-top:10px; display:none; letter-spacing:.06em; }
+</style>
+<div id="aperture-gate">
+  <div id="aperture-gate-box">
+    <svg id="aperture-gate-iris" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="20" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+      <circle cx="24" cy="24" r="10" stroke="#C9A84C" stroke-width="1.5" opacity=".85"/>
+      <line x1="24" y1="4"  x2="24" y2="14" stroke="#C9A84C" stroke-width="1.2" opacity=".5"/>
+      <line x1="24" y1="34" x2="24" y2="44" stroke="#C9A84C" stroke-width="1.2" opacity=".5"/>
+      <line x1="4"  y1="24" x2="14" y2="24" stroke="#C9A84C" stroke-width="1.2" opacity=".5"/>
+      <line x1="34" y1="24" x2="44" y2="24" stroke="#C9A84C" stroke-width="1.2" opacity=".5"/>
+      <line x1="8.7"  y1="8.7"  x2="15.8" y2="15.8" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+      <line x1="32.2" y1="32.2" x2="39.3" y2="39.3" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+      <line x1="39.3" y1="8.7"  x2="32.2" y2="15.8" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+      <line x1="15.8" y1="32.2" x2="8.7"  y2="39.3" stroke="#C9A84C" stroke-width="1.2" opacity=".4"/>
+    </svg>
+    <div id="aperture-gate-name">Aperture</div>
+    <div id="aperture-gate-sub">Preview Access</div>
+    <div id="aperture-gate-label">Access password</div>
+    <input id="aperture-gate-input" type="password" placeholder="••••••••••" autocomplete="off" />
+    <button id="aperture-gate-btn">Enter</button>
+    <div id="aperture-gate-error">Incorrect password</div>
+  </div>
+</div>
+<script>
+(function() {
+  var SESSION_KEY = 'aperture_preview_ok';
+  var PASS_KEY    = 'aperture_gate_password';
+  // Skip gate on localhost or file:// (local dev)
+  var host = window.location.hostname;
+  var isLocal = (host === 'localhost' || host === '127.0.0.1' || host === '' || window.location.protocol === 'file:');
+  if (isLocal) return;
+  // Skip if already authenticated this session
+  if (sessionStorage.getItem(SESSION_KEY) === '1') return;
+  // Skip if no password has been configured
+  var storedPw = localStorage.getItem(PASS_KEY);
+  if (!storedPw) return; // no gate configured — open access
+  // Show gate
+  var gate = document.getElementById('aperture-gate');
+  gate.style.display = 'flex';
+  function attempt() {
+    var val = document.getElementById('aperture-gate-input').value;
+    if (val === storedPw) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      gate.style.display = 'none';
+      document.getElementById('aperture-gate-error').style.display = 'none';
+    } else {
+      document.getElementById('aperture-gate-error').style.display = 'block';
+      document.getElementById('aperture-gate-input').value = '';
+      document.getElementById('aperture-gate-input').focus();
+    }
+  }
+  document.getElementById('aperture-gate-btn').addEventListener('click', attempt);
+  document.getElementById('aperture-gate-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') attempt();
+    document.getElementById('aperture-gate-error').style.display = 'none';
+  });
+})();
+</script>
+<!-- ── END PREVIEW GATE ────────────────────────────────────────────────────── -->
+
 <div id="root"></div>
+<div id="cur-outer">
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <circle class="cur-ring" cx="18" cy="18" r="11.5" stroke="#EDE5D5" stroke-width="1"/>
+    <circle class="cur-ring-inner" cx="18" cy="18" r="7" stroke="#C9A84C" stroke-width="0.7" stroke-dasharray="2 2"/>
+    <g class="cur-ticks-g">
+      <line x1="18" y1="3.5" x2="18" y2="6.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+      <line x1="32.5" y1="18" x2="29.5" y2="18" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+      <line x1="18" y1="32.5" x2="18" y2="29.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+      <line x1="3.5" y1="18" x2="6.5" y2="18" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+    </g>
+    <path class="cur-nw" d="M2.5 2.5 L2.5 7.5 M2.5 2.5 L7.5 2.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path class="cur-ne" d="M33.5 2.5 L33.5 7.5 M33.5 2.5 L28.5 2.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path class="cur-sw" d="M2.5 33.5 L2.5 28.5 M2.5 33.5 L7.5 33.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path class="cur-se" d="M33.5 33.5 L33.5 28.5 M33.5 33.5 L28.5 33.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <circle class="cur-center-dot" cx="18" cy="18" r="2.5" fill="#C9A84C"/>
+  </svg>
+</div>
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'dp_cold_open_v1';
+const STORAGE_KEY = 'dp_aperture_v1';
 
+// NOTE: Profile defaults are intentionally blank — personal data is entered on first run
+// and stored in localStorage only. Never hardcode names, roles, or background here.
 const DEFAULTS = {
   profile: {
-    name: 'Danielle Perez',
-    role: 'Principal PM — Enterprise AI Platform',
-    targetDomain: 'Enterprise AI · Regulated Workflows · HCM / Workforce',
-    background: '8 years building at Kronos/UKG: led the enterprise AI capability platform from scratch, shipped 20 use cases into production, built governance architecture for regulated high-stakes workflows. Before that: banking, retail operations, insurance systems. I have worked every layer of the systems I build for.',
-    edge: 'I build AI platforms that work in regulated, high-stakes enterprise environments — not just demos. Governed multi-agent systems, human in the loop guardrails, compliance grade observability. 20+ enterprise AI use cases shipped. $15M+ ARR influenced. 4 first place innovation awards, with Microsoft, Google, and MongoDB as design partners. The governance layer is not an afterthought for me — it is the design.',
+    name: '',
+    role: '',
+    targetDomain: '',
+    background: '',
+    edge: '',
   },
   watchList: [
     { id: 1,  company: 'Salesforce',  tier: 1 },
@@ -702,6 +843,14 @@ const DEFAULTS = {
     { id: 22, company: 'HiBob',        tier: 2 },
   ],
   apiKey: '',
+  guardrails: [
+    'No hyphens',
+    'No em dashes',
+    'No abstract nouns (passionate, innovative, strategic, transformative, leverage, synergy)',
+    'Plain English — no corporate jargon',
+    'Active voice over passive',
+    'Specific over generic — use numbers and named examples',
+  ],
 };
 
 const JOB_ROLES = [
@@ -878,7 +1027,12 @@ function scoreEdge(text) {
   return Math.max(0, Math.min(100, score));
 }
 
-function buildSystemPrompt(profile) {
+function buildGuardrailsStr(guardrails) {
+  if (!guardrails || guardrails.length === 0) return '';
+  return `\n\nGUARANTEED GUARDRAILS — apply to every word of output:\n${guardrails.map(r => `• ${r}`).join('\n')}`;
+}
+
+function buildSystemPrompt(profile, guardrails) {
   return `You are a warm-path research assistant for ${profile.name}.
 
 ABOUT ${profile.name.split(' ')[0].toUpperCase()}:
@@ -903,7 +1057,7 @@ OUTPUT FORMAT: Respond with valid JSON only — no markdown fences, no prose out
   "researchNote": "any caveat about data freshness or uncertainty"
 }
 
-VOICE RULES: Plain English. No em dashes. No abstract nouns (no passionate / innovative / strategic). Hero-active verbs. Specific over generic.`;
+VOICE RULES: Plain English. No em dashes. No abstract nouns (no passionate / innovative / strategic). Hero-active verbs. Specific over generic.${buildGuardrailsStr(guardrails)}`;
 }
 
 function persist(data) {
@@ -912,7 +1066,7 @@ function persist(data) {
 
 function load() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('dp_cold_open_v1');
     if (!raw) return null;
     return JSON.parse(raw);
   } catch(e) { return null; }
@@ -1113,28 +1267,38 @@ function JobSearch() {
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoDetected, setGeoDetected] = useState(false);
 
+  function applyGeoCoords(latitude, longitude, openPanel) {
+    const nearby = GEO_CITIES
+      .filter(c => c.lat !== null)
+      .map(c => ({ ...c, dist: Math.round(haversineMi(latitude, longitude, c.lat, c.lon)) }))
+      .filter(c => c.dist <= 25)
+      .sort((a, b) => a.dist - b.dist);
+    const special = GEO_CITIES.filter(c => c.lat === null);
+    setNearbyLocations([...nearby, ...special]);
+    setGeoDetected(true);
+    if (selectedLocations.length === 0 && nearby.length > 0) {
+      setSelectedLocations([nearby[0].label]);
+    }
+    if (openPanel) setLocPanelOpen(true);
+  }
+
   function detectLocation() {
     if (!navigator.geolocation) return;
+    // Use cached coords — avoids re-prompting for permission every visit
+    const stored = load();
+    if (stored && stored.geoCoords) {
+      applyGeoCoords(stored.geoCoords.lat, stored.geoCoords.lon, true);
+      return;
+    }
     setGeoLoading(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
-        // Find all GEO_CITIES within 25mi, sorted by distance
-        const nearby = GEO_CITIES
-          .filter(c => c.lat !== null)
-          .map(c => ({ ...c, dist: Math.round(haversineMi(latitude, longitude, c.lat, c.lon)) }))
-          .filter(c => c.dist <= 25)
-          .sort((a, b) => a.dist - b.dist);
-        // Always include Remote + United States at end
-        const special = GEO_CITIES.filter(c => c.lat === null);
-        setNearbyLocations([...nearby, ...special]);
-        setGeoDetected(true);
-        // Auto-select the closest city if nothing selected yet
-        if (selectedLocations.length === 0 && nearby.length > 0) {
-          setSelectedLocations([nearby[0].label]);
-        }
+        // Cache coords so we never need to prompt again
+        const s = load() || {};
+        persist({ ...s, geoCoords: { lat: latitude, lon: longitude } });
+        applyGeoCoords(latitude, longitude, true);
         setGeoLoading(false);
-        setLocPanelOpen(true);
       },
       () => { setGeoLoading(false); setGeoDetected(false); },
       { timeout: 8000 }
@@ -1153,11 +1317,15 @@ function JobSearch() {
     );
   }
 
-  // Auto-detect on first load if nothing saved
+  // On load: apply cached coords silently, or prompt once on first visit
   React.useEffect(() => {
     const saved = load();
     const hasSaved = saved && saved.jobSearch && (saved.jobSearch.selectedLocations || saved.jobSearch.locationCity);
-    if (!hasSaved) detectLocation();
+    if (saved && saved.geoCoords) {
+      applyGeoCoords(saved.geoCoords.lat, saved.geoCoords.lon, false);
+    } else if (!hasSaved) {
+      detectLocation();
+    }
   }, []);
 
   // Close location panel on outside click
@@ -1275,6 +1443,13 @@ function JobSearch() {
   const url = locationUrls[0]?.linkedIn || '';
   const laddersUrl = locationUrls[0]?.ladders || '';
   const hasTerms = selectedRoles.length > 0 || mustKeywords.length > 0 || optKeywords.length > 0;
+  const broadKw = [...selectedRoles, ...mustKeywords, ...optKeywords].join(' ');
+  const QUICK_FIRE = hasTerms ? [
+    { name: 'Indeed',    url: `https://www.indeed.com/jobs?q=${encodeURIComponent(broadKw)}`,                    color: '#2557d6' },
+    { name: 'Glassdoor', url: `https://www.glassdoor.com/Job/jobs.htm?sc.keyword=${encodeURIComponent(broadKw)}`, color: '#0caa41' },
+    { name: 'BuiltIn',   url: `https://builtin.com/jobs?search=${encodeURIComponent(broadKw)}`,                   color: '#e0431b' },
+    { name: 'Wellfound', url: `https://wellfound.com/jobs?query=${encodeURIComponent(broadKw)}`,                  color: '#1a1a1a' },
+  ] : [];
 
   function saveCurrentSearch() {
     const name = saveSearchName.trim() || `Search ${new Date().toLocaleDateString()}`;
@@ -1327,8 +1502,8 @@ function JobSearch() {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">Job Search</div>
-        <div className="page-sub">Build a targeted LinkedIn job search URL. Select roles and domain keywords, then tune the filters.</div>
+        <div className="page-title">Shoot</div>
+        <div className="page-sub">Select your target roles and keywords to build a precision job search URL for LinkedIn and The Ladders.</div>
       </div>
 
       <div className="card">
@@ -1632,6 +1807,35 @@ function JobSearch() {
                   </div>
                 ))}
 
+                {/* ── Quick Fire — Indeed / Glassdoor / BuiltIn / Wellfound ── */}
+                {QUICK_FIRE.length > 0 && (
+                  <div style={{marginTop:10, paddingTop:10, borderTop:'1px solid var(--border)'}}>
+                    <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8}}>
+                      <div style={{fontSize:10, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.12em', color:'#8888a0', fontFamily:'var(--mono)'}}>Quick Fire</div>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => QUICK_FIRE.forEach(e => window.open(e.url, '_blank'))}
+                      >
+                        Shoot all 4 ↗
+                      </button>
+                    </div>
+                    <div style={{display:'flex', gap:6, flexWrap:'wrap'}}>
+                      {QUICK_FIRE.map(eng => (
+                        <a key={eng.name} href={eng.url} target="_blank" rel="noopener noreferrer" style={{textDecoration:'none'}}>
+                          <button style={{
+                            padding:'5px 14px', borderRadius:6, border:'none',
+                            background:eng.color, color:'white',
+                            fontSize:10, fontFamily:'var(--mono)', fontWeight:600,
+                            letterSpacing:'.06em', cursor:'pointer',
+                          }}>
+                            {eng.name} ↗
+                          </button>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {customEngines.map(eng => {
                   const cUrl = buildCustomUrl(eng.urlTemplate);
                   return (
@@ -1794,8 +1998,8 @@ function PeopleContacts({ watchList }) {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">People & Contacts</div>
-        <div className="page-sub">Your network, searchable by company. Add contacts, then filter by any target company.</div>
+        <div className="page-title">Contact Sheet</div>
+        <div className="page-sub">Your full network, organized by company. Add contacts and filter to find the warm path.</div>
       </div>
 
       {/* ── My Network ── */}
@@ -1940,7 +2144,7 @@ function PeopleContacts({ watchList }) {
 
 // ── Deep Research Mode ────────────────────────────────────────────────────────
 
-function DeepResearch({ profile, apiKey, onNeedApiKey }) {
+function DeepResearch({ profile, apiKey, guardrails, onNeedApiKey }) {
   const [name, setName] = useState('');
   const [company, setCompany] = useState('');
   const [loading, setLoading] = useState(false);
@@ -1961,7 +2165,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
         body: JSON.stringify({
           model: 'claude-sonnet-4-6',
           max_tokens: 1500,
-          system: buildSystemPrompt(profile),
+          system: buildSystemPrompt(profile, guardrails),
           messages: [{ role: 'user', content: `Research ${name.trim()}${company.trim() ? ` at ${company.trim()}` : ''}.` }],
         }),
       });
@@ -1989,8 +2193,8 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">Deep Research</div>
-        <div className="page-sub">Generate a warm-path dossier on any person — background, shared ground with your profile, and a suggested first message.</div>
+        <div className="page-title">Loupe</div>
+        <div className="page-sub">Research any contact. Get their background, where you share ground, and a suggested first message — ready to send.</div>
       </div>
 
       <div className="card">
@@ -2091,7 +2295,7 @@ function buildSMBGoogleURL(industry, painPoint) {
   return `https://www.google.com/search?q=${encodeURIComponent(q)}`;
 }
 
-function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
+function SMBProspecting({ profile, apiKey, guardrails, onNeedApiKey }) {
   const [industry, setIndustry] = useState('HR Tech');
   const [stage, setStage] = useState('Series A');
   const [role, setRole] = useState('Founder / CEO');
@@ -2100,6 +2304,7 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
   const [pitch, setPitch] = useState(null);
   const [error, setError] = useState('');
   const [toast, setToast] = useState(null);
+  const [companyName, setCompanyName] = useState('');
 
   const liURL = buildSMBLinkedInURL(industry, role);
   const googleURL = buildSMBGoogleURL(industry, painPoint);
@@ -2108,10 +2313,29 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
     navigator.clipboard.writeText(url).then(() => setToast('URL copied'));
   }
 
+  function addToBoard(boardType) {
+    const title = companyName.trim() || `${industry} · ${stage}`;
+    const sub = [role, painPoint].filter(Boolean).join(' · ');
+    const date = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric' });
+    const card = { id: Date.now(), title, sub, date };
+    const stored = load() || {};
+    const kanban = stored.kanban || { jobCards: {}, smbCards: {} };
+    if (boardType === 'smb') {
+      const col = (kanban.smbCards && kanban.smbCards.prospect) ? kanban.smbCards.prospect : [];
+      kanban.smbCards = { ...(kanban.smbCards || {}), prospect: [...col, card] };
+      setToast(`Added to SMB Pipeline → Spotted`);
+    } else {
+      const col = (kanban.jobCards && kanban.jobCards.watching) ? kanban.jobCards.watching : [];
+      kanban.jobCards = { ...(kanban.jobCards || {}), watching: [...col, card] };
+      setToast(`Added to Job Hunt → Light Table`);
+    }
+    persist({ ...stored, kanban });
+  }
+
   async function generatePitch() {
     setLoading(true); setPitch(null); setError('');
     try {
-      const systemMsg = `You are a positioning expert helping ${profile.name} pitch consulting services through Perez Creative Labs. Her background: ${profile.background} Her edge: ${profile.edge}. Write punchy, direct prose — no corporate language, no bullet points in the pitch itself.`;
+      const systemMsg = `You are a positioning expert helping ${profile.name} pitch consulting services through Perez Creative Labs. Her background: ${profile.background} Her edge: ${profile.edge}. Write punchy, direct prose — no corporate language, no bullet points in the pitch itself.${buildGuardrailsStr(guardrails)}`;
       const userMsg = `Generate a consulting pitch for ${industry} companies at ${stage} stage who need help with "${painPoint}". Target contact: ${role}. Output valid JSON only: { "hook": "one sharp sentence that names the problem they have", "value": "2 sentences on what PCL delivers and how", "proof": "one credibility statement using Danielle's track record", "ask": "specific, low-friction call to action" }`;
       const res = await fetch('/.netlify/functions/research', {
         method: 'POST',
@@ -2143,8 +2367,8 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">SMB Prospecting</div>
-        <div className="page-sub">Find consulting prospects for Perez Creative Labs — SMBs that need AI product strategy, governance, or platform design.</div>
+        <div className="page-title">Field Work</div>
+        <div className="page-sub">Find consulting clients for Perez Creative Labs. Prospect SMBs that need AI product strategy, governance, or platform design — and build the pitch.</div>
       </div>
 
       <div className="card">
@@ -2190,6 +2414,25 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
         <div className="card-title">Search URLs — {industry} · {stage} · {role}</div>
         <UrlRow label="LinkedIn People Search" url={liURL} />
         <UrlRow label="Google X-ray (Decision Makers)" url={googleURL} />
+      </div>
+
+      <div className="card">
+        <div className="card-title">Add to Develop Board</div>
+        <div style={{fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', marginBottom:10, letterSpacing:'.03em'}}>
+          Type a specific company name, or leave blank to use the current segment as the card title.
+        </div>
+        <div style={{display:'flex', gap:8, alignItems:'center', marginBottom:10}}>
+          <input
+            value={companyName}
+            onChange={e => setCompanyName(e.target.value)}
+            placeholder={`e.g. Acme Corp  ·  defaults to "${industry} · ${stage}"`}
+            style={{flex:1, padding:'8px 11px', fontSize:12, fontFamily:'var(--mono)', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:7, color:'var(--text)'}}
+          />
+        </div>
+        <div style={{display:'flex', gap:8, flexWrap:'wrap'}}>
+          <button className="btn btn-primary btn-sm" onClick={() => addToBoard('smb')}>+ SMB Pipeline → Spotted</button>
+          <button className="btn btn-secondary btn-sm" onClick={() => addToBoard('job')}>+ Job Hunt → Light Table</button>
+        </div>
       </div>
 
       <div className="card">
@@ -2240,7 +2483,7 @@ const NETWORK_GOALS = [
   'Partnership', 'Thought leadership', 'Community building',
 ];
 
-function Networking({ profile, apiKey, onNeedApiKey }) {
+function Networking({ profile, apiKey, guardrails, onNeedApiKey }) {
   const [context, setContext] = useState('Former colleague');
   const [platform, setPlatform] = useState('LinkedIn DM');
   const [goal, setGoal] = useState('Job referral');
@@ -2255,7 +2498,7 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
     if (!targetName.trim()) return;
     setLoading(true); setOutreach(null); setError('');
     try {
-      const systemMsg = `You are helping ${profile.name} with strategic networking. Her background: ${profile.background} Her edge: ${profile.edge}. Write in first person as Danielle. Be warm, direct, and human — not salesy. Match the length and tone to the platform.`;
+      const systemMsg = `You are helping ${profile.name} with strategic networking. Her background: ${profile.background} Her edge: ${profile.edge}. Write in first person as Danielle. Be warm, direct, and human — not salesy. Match the length and tone to the platform.${buildGuardrailsStr(guardrails)}`;
       const userMsg = `Write a networking outreach message to: ${targetName.trim()}${targetCompany.trim() ? ` at ${targetCompany.trim()}` : ''}. Relationship context: ${context}. Platform: ${platform}. Goal: ${goal}. Output valid JSON only: { "subject": "subject line if email, null if DM", "message": "the full message, natural and human, no placeholder brackets", "followUpNote": "internal note for Danielle — best timing to follow up and what to watch for" }`;
       const res = await fetch('/.netlify/functions/research', {
         method: 'POST',
@@ -2274,8 +2517,8 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">Networking</div>
-        <div className="page-sub">Generate warm, targeted outreach for any networking context — job referral, consulting lead, coffee chat, or community.</div>
+        <div className="page-title">Reach</div>
+        <div className="page-sub">Write your outreach. Generate a targeted message for any networking goal — referral, consulting lead, coffee chat, or community.</div>
       </div>
 
       <div className="card">
@@ -2354,14 +2597,164 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
 
 // ── Settings Modal ────────────────────────────────────────────────────────────
 
-function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, setApiKey, onClose }) {
+// ── Claims Tracker ────────────────────────────────────────────────────────────
+// Data sourced from Homeflow OS: 02_Domains/Legal/legal_source.md + career_source.md
+// Last Homeflow OS sync: 2026-05-18
+
+function ClaimsTracker() {
+  const TODAY = new Date('2026-05-30');
+  function daysTo(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    return Math.ceil((d - TODAY) / 86400000);
+  }
+
+  // GUARDRAIL: Never hardcode specific dollar amounts, employer contacts, attorney names,
+  // settlement figures, case numbers, or legal deadlines here. Load from localStorage only.
+  // See: CLAUDE.md § Privacy — Layer 2/3 data must not appear in source-tracked files.
+  const storedDates = (() => { try { return JSON.parse(localStorage.getItem('aperture_watch_dates') || '[]'); } catch { return []; } })();
+  const WATCH_DATES = storedDates.map(d => ({ ...d, daysOut: daysTo(d.date) }));
+
+  const RECURRING = [
+    'Weekly unemployment claim — keep current every week',
+    'Check MA DUA portal for any certification flags',
+    'PCL bank account setup — check status',
+  ];
+
+  function urgencyColor(d) {
+    if (d <= 6) return '#ef4444';
+    if (d <= 14) return '#f59e0b';
+    return 'var(--muted)';
+  }
+
+  return (
+    <div>
+      <div className="page-header">
+        <div className="page-title">Claims &amp; Benefits</div>
+        <div className="page-sub">
+          Separation watch list — financial deadlines active.
+          {' '}<span style={{fontFamily:'var(--mono)', fontSize:9, color:'var(--muted-2)', letterSpacing:'.06em'}}>
+            SOURCE: HOMEFLOW OS · legal_source.md · synced 2026-05-18
+          </span>
+        </div>
+      </div>
+
+      {/* Matter status */}
+      <div className="card">
+        <div className="card-title">Matter Status</div>
+        <div style={{display:'flex', alignItems:'flex-start', gap:14, flexWrap:'wrap'}}>
+          <span style={{padding:'5px 16px', background:'rgba(22,163,74,.12)', color:'#15803d', border:'1px solid rgba(22,163,74,.25)', borderRadius:20, fontSize:12, fontFamily:'var(--mono)', fontWeight:700, flexShrink:0}}>
+            ✅ CLOSED
+          </span>
+          <div style={{fontSize:13, color:'var(--muted)', fontFamily:'Georgia,serif', lineHeight:1.65}}>
+            Separation agreement signed and executed. Legal review complete — no claims outstanding.
+            Financial details tracked in HomeFlow OS · finance_source.md.
+          </div>
+        </div>
+      </div>
+
+      {/* Critical dates */}
+      <div className="card">
+        <div className="card-title">Watch Dates</div>
+        {WATCH_DATES.map(w => (
+          <div key={w.date} style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', padding:'12px 0', borderBottom:'1px solid var(--border)'}}>
+            <div style={{flex:1, paddingRight:20}}>
+              <div style={{fontFamily:'var(--mono)', fontSize:12, color:'var(--text)', fontWeight:600, marginBottom:3}}>{w.label}</div>
+              <div style={{fontSize:12, color:'var(--muted)', fontFamily:'Georgia,serif', lineHeight:1.55}}>{w.desc}</div>
+            </div>
+            <div style={{textAlign:'right', flexShrink:0}}>
+              <div style={{fontFamily:'var(--mono)', fontSize:12, fontWeight:700, color: urgencyColor(w.daysOut)}}>{w.date}</div>
+              <div style={{fontSize:10, fontFamily:'var(--mono)', color: urgencyColor(w.daysOut), marginTop:2}}>
+                {w.daysOut > 0 ? `${w.daysOut}d away` : w.daysOut === 0 ? 'TODAY' : 'PAST'}
+              </div>
+            </div>
+          </div>
+        ))}
+        <div style={{padding:'12px 0 0', fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', fontStyle:'italic'}}>
+          After 2026-06-12: matter fully settled if payment received. Update Homeflow OS legal_source.md.
+        </div>
+      </div>
+
+      {/* Recurring actions */}
+      <div className="card">
+        <div className="card-title">Recurring Actions</div>
+        {RECURRING.map((item, i) => (
+          <div key={i} className="toggle-row">
+            <span className="toggle-label">{item}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Homeflow OS link */}
+      <div className="card" style={{background:'rgba(61,26,136,.07)', border:'1px solid rgba(139,43,190,.18)'}}>
+        <div className="card-title" style={{color:'rgba(200,140,255,.85)'}}>Homeflow OS Sources</div>
+        <div style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:2}}>
+          <div>📂 <code>02_Domains/Legal/legal_source.md</code> — legal matter record, counsel, deadlines</div>
+          <div>📂 <code>02_Domains/Career/career_source.md</code> — separation context, multi-stream income</div>
+          <div>📂 <code>02_Domains/Budget_Finance/finance_source.md</code> — financial planning, insurance</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, setApiKey, guardrails, setGuardrails, onClose }) {
   const [tab, setTab] = useState('profile');
   const [localProfile, setLocalProfile] = useState({...profile});
   const [localKey, setLocalKey] = useState(apiKey);
   const [localWatch, setLocalWatch] = useState([...watchList]);
+  const [localRules, setLocalRules] = useState([...guardrails]);
+  const [newRule, setNewRule] = useState('');
   const [newCompany, setNewCompany] = useState('');
   const [newTier, setNewTier] = useState('2');
   const [toast, setToast] = useState(null);
+
+  // ── Watch Dates (Layer 2 — local only, never committed) ──
+  const [watchDates, setWatchDates] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('aperture_watch_dates') || '[]'); } catch { return []; }
+  });
+  const [newDate, setNewDate]   = useState('');
+  const [newLabel, setNewLabel] = useState('');
+  const [newDesc, setNewDesc]   = useState('');
+
+  function saveWatchDates(updated) {
+    setWatchDates(updated);
+    localStorage.setItem('aperture_watch_dates', JSON.stringify(updated));
+  }
+  function addWatchDate() {
+    if (!newDate || !newLabel.trim()) return;
+    saveWatchDates([...watchDates, { date: newDate, label: newLabel.trim(), desc: newDesc.trim() }]);
+    setNewDate(''); setNewLabel(''); setNewDesc('');
+  }
+  function removeWatchDate(i) { saveWatchDates(watchDates.filter((_, idx) => idx !== i)); }
+
+  // ── Export / Import ──
+  function exportData() {
+    const all = {};
+    ['dp_aperture_v1','dp_cold_open_v1','aperture_kpi','aperture_watch_dates','aperture_preview_ok'].forEach(k => {
+      const v = localStorage.getItem(k); if (v) all[k] = JSON.parse(v);
+    });
+    const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = `aperture-backup-${new Date().toISOString().slice(0,10)}.json`; a.click();
+    setToast('Data exported ✓');
+  }
+  function importData(e) {
+    const file = e.target.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const all = JSON.parse(ev.target.result);
+        Object.entries(all).forEach(([k, v]) => localStorage.setItem(k, JSON.stringify(v)));
+        setToast('Data imported — reload to see changes ✓');
+      } catch { setToast('Import failed — invalid file'); }
+    };
+    reader.readAsText(file);
+  }
+  function resetData() {
+    if (!window.confirm('This will permanently delete ALL Career Aperture data in this browser. Continue?')) return;
+    ['dp_aperture_v1','dp_cold_open_v1','aperture_kpi','aperture_watch_dates','aperture_preview_ok'].forEach(k => localStorage.removeItem(k));
+    setToast('All data cleared — reload to reset');
+  }
 
   const edgeScore = scoreEdge(localProfile.edge);
   const barColor = edgeScore >= 70 ? '#22C55E' : edgeScore >= 40 ? '#F59E0B' : '#EF4444';
@@ -2370,7 +2763,19 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
     setProfile(localProfile);
     setApiKey(localKey);
     setWatchList(localWatch);
+    setGuardrails(localRules);
     onClose();
+  }
+
+  function addRule() {
+    const r = newRule.trim();
+    if (!r || localRules.includes(r)) return;
+    setLocalRules([...localRules, r]);
+    setNewRule('');
+  }
+
+  function removeRule(i) {
+    setLocalRules(localRules.filter((_, idx) => idx !== i));
   }
 
   function addCompany() {
@@ -2402,10 +2807,13 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
-        <div style={{padding:'12px 24px 0', display:'flex', gap:4, borderBottom:'1px solid #1e1e2a'}}>
+        <div style={{padding:'12px 24px 0', display:'flex', gap:4, borderBottom:'1px solid #1e1e2a', flexWrap:'wrap'}}>
           <TabBtn id="profile" label="Profile" />
           <TabBtn id="watchlist" label="Watch List" />
+          <TabBtn id="guardrails" label="Guardrails" />
           <TabBtn id="api" label="API Key" />
+          <TabBtn id="deadlines" label="Deadlines" />
+          <TabBtn id="data" label="Data" />
         </div>
 
         <div className="modal-body">
@@ -2485,6 +2893,39 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
             </div>
           )}
 
+          {tab === 'guardrails' && (
+            <div>
+              <div style={{fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', marginBottom:14, letterSpacing:'.03em', lineHeight:1.6}}>
+                These rules are appended to every AI prompt in Loupe, Reach, and Field Work. Add anything you keep having to re-request.
+              </div>
+              <div style={{display:'flex', gap:8, marginBottom:12}}>
+                <input
+                  value={newRule}
+                  onChange={e => setNewRule(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addRule()}
+                  placeholder="e.g. No hyphens · No bullet points · Under 60 words"
+                  style={{flex:1, padding:'8px 11px', fontSize:12, fontFamily:'var(--mono)', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:7, color:'var(--text)'}}
+                />
+                <button className="btn btn-primary btn-sm" onClick={addRule} disabled={!newRule.trim()}>Add</button>
+              </div>
+              <div style={{display:'flex', flexDirection:'column', gap:5}}>
+                {localRules.map((rule, i) => (
+                  <div key={i} style={{
+                    display:'flex', alignItems:'center', justifyContent:'space-between',
+                    padding:'8px 12px', background:'var(--bg-2)',
+                    border:'1px solid var(--border)', borderRadius:7,
+                  }}>
+                    <span style={{fontSize:12, fontFamily:'var(--mono)', color:'var(--text)', letterSpacing:'.02em'}}>• {rule}</span>
+                    <button className="btn btn-sm btn-danger" onClick={() => removeRule(i)} style={{flexShrink:0, marginLeft:10}}>Remove</button>
+                  </div>
+                ))}
+                {localRules.length === 0 && (
+                  <div style={{fontSize:11, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)', padding:'12px 0'}}>No guardrails set — add rules above.</div>
+                )}
+              </div>
+            </div>
+          )}
+
           {tab === 'api' && (
             <div>
               <div className="field">
@@ -2495,6 +2936,99 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
                   Not required — AI features now run through a secure server proxy. Your key is never exposed in the browser.
                   This field is kept for local development only.
                 </div>
+              </div>
+              <div className="field" style={{marginTop:20, paddingTop:18, borderTop:'1px solid var(--border)'}}>
+                <label>Preview gate password <span style={{color:'var(--muted-2)',fontFamily:'var(--mono)',fontSize:9,letterSpacing:'normal',textTransform:'none'}}>(optional — leave blank for open access)</span></label>
+                <input type="password"
+                  defaultValue={(() => { try { return localStorage.getItem('aperture_gate_password') || ''; } catch { return ''; } })()}
+                  placeholder="Set a password to gate the deployed site…"
+                  onChange={e => {
+                    const v = e.target.value.trim();
+                    if (v) localStorage.setItem('aperture_gate_password', v);
+                    else localStorage.removeItem('aperture_gate_password');
+                  }}
+                />
+                <div className="api-key-note">
+                  Stored in your browser only — never synced, never in source. When set, anyone visiting the deployed URL must enter this password. On localhost or file://, the gate is always bypassed.
+                </div>
+              </div>
+            </div>
+          )}
+
+          {tab === 'deadlines' && (
+            <div>
+              <div style={{fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', marginBottom:14, letterSpacing:'.03em', lineHeight:1.65, background:'rgba(61,26,136,.08)', border:'1px solid rgba(139,43,190,.18)', borderRadius:8, padding:'10px 13px'}}>
+                🔒 Layer 2 — local only. These dates are stored in your browser only, never synced, never committed to git. Add financial deadlines, legal dates, and reminders here — not in the source file.
+              </div>
+              <div style={{display:'grid', gridTemplateColumns:'140px 1fr', gap:8, marginBottom:8}}>
+                <input type="date" value={newDate} onChange={e => setNewDate(e.target.value)}
+                  style={{padding:'8px 10px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:6, color:'var(--text)', fontFamily:'var(--mono)', fontSize:12}} />
+                <input value={newLabel} onChange={e => setNewLabel(e.target.value)}
+                  placeholder="Label (e.g. Payment due)"
+                  onKeyDown={e => e.key === 'Enter' && addWatchDate()}
+                  style={{padding:'8px 10px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:6, color:'var(--text)', fontFamily:'var(--mono)', fontSize:12}} />
+              </div>
+              <div style={{display:'flex', gap:8, marginBottom:14}}>
+                <input value={newDesc} onChange={e => setNewDesc(e.target.value)}
+                  placeholder="Description (optional — stays local)"
+                  onKeyDown={e => e.key === 'Enter' && addWatchDate()}
+                  style={{flex:1, padding:'8px 10px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:6, color:'var(--text)', fontFamily:'var(--mono)', fontSize:12}} />
+                <button className="btn btn-primary btn-sm" onClick={addWatchDate} disabled={!newDate || !newLabel.trim()}>Add</button>
+              </div>
+              <div style={{display:'flex', flexDirection:'column', gap:5}}>
+                {watchDates.length === 0 && (
+                  <div style={{fontSize:11, color:'var(--muted-2)', fontStyle:'italic', fontFamily:'var(--mono)', padding:'10px 0'}}>No deadlines added yet.</div>
+                )}
+                {watchDates.map((d, i) => (
+                  <div key={i} style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'9px 12px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:7}}>
+                    <div>
+                      <span style={{fontFamily:'var(--mono)', fontSize:11, color:'var(--accent)', marginRight:10}}>{d.date}</span>
+                      <span style={{fontSize:12, color:'var(--text)'}}>{d.label}</span>
+                      {d.desc && <div style={{fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', marginTop:2}}>{d.desc}</div>}
+                    </div>
+                    <button className="btn btn-sm btn-danger" onClick={() => removeWatchDate(i)} style={{flexShrink:0, marginLeft:12}}>Remove</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {tab === 'data' && (
+            <div>
+              <div style={{fontSize:11, color:'var(--muted-2)', fontFamily:'var(--mono)', marginBottom:18, letterSpacing:'.03em', lineHeight:1.65}}>
+                Export a full JSON backup of all Career Aperture data — pipeline cards, contacts, watch list, guardrails, deadlines. Import it on any new machine to restore your setup.
+              </div>
+              <div style={{display:'flex', flexDirection:'column', gap:12}}>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:8}}>
+                  <div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:12, color:'var(--text)', marginBottom:3}}>Export all data</div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)'}}>Downloads aperture-backup-YYYY-MM-DD.json</div>
+                  </div>
+                  <button className="btn btn-primary btn-sm" onClick={exportData}>Export JSON</button>
+                </div>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', background:'var(--bg-2)', border:'1px solid var(--border)', borderRadius:8}}>
+                  <div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:12, color:'var(--text)', marginBottom:3}}>Import from backup</div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)'}}>Merges all keys — reload page after import</div>
+                  </div>
+                  <label style={{cursor:'pointer'}}>
+                    <input type="file" accept=".json" onChange={importData} style={{display:'none'}} />
+                    <span className="btn btn-secondary btn-sm" style={{display:'inline-block'}}>Import JSON</span>
+                  </label>
+                </div>
+                <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', background:'rgba(239,68,68,.05)', border:'1px solid rgba(239,68,68,.15)', borderRadius:8, marginTop:8}}>
+                  <div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:12, color:'#F87171', marginBottom:3}}>Reset all data</div>
+                    <div style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)'}}>Permanently clears all localStorage keys — cannot be undone</div>
+                  </div>
+                  <button className="btn btn-sm btn-danger" onClick={resetData}>Clear all</button>
+                </div>
+              </div>
+              <div style={{marginTop:18, padding:'12px 14px', background:'rgba(61,26,136,.07)', border:'1px solid rgba(139,43,190,.15)', borderRadius:8, fontFamily:'var(--mono)', fontSize:10, color:'var(--muted-2)', lineHeight:1.7}}>
+                <strong style={{color:'rgba(200,140,255,.7)'}}>Privacy layers:</strong><br/>
+                Layer 1 (source-safe): profile, watch list companies, guardrails<br/>
+                Layer 2 (local only): deadlines tab, financial dates, HR contacts → never in source<br/>
+                Layer 3 (never here): ADA evidence, medical, attorney comms → HomeFlow OS only
               </div>
             </div>
           )}
@@ -2509,6 +3043,100 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
   );
 }
 
+// ── First-Run Setup Modal ─────────────────────────────────────────────────────
+
+function FirstRunModal({ onComplete }) {
+  const [name,   setName]   = useState('');
+  const [role,   setRole]   = useState('');
+  const [domain, setDomain] = useState('');
+  const [step,   setStep]   = useState(1); // 1=identity, 2=domain
+
+  function finish() {
+    if (!name.trim() || !role.trim()) return;
+    onComplete({
+      name:         name.trim(),
+      role:         role.trim(),
+      targetDomain: domain.trim(),
+      background:   '',
+      edge:         '',
+    });
+  }
+
+  const inputSty = { width:'100%', padding:'11px 14px', background:'rgba(245,240,232,.03)', border:'1px solid rgba(201,168,76,.2)', borderRadius:8, color:'#EDE5D5', fontFamily:'Georgia,serif', fontSize:15, outline:'none', marginBottom:14, transition:'border-color .15s' };
+  const labelSty = { display:'block', fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'rgba(201,168,76,.65)', letterSpacing:'.24em', textTransform:'uppercase', marginBottom:7 };
+
+  return (
+    <div style={{position:'fixed', inset:0, background:'rgba(9,8,10,.97)', backdropFilter:'blur(8px)', zIndex:9998, display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"Georgia,'Times New Roman',serif"}}>
+      <div style={{background:'#100F0C', border:'1px solid rgba(201,168,76,.22)', borderRadius:16, padding:'40px 44px', width:440, boxShadow:'0 24px 80px rgba(0,0,0,.7)'}}>
+
+        {/* Logo */}
+        <div style={{textAlign:'center', marginBottom:28}}>
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style={{display:'block', margin:'0 auto 14px'}}>
+            <circle cx="22" cy="22" r="19" stroke="#C9A84C" strokeWidth="1.2" opacity=".4"/>
+            <circle cx="22" cy="22" r="9"  stroke="#C9A84C" strokeWidth="1.5" opacity=".85"/>
+            {[0,45,90,135,180,225,270,315].map(a => {
+              const r=a*Math.PI/180, x1=22+12*Math.cos(r), y1=22+12*Math.sin(r), x2=22+19*Math.cos(r), y2=22+19*Math.sin(r);
+              return <line key={a} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#C9A84C" strokeWidth="1.1" opacity=".4"/>;
+            })}
+          </svg>
+          <div style={{fontFamily:"'Cormorant Garamond',Georgia,serif", fontSize:'1.5rem', fontWeight:300, color:'#EDE5D5', letterSpacing:'.22em', textTransform:'uppercase'}}>Aperture</div>
+          <div style={{fontFamily:"'JetBrains Mono',monospace", fontSize:9, color:'rgba(237,229,213,.35)', letterSpacing:'.3em', textTransform:'uppercase', marginTop:4}}>First-time setup</div>
+        </div>
+
+        <div style={{height:1, background:'linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent)', marginBottom:24}} />
+
+        {step === 1 && (
+          <div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace", fontSize:10, color:'rgba(237,229,213,.45)', letterSpacing:'.06em', marginBottom:18, lineHeight:1.65}}>
+              This data stays in your browser only — never synced, never committed to source.
+            </div>
+            <div>
+              <label style={labelSty}>Your name</label>
+              <input value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Danielle Perez"
+                style={inputSty} onFocus={e => e.target.style.borderColor='rgba(201,168,76,.5)'} onBlur={e => e.target.style.borderColor='rgba(201,168,76,.2)'}
+                onKeyDown={e => e.key === 'Enter' && name.trim() && setStep(2)} />
+            </div>
+            <div>
+              <label style={labelSty}>Target role</label>
+              <input value={role} onChange={e => setRole(e.target.value)} placeholder="e.g. Principal PM — Enterprise AI"
+                style={inputSty} onFocus={e => e.target.style.borderColor='rgba(201,168,76,.5)'} onBlur={e => e.target.style.borderColor='rgba(201,168,76,.2)'}
+                onKeyDown={e => e.key === 'Enter' && role.trim() && setStep(2)} />
+            </div>
+            <button onClick={() => name.trim() && role.trim() && setStep(2)} disabled={!name.trim() || !role.trim()}
+              style={{width:'100%', padding:11, background:'linear-gradient(90deg,#C9A84C,#a8883a)', border:'none', borderRadius:8, color:'#09080A', fontFamily:"'JetBrains Mono',monospace", fontSize:11, fontWeight:700, letterSpacing:'.14em', textTransform:'uppercase', cursor:'pointer', opacity:(!name.trim()||!role.trim())?0.4:1, transition:'opacity .15s'}}>
+              Continue →
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace", fontSize:10, color:'rgba(237,229,213,.45)', letterSpacing:'.06em', marginBottom:18, lineHeight:1.65}}>
+              What domain are you targeting? Used to focus AI research prompts.
+            </div>
+            <div>
+              <label style={labelSty}>Target domain <span style={{color:'rgba(237,229,213,.3)', textTransform:'none', letterSpacing:'normal'}}>( optional )</span></label>
+              <input value={domain} onChange={e => setDomain(e.target.value)} placeholder="e.g. Enterprise AI · Regulated Workflows"
+                style={inputSty} onFocus={e => e.target.style.borderColor='rgba(201,168,76,.5)'} onBlur={e => e.target.style.borderColor='rgba(201,168,76,.2)'}
+                onKeyDown={e => e.key === 'Enter' && finish()} autoFocus />
+            </div>
+            <div style={{fontFamily:"'JetBrains Mono',monospace", fontSize:10, color:'rgba(237,229,213,.35)', marginBottom:18}}>
+              You can add your full background and positioning edge in Settings → Profile at any time.
+            </div>
+            <div style={{display:'flex', gap:10}}>
+              <button onClick={() => setStep(1)} style={{flex:1, padding:11, background:'none', border:'1px solid rgba(201,168,76,.2)', borderRadius:8, color:'rgba(237,229,213,.55)', fontFamily:"'JetBrains Mono',monospace", fontSize:11, letterSpacing:'.1em', cursor:'pointer'}}>← Back</button>
+              <button onClick={finish}
+                style={{flex:2, padding:11, background:'linear-gradient(90deg,#C9A84C,#a8883a)', border:'none', borderRadius:8, color:'#09080A', fontFamily:"'JetBrains Mono',monospace", fontSize:11, fontWeight:700, letterSpacing:'.14em', textTransform:'uppercase', cursor:'pointer'}}>
+                Open Aperture
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Watch List Summary ────────────────────────────────────────────────────────
 
 function WatchListSummary({ watchList, onPeopleSearch }) {
@@ -2516,8 +3144,8 @@ function WatchListSummary({ watchList, onPeopleSearch }) {
   return (
     <div>
       <div className="page-header">
-        <div className="page-title">Watch List</div>
-        <div className="page-sub">Your target companies. Click any to jump to people search.</div>
+        <div className="page-title">Light Table</div>
+        <div className="page-sub">Your target companies by priority tier. Click any to jump straight to their people search.</div>
       </div>
       {tiers.map(t => {
         const companies = watchList.filter(w => w.tier === t);
@@ -2525,7 +3153,7 @@ function WatchListSummary({ watchList, onPeopleSearch }) {
         return (
           <div key={t} className="card section-gap">
             <div className="card-title">
-              Tier {t} — {t===1 ? 'Top Priority' : t===2 ? 'Strong Interest' : 'On Radar'}
+              Tier {t} — {t===1 ? 'Prime Focus' : t===2 ? 'In Frame' : 'On the Roll'}
             </div>
             <div className="chips-wrap">
               {companies.map(w => (
@@ -2545,71 +3173,62 @@ function WatchListSummary({ watchList, onPeopleSearch }) {
 
 // ── Flask SVG components ──────────────────────────────────────────────────────
 
-// PCL approved brand colors
-const PCL_W  = 'rgba(245,240,232,0.9)';   // warm white — flask stroke
-const PCL_G  = '#B08850';                  // teak gold — constellation
-const PCL_WS = 'rgba(245,240,232,0.92)';  // star white — secondary stars
+// Aperture brand colors
+const PCL_W  = 'rgba(237,229,213,0.9)';   // warm cream — iris stroke
+const PCL_G  = '#C9A84C';                  // antique gold — iris blades
+const PCL_WS = 'rgba(237,229,213,0.92)';  // cream — ring
+
+function PCLBadge() {
+  return (
+    <svg height="28" width="14" viewBox="36 -25 128 327" fill="none" style={{flexShrink:0}}>
+      <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82"
+        stroke={PCL_W} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="butt"/>
+      <rect x="82" y="75" width="36" height="11" rx="5" fill={PCL_W}/>
+      <path d="M57,237 Q100,241 143,237" stroke={PCL_G} strokeWidth="1.3" strokeLinecap="round" opacity="0.6"/>
+      <path d="M100,48 L101.8,53.2 L107,55 L101.8,56.8 L100,62 L98.2,56.8 L93,55 L98.2,53.2 Z" fill={PCL_G}/>
+      <line x1="100" y1="55" x2="78" y2="15" stroke={PCL_G} strokeWidth="1.2" strokeLinecap="round" opacity="0.85"/>
+      <circle cx="78" cy="15" r="2.5" fill={PCL_W} opacity="0.8"/>
+    </svg>
+  );
+}
 
 function LogoFlask() {
+  // Aperture iris mark — replaces PCL flask in sidebar
   return (
-    <svg className="logo-flask" viewBox="36 -25 128 327" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="pcl-logo-fc">
-          <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82 Z"/>
-        </clipPath>
-      </defs>
-      {/* Flask body — outline only, warm white */}
-      <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82"
-        stroke={PCL_W} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="butt"/>
-      {/* Neck cap */}
-      <rect x="82" y="75" width="36" height="11" rx="5" fill={PCL_W}/>
-      {/* Liquid fill — subtle gold tint */}
-      <rect x="44" y="237" width="112" height="62" fill="rgba(176,136,80,0.15)" clipPath="url(#pcl-logo-fc)"/>
-      {/* Liquid surface */}
-      <path d="M57,237 Q100,241 143,237" stroke={PCL_G} strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
-      {/* Bubbles — clipped to flask interior */}
-      <circle cx="86"  cy="283" r="3.5" stroke={PCL_W} strokeWidth="1.3" opacity="0.55" clipPath="url(#pcl-logo-fc)"/>
-      <circle cx="114" cy="276" r="2.0" stroke={PCL_W} strokeWidth="1.0" opacity="0.48" clipPath="url(#pcl-logo-fc)"/>
-      <circle cx="76"  cy="265" r="2.8" stroke={PCL_W} strokeWidth="1.1" opacity="0.45" clipPath="url(#pcl-logo-fc)"/>
-      <circle cx="118" cy="258" r="4.2" stroke={PCL_W} strokeWidth="1.3" opacity="0.52" clipPath="url(#pcl-logo-fc)"/>
-      {/* Upper bubbles (free) */}
-      <circle cx="100" cy="226" r="5.5" stroke={PCL_W} strokeWidth="1.4" opacity="0.45"/>
-      <circle cx="82"  cy="212" r="2.5" stroke={PCL_W} strokeWidth="1.1" opacity="0.38"/>
-      <circle cx="116" cy="204" r="4.0" stroke={PCL_W} strokeWidth="1.3" opacity="0.42"/>
-      {/* Constellation — solid left arm */}
-      <line x1="100" y1="55" x2="78"  y2="15"  stroke={PCL_G} strokeWidth="1.2" strokeLinecap="round" opacity="0.95"/>
-      <line x1="78"  y1="15" x2="68"  y2="-15" stroke={PCL_G} strokeWidth="1.2" strokeLinecap="round" opacity="0.95"/>
-      {/* Constellation — dashed right arm */}
-      <line x1="100" y1="55" x2="122" y2="17"  stroke={PCL_G} strokeWidth="1.3" strokeLinecap="round" strokeDasharray="1 4.2" opacity="0.5"/>
-      {/* Arcturus — gold 8-point star at (100,55) */}
-      <path d="M100,48 L101.8,53.2 L107,55 L101.8,56.8 L100,62 L98.2,56.8 L93,55 L98.2,53.2 Z" fill={PCL_G}/>
-      {/* Secondary stars */}
-      <circle cx="78" cy="15" r="2.8" fill={PCL_WS}/>
-      <path d="M122,13.5 L124.2,17 L122,20.5 L119.8,17 Z" fill={PCL_WS}/>
-      <circle cx="68" cy="-15" r="2.2" fill={PCL_WS}/>
+    <svg style={{height:42,width:42,display:'block',flexShrink:0}} viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Outer ring */}
+      <circle cx="21" cy="21" r="20" stroke={PCL_W} strokeWidth="1.2"/>
+      {/* Aperture blades (6-blade iris) */}
+      <g transform="translate(21,21)" opacity="0.72">
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(0)"/>
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(30)"/>
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(60)"/>
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(90)"/>
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(120)"/>
+        <ellipse rx="2.8" ry="13" fill={PCL_G} transform="rotate(150)"/>
+      </g>
+      {/* Inner ring */}
+      <circle cx="21" cy="21" r="8" stroke={PCL_G} strokeWidth="0.8"/>
+      {/* Pupil */}
+      <circle cx="21" cy="21" r="3.5" stroke={PCL_W} strokeWidth="0.8"/>
     </svg>
   );
 }
 
 function FlaskLoader({ text }) {
+  // Spinning aperture iris as loading indicator
   return (
     <div className="loading-row">
-      {/* viewBox shows flask body + neck + Arcturus — portrait mark */}
-      <svg className="flask-thinking" viewBox="36 45 128 262" fill="none"
-        xmlns="http://www.w3.org/2000/svg" style={{height:28,width:'auto',flexShrink:0}}>
-        {/* Flask body */}
-        <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82"
-          stroke={PCL_W} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="butt"/>
-        <rect x="82" y="75" width="36" height="11" rx="5" fill={PCL_W}/>
-        {/* Liquid fill */}
-        <rect x="44" y="237" width="112" height="62" fill="rgba(176,136,80,0.15)"/>
-        <path d="M57,237 Q100,241 143,237" stroke={PCL_G} strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
-        {/* Animated bubbles — rise from inside flask */}
-        <circle className="flask-bubble" cx="90"  cy="282" r="3.5" stroke={PCL_W} strokeWidth="1.3"/>
-        <circle className="flask-bubble" cx="112" cy="270" r="2.5" stroke={PCL_W} strokeWidth="1.2" style={{animationDelay:'0.35s'}}/>
-        <circle className="flask-bubble" cx="78"  cy="260" r="3.0" stroke={PCL_W} strokeWidth="1.1" style={{animationDelay:'0.7s'}}/>
-        {/* Arcturus — small gold anchor star just above neck */}
-        <path d="M100,48 L101.8,53.2 L107,55 L101.8,56.8 L100,62 L98.2,56.8 L93,55 L98.2,53.2 Z" fill={PCL_G} opacity="0.9"/>
+      <svg className="flask-thinking" viewBox="0 0 28 28" fill="none"
+        xmlns="http://www.w3.org/2000/svg" style={{height:24,width:24,flexShrink:0}}>
+        <circle cx="14" cy="14" r="13" stroke={PCL_W} strokeWidth="1"/>
+        <g transform="translate(14,14)" opacity="0.7">
+          <ellipse rx="2" ry="9" fill={PCL_G} transform="rotate(0)"/>
+          <ellipse rx="2" ry="9" fill={PCL_G} transform="rotate(60)"/>
+          <ellipse rx="2" ry="9" fill={PCL_G} transform="rotate(120)"/>
+        </g>
+        <circle cx="14" cy="14" r="5" stroke={PCL_G} strokeWidth="0.7"/>
+        <circle cx="14" cy="14" r="2.5" stroke={PCL_W} strokeWidth="0.7"/>
       </svg>
       {text && <span>{text}</span>}
     </div>
@@ -2830,6 +3449,8 @@ function NavIcon({ id, size = 14 }) {
       return <svg style={s} viewBox="0 0 14 14" {...p}><path d="M3 1h8a1 1 0 0 1 1 1v10.5l-5-3-5 3V2a1 1 0 0 1 1-1z"/></svg>;
     case 'board':
       return <svg style={s} viewBox="0 0 14 14" {...p}><rect x="1" y="1" width="3" height="9" rx="0.5"/><rect x="5.5" y="1" width="3" height="6" rx="0.5"/><rect x="10" y="1" width="3" height="11" rx="0.5"/></svg>;
+    case 'claims':
+      return <svg style={s} viewBox="0 0 14 14" {...p}><rect x="1.5" y="2" width="11" height="10" rx="1"/><line x1="4" y1="6" x2="10" y2="6"/><line x1="4" y1="8.5" x2="7.5" y2="8.5"/><line x1="4" y1="4" x2="10" y2="4"/></svg>;
     case 'settings':
       return <svg style={s} viewBox="0 0 14 14" {...p}><circle cx="7" cy="7" r="2"/><path d="M7 1.5v1.2M7 11.3v1.2M1.5 7h1.2M11.3 7h1.2M3.4 3.4l.85.85M9.75 9.75l.85.85M3.4 10.6l.85-.85M9.75 4.25l.85-.85"/></svg>;
     default:
@@ -2840,18 +3461,18 @@ function NavIcon({ id, size = 14 }) {
 // ── Kanban Board ──────────────────────────────────────────────────────────────
 
 const KANBAN_JOB_COLS = [
-  { id: 'watching',   label: 'Watching',   color: 'rgba(240,238,248,.12)' },
-  { id: 'applied',    label: 'Applied',    color: 'rgba(240,168,32,.18)' },
-  { id: 'screen',     label: 'Screen',     color: 'rgba(139,43,190,.22)' },
-  { id: 'interview',  label: 'Interview',  color: 'rgba(208,24,120,.22)' },
-  { id: 'offer',      label: 'Offer',      color: 'rgba(61,226,136,.20)' },
+  { id: 'watching',   label: 'Light Table',   color: 'rgba(245,240,232,.12)' },
+  { id: 'applied',    label: 'Exposed',       color: 'rgba(201,168,76,.18)'  },
+  { id: 'screen',     label: 'Developing',    color: 'rgba(139,43,190,.22)'  },
+  { id: 'interview',  label: 'In the Fixer',  color: 'rgba(208,24,120,.22)'  },
+  { id: 'offer',      label: 'Final Print',   color: 'rgba(61,226,136,.20)'  },
 ];
 const KANBAN_SMB_COLS = [
-  { id: 'prospect',   label: 'Prospect',   color: 'rgba(240,238,248,.12)' },
-  { id: 'outreach',   label: 'Outreach',   color: 'rgba(240,168,32,.18)' },
-  { id: 'meeting',    label: 'Meeting',    color: 'rgba(139,43,190,.22)' },
-  { id: 'proposal',   label: 'Proposal',   color: 'rgba(208,24,120,.22)' },
-  { id: 'won',        label: 'Won',        color: 'rgba(61,226,136,.20)' },
+  { id: 'prospect',   label: 'Spotted',    color: 'rgba(245,240,232,.12)' },
+  { id: 'outreach',   label: 'Framed',     color: 'rgba(201,168,76,.18)'  },
+  { id: 'meeting',    label: 'Developing', color: 'rgba(139,43,190,.22)'  },
+  { id: 'proposal',   label: 'Proof',      color: 'rgba(208,24,120,.22)'  },
+  { id: 'won',        label: 'Delivered',  color: 'rgba(61,226,136,.20)'  },
 ];
 
 function KanbanBoard() {
@@ -2920,21 +3541,21 @@ function KanbanBoard() {
     <div>
       {toast && <Toast msg={toast} onDone={() => setToast(null)} />}
       <div className="page-header">
-        <div className="page-title">Board</div>
-        <div className="page-sub">Track your pipeline — job applications and SMB prospecting in one place.</div>
+        <div className="page-title">Develop</div>
+        <div className="page-sub">Track your pipeline. Move applications and SMB prospects through each stage, from first contact to close.</div>
       </div>
 
       <div className="kanban-tabs">
-        <button className={`ktab ${activeTab === 'jobs' ? 'active' : ''}`} onClick={() => setActiveTab('jobs')}>Job Hunting</button>
-        <button className={`ktab ${activeTab === 'smb' ? 'active' : ''}`} onClick={() => setActiveTab('smb')}>SMB Clients</button>
-        <button className={`ktab ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Analytics</button>
+        <button className={`ktab ${activeTab === 'jobs' ? 'active' : ''}`} onClick={() => setActiveTab('jobs')}>Job Hunt</button>
+        <button className={`ktab ${activeTab === 'smb' ? 'active' : ''}`} onClick={() => setActiveTab('smb')}>SMB Pipeline</button>
+        <button className={`ktab ${activeTab === 'analytics' ? 'active' : ''}`} onClick={() => setActiveTab('analytics')}>Exposure Log</button>
       </div>
 
       {/* ── Analytics Tab ─────────────────────────────────────────── */}
       {activeTab === 'analytics' && (
         <div>
           <div style={{marginBottom:20}}>
-            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>Job Hunting Funnel</div>
+            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>Job Hunt — Exposure Log</div>
             <div className="analytics-grid">
               <div className="analytics-stat">
                 <div className="analytics-stat-val">{jobTotal}</div>
@@ -2955,7 +3576,7 @@ function KanbanBoard() {
             </div>
 
             <div className="card" style={{marginTop:0}}>
-              <div className="card-title">Conversion Funnel — Jobs</div>
+              <div className="card-title">Development Funnel — Jobs</div>
               {[
                 { label: 'Applied → Screen',     a: jobScreens,    b: jobApps,       pctVal: pct(jobScreens, jobApps) },
                 { label: 'Screen → Interview',   a: jobInterviews, b: jobScreens,    pctVal: pct(jobInterviews, jobScreens) },
@@ -2977,7 +3598,7 @@ function KanbanBoard() {
           </div>
 
           <div>
-            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>SMB Pipeline</div>
+            <div className="card-title" style={{fontSize:9, letterSpacing:'.28em', color:'var(--accent)', fontFamily:'var(--mono)', textTransform:'uppercase', marginBottom:14}}>SMB — Field Exposure Log</div>
             <div className="analytics-grid">
               <div className="analytics-stat">
                 <div className="analytics-stat-val">{smbTotal}</div>
@@ -2998,7 +3619,7 @@ function KanbanBoard() {
             </div>
 
             <div className="card" style={{marginTop:0}}>
-              <div className="card-title">Conversion Funnel — SMB</div>
+              <div className="card-title">Development Funnel — SMB</div>
               {[
                 { label: 'Prospect → Outreach',  a: smbOutreach, b: smbColCounts.find(c=>c.id==='prospect')?.count || 0,  pctVal: pct(smbOutreach, smbColCounts.find(c=>c.id==='prospect')?.count || 0) },
                 { label: 'Outreach → Meeting',   a: smbMeetings, b: smbOutreach,  pctVal: pct(smbMeetings, smbOutreach) },
@@ -3089,41 +3710,58 @@ function KanbanBoard() {
 function App() {
   const [mode, setMode] = useState('jobs');
   const [showSettings, setShowSettings] = useState(false);
+  const [shuttering, setShuttering] = useState(false);
+  const [showFirstRun, setShowFirstRun] = useState(false);
 
   // State loaded from localStorage
   const [profile, setProfile] = useState(DEFAULTS.profile);
   const [watchList, setWatchList] = useState(DEFAULTS.watchList);
   const [apiKey, setApiKey] = useState('');
+  const [guardrails, setGuardrails] = useState(DEFAULTS.guardrails);
 
-  // Hydrate from storage on mount
+  // Hydrate from storage on mount; show first-run if no saved data
   useEffect(() => {
     const saved = load();
     if (saved) {
-      if (saved.profile) setProfile({...DEFAULTS.profile, ...saved.profile});
-      if (saved.watchList) setWatchList(saved.watchList);
-      if (saved.apiKey) setApiKey(saved.apiKey);
+      if (saved.profile)    setProfile({...DEFAULTS.profile, ...saved.profile});
+      if (saved.watchList)  setWatchList(saved.watchList);
+      if (saved.apiKey)     setApiKey(saved.apiKey);
+      if (saved.guardrails) setGuardrails(saved.guardrails);
+    } else {
+      setShowFirstRun(true); // fresh install — show setup modal
     }
   }, []);
 
+  function handleFirstRunComplete(newProfile) {
+    setProfile(newProfile);
+    setShowFirstRun(false);
+  }
+
   // Persist on changes
   useEffect(() => {
-    persist({ profile, watchList, apiKey });
-  }, [profile, watchList, apiKey]);
+    persist({ profile, watchList, apiKey, guardrails });
+  }, [profile, watchList, apiKey, guardrails]);
+
+  function navigate(id) {
+    if (id === mode) return;
+    setShuttering(true);
+    setTimeout(() => { setMode(id); setShuttering(false); }, 100);
+  }
 
   function handlePeopleSearch(company) {
-    setMode('people');
-    // Small delay to let mode switch render, then we'd set company — handled in child
-    window.__coldOpenCompany = company;
+    setShuttering(true);
+    setTimeout(() => { setMode('people'); setShuttering(false); window.__coldOpenCompany = company; }, 100);
   }
 
   const nav = [
-    { id: 'jobs', label: 'Job Search' },
-    { id: 'board', label: 'Board' },
-    { id: 'people', label: 'People & Contacts' },
-    { id: 'research', label: 'Deep Research' },
-    { id: 'smb', label: 'SMB Prospecting' },
-    { id: 'networking', label: 'Networking' },
-    { id: 'watchlist', label: 'Watch List' },
+    { id: 'jobs',       label: 'Shoot'         },
+    { id: 'board',      label: 'Develop'       },
+    { id: 'people',     label: 'Contact Sheet' },
+    { id: 'research',   label: 'Loupe'         },
+    { id: 'smb',        label: 'Field Work'    },
+    { id: 'networking', label: 'Reach'         },
+    { id: 'watchlist',  label: 'Light Table'   },
+    { id: 'claims',     label: 'Claims'        },
   ];
 
   return (
@@ -3132,19 +3770,39 @@ function App() {
         <div className="sidebar-logo">
           <LogoFlask />
           <div>
-            <div className="logo-text">Career Builder</div>
-            <div className="logo-sub">{profile.name.split(' ')[0]}'s Job & Client CRM</div>
+            <div className="logo-text">Career</div>
+            <div className="logo-text">Aperture</div>
+            <div className="logo-sub">by Perez Creative Labs</div>
           </div>
         </div>
 
         <div className="nav-section">
-          <div className="nav-label">Modes</div>
+          <div className="nav-label">Darkroom</div>
           {nav.map(n => (
-            <button key={n.id} className={`nav-btn ${mode === n.id ? 'active' : ''}`} onClick={() => setMode(n.id)}>
+            <button key={n.id} className={`nav-btn ${mode === n.id ? 'active' : ''}`} onClick={() => navigate(n.id)}>
               <span className="nav-icon"><NavIcon id={n.id} /></span>
               {n.label}
             </button>
           ))}
+        </div>
+
+        <div className="nav-section" style={{flex:'none', paddingTop:0}}>
+          <div className="nav-label">Reports</div>
+          <a href="report.html" style={{textDecoration:'none'}}>
+            <button className="nav-btn">
+              <span className="nav-icon">◈</span>Report
+            </button>
+          </a>
+          <a href="company-fit.html" style={{textDecoration:'none'}}>
+            <button className="nav-btn">
+              <span className="nav-icon">◎</span>Company Fit
+            </button>
+          </a>
+          <a href="kpi.html" style={{textDecoration:'none'}}>
+            <button className="nav-btn">
+              <span className="nav-icon">◌</span>KPI
+            </button>
+          </a>
         </div>
 
         <div className="sidebar-footer">
@@ -3155,14 +3813,23 @@ function App() {
         </div>
       </aside>
 
-      <main className="main">
-        {mode === 'jobs' && <JobSearch />}
-        {mode === 'people' && <PeopleContacts watchList={watchList} />}
-        {mode === 'research' && <DeepResearch profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
-        {mode === 'smb' && <SMBProspecting profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
-        {mode === 'networking' && <Networking profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
-        {mode === 'board' && <KanbanBoard />}
-        {mode === 'watchlist' && <WatchListSummary watchList={watchList} onPeopleSearch={handlePeopleSearch} />}
+      <main className={"main" + (shuttering ? " shutter" : "")}>
+        <div className="main-content">
+          {mode === 'jobs' && <JobSearch />}
+          {mode === 'people' && <PeopleContacts watchList={watchList} />}
+          {mode === 'research' && <DeepResearch profile={profile} apiKey={apiKey} guardrails={guardrails} onNeedApiKey={() => setShowSettings(true)} />}
+          {mode === 'smb' && <SMBProspecting profile={profile} apiKey={apiKey} guardrails={guardrails} onNeedApiKey={() => setShowSettings(true)} />}
+          {mode === 'networking' && <Networking profile={profile} apiKey={apiKey} guardrails={guardrails} onNeedApiKey={() => setShowSettings(true)} />}
+          {mode === 'board' && <KanbanBoard />}
+          {mode === 'watchlist' && <WatchListSummary watchList={watchList} onPeopleSearch={handlePeopleSearch} />}
+          {mode === 'claims' && <ClaimsTracker />}
+        </div>
+        <div className="pcl-footer">
+          <a href="https://perezcreativelabs.com" target="_blank" rel="noopener noreferrer">
+            <PCLBadge />
+            <span style={{fontFamily:'var(--mono)', fontSize:10, color:'var(--muted)', letterSpacing:'.18em', textTransform:'uppercase'}}>Perez Creative Labs</span>
+          </a>
+        </div>
       </main>
 
       {showSettings && (
@@ -3170,14 +3837,63 @@ function App() {
           profile={profile} setProfile={setProfile}
           watchList={watchList} setWatchList={setWatchList}
           apiKey={apiKey} setApiKey={setApiKey}
+          guardrails={guardrails} setGuardrails={setGuardrails}
           onClose={() => setShowSettings(false)}
         />
+      )}
+      {showFirstRun && (
+        <FirstRunModal onComplete={handleFirstRunComplete} />
       )}
     </div>
   );
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+<script>
+(function(){
+  var outer = document.getElementById('cur-outer');
+  if (!outer) return;
+  var mx = window.innerWidth/2, my = window.innerHeight/2;
+  var thinking = false, thinkT = null;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    outer.style.left = mx + 'px'; outer.style.top = my + 'px';
+  });
+
+  document.addEventListener('mouseover', function(e) {
+    var active = e.target.closest('button, a, input, select, textarea, label, [role="button"]');
+    document.body.classList.toggle('cur-hovering', !!active);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('button, a')) return;
+    document.body.classList.add('cur-thinking');
+    thinking = true;
+    if (thinkT) clearTimeout(thinkT);
+    thinkT = setTimeout(function() {
+      if (!document.querySelector('.loading-row')) {
+        document.body.classList.remove('cur-thinking');
+        thinking = false;
+      }
+    }, 500);
+  });
+
+  var obs = new MutationObserver(function() {
+    if (thinking && !document.querySelector('.loading-row')) {
+      if (thinkT) clearTimeout(thinkT);
+      thinkT = setTimeout(function() {
+        document.body.classList.remove('cur-thinking');
+        thinking = false;
+      }, 380);
+    }
+  });
+  obs.observe(document.getElementById('root') || document.body, {childList:true, subtree:true});
+
+  document.addEventListener('mouseleave', function() { outer.style.opacity = '0'; });
+  document.addEventListener('mouseenter', function() { outer.style.opacity = '1'; });
+})();
 </script>
 </body>
 </html>
