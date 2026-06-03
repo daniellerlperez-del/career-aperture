@@ -21,7 +21,7 @@
       --border-gold: rgba(240,168,32,.22);
       --text:        #F0EEF8;
       --muted:       rgba(240,238,248,.65);
-      --muted-2:     rgba(240,238,248,.38);
+      --muted-2:     rgba(240,238,248,.55);
       --accent:      #F0A820;
       --accent-dim:  rgba(240,168,32,.10);
       --accent-bdr:  rgba(240,168,32,.28);
@@ -731,6 +731,19 @@
     }
     .flask-thinking { animation: flask-glow 1.2s ease-in-out infinite; }
     .flask-bubble { animation: bubble-rise 1s ease-in infinite; }
+
+    /* ── FOCUS ── */
+    :focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1716,7 +1729,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
             <div style={{display:'flex', alignItems:'center', gap:10}}>
               <div className="card-title" style={{marginBottom:0}}>Top 5 Matches</div>
               {topJobsLoading && (
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite', flexShrink:0}}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--muted-2)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite', flexShrink:0}} aria-hidden="true" focusable="false">
                   <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
                 </svg>
               )}
@@ -2165,7 +2178,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
 
           {searching && (
             <div style={{display:'flex', alignItems:'center', gap:10, padding:'18px 0', color:'var(--muted-2)', fontFamily:'var(--mono)', fontSize:12}}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite'}}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{animation:'spin 1s linear infinite'}} aria-hidden="true" focusable="false">
                 <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
               </svg>
               Curating matches…
@@ -3521,7 +3534,7 @@ const PCL_WS = 'rgba(245,240,232,0.92)';  // star white — secondary stars
 
 function LogoFlask() {
   return (
-    <svg className="logo-flask" viewBox="36 -25 128 327" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="logo-flask" viewBox="36 -25 128 327" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
       <defs>
         <clipPath id="pcl-logo-fc">
           <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82 Z"/>
@@ -3565,7 +3578,7 @@ function FlaskLoader({ text }) {
     <div className="loading-row">
       {/* viewBox shows flask body + neck + Arcturus — portrait mark */}
       <svg className="flask-thinking" viewBox="36 45 128 262" fill="none"
-        xmlns="http://www.w3.org/2000/svg" style={{height:28,width:'auto',flexShrink:0}}>
+        xmlns="http://www.w3.org/2000/svg" style={{height:28,width:'auto',flexShrink:0}} aria-hidden="true" focusable="false">
         {/* Flask body */}
         <path d="M114,82 L114,130 Q120,138 120,150 L154,278 Q154,294 138,294 L62,294 Q46,294 46,278 L80,150 Q80,138 86,130 L86,82"
           stroke={PCL_W} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="butt"/>
