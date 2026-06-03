@@ -804,8 +804,10 @@
 </div>
 <script>
 (function() {
-  var isLocal = ['localhost', '127.0.0.1', ''].indexOf(window.location.hostname) !== -1;
-  if (isLocal) return;
+  var h = window.location.hostname;
+  var isLocal = ['localhost', '127.0.0.1', ''].indexOf(h) !== -1;
+  var isPreview = h.indexOf('preview--') !== -1;
+  if (isLocal || !isPreview) return;
   var KEY = 'aperture_preview_ok';
   if (sessionStorage.getItem(KEY) === '1') return;
   var gate = document.getElementById('preview-gate');
