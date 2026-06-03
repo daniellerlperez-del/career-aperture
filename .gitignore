@@ -1,1 +1,18 @@
+# Internal dev docs — not for public repo
+ARCHITECTURE_REVIEW.md
+
+# Local-only daily brief (Layer 1/2 data — never commit)
 morning-brief.html
+
+# OS / editor
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+*.swp
+*.swo
+
+# Node (if ever added)
+node_modules/

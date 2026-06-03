@@ -5,33 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Career Aperture — DP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" integrity="sha384-aGlMNK3U/x0wl4lEH5jD1PGhJlX9hApuPmIiA5gtiYCOQ1J8ejIdC0btaU/TMoBD" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
 
     :root {
-      --bg:          #09080A;
-      --bg-2:        #100F0C;
-      --bg-card:     #16140E;
-      --border:      rgba(201,168,76,.07);
-      --border-gold: rgba(201,168,76,.24);
-      --text:        #EDE5D5;
-      --muted:       rgba(237,229,213,.55);
-      --muted-2:     rgba(237,229,213,.55);
-      --accent:      #C9A84C;
-      --accent-dim:  rgba(201,168,76,.10);
-      --accent-bdr:  rgba(201,168,76,.28);
+      --bg:          #0C0C12;
+      --bg-2:        #14102A;
+      --bg-card:     #18142C;
+      --border:      rgba(240,168,32,.07);
+      --border-gold: rgba(240,168,32,.22);
+      --text:        #F0EEF8;
+      --muted:       rgba(240,238,248,.65);
+      --muted-2:     rgba(240,238,248,.55);
+      --accent:      #F0A820;
+      --accent-dim:  rgba(240,168,32,.10);
+      --accent-bdr:  rgba(240,168,32,.28);
       --violet:      #3D1A88;
       --magenta:     #8B2BBE;
       --crimson:     #D01878;
       --ember:       #E86020;
-      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
+      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#F0A820);
       --mono:        'JetBrains Mono', monospace;
-      --display:     'Cormorant Garamond', Georgia, serif;
       --sans:        -apple-system, 'Helvetica Neue', sans-serif;
     }
 
@@ -733,43 +732,9 @@
     .flask-thinking { animation: flask-glow 1.2s ease-in-out infinite; }
     .flask-bubble { animation: bubble-rise 1s ease-in infinite; }
 
-    /* ── LUX NOIR POLISH ── */
-    *, *::before, *::after { cursor: none !important; }
-    #ln-cursor {
-      position: fixed; width: 22px; height: 22px;
-      border: 1px solid rgba(201,168,76,.55); border-radius: 50%;
-      pointer-events: none; z-index: 99999;
-      transform: translate(-50%,-50%);
-      transition: transform .12s ease, border-color .18s, opacity .2s;
-      top: 0; left: 0; opacity: 0;
-    }
-    #ln-cursor::before {
-      content: ''; position: absolute;
-      width: 1px; height: 8px; background: rgba(201,168,76,.45);
-      left: 50%; top: 50%; transform: translate(-50%,-50%);
-    }
-    #ln-cursor::after {
-      content: ''; position: absolute;
-      width: 8px; height: 1px; background: rgba(201,168,76,.45);
-      left: 50%; top: 50%; transform: translate(-50%,-50%);
-    }
-    #ln-cursor.hover {
-      transform: translate(-50%,-50%) scale(1.65);
-      border-color: rgba(201,168,76,.9);
-    }
-    #ln-cursor.click { transform: translate(-50%,-50%) scale(0.75); }
-    #ln-grain {
-      position: fixed; inset: 0; pointer-events: none; z-index: 99998; opacity: .03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-    }
-    a, button, [role="button"], .nav-btn, .mode-btn, input, textarea, select {
-      transition: background .18s ease, color .18s ease, border-color .18s ease,
-                  opacity .18s ease, transform .15s ease, box-shadow .18s ease !important;
-    }
+    /* ── FOCUS ── */
     :focus { outline: none; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-    .logo-name, h1, h2, h3 { font-family: var(--display) !important; }
 
     /* ── REDUCED MOTION ── */
     @media (prefers-reduced-motion: reduce) {
@@ -3372,6 +3337,7 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
   const [localProfile, setLocalProfile] = useState({...profile});
   const [localKey, setLocalKey] = useState(apiKey);
   const [localWatch, setLocalWatch] = useState([...watchList]);
+  const [keyEditMode, setKeyEditMode] = useState(!apiKey); // start in edit mode if no key saved yet
   const [newCompany, setNewCompany] = useState('');
   const [newTier, setNewTier] = useState('2');
   const [toast, setToast] = useState(null);
@@ -3383,6 +3349,7 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
     setProfile(localProfile);
     setApiKey(localKey);
     setWatchList(localWatch);
+    setKeyEditMode(!localKey); // stay in edit mode only if key is still empty
     onClose();
   }
 
@@ -3422,8 +3389,12 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
         </div>
 
         <div className="modal-body">
-          {tab === 'profile' && (
+{tab === 'profile' && (
             <div>
+              <div style={{display:'flex',alignItems:'flex-start',gap:8,padding:'8px 10px',background:'rgba(91,184,112,.06)',border:'1px solid rgba(91,184,112,.18)',borderRadius:6,marginBottom:14,fontSize:12,color:'rgba(91,184,112,.85)',lineHeight:1.6}}>
+                <span style={{flexShrink:0,marginTop:1}}>🔒</span>
+                <span>Your profile data stays in this browser only — it is never sent to any server except when you explicitly run an AI call. KPI snapshot exports may contain personal data; store them carefully.</span>
+              </div>
               <div className="field">
                 <label>Name</label>
                 <input value={localProfile.name} onChange={e => setLocalProfile({...localProfile, name: e.target.value})} />
@@ -3502,15 +3473,52 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
             </div>
           )}
 
-          {tab === 'api' && (
+{tab === 'api' && (
             <div>
+              {/* Security warning */}
+              <div style={{display:'flex',alignItems:'flex-start',gap:8,padding:'10px 12px',background:'rgba(208,24,120,.06)',border:'1px solid rgba(208,24,120,.2)',borderRadius:6,marginBottom:16,fontSize:12,color:'rgba(208,24,120,.85)',lineHeight:1.65}}>
+                <span style={{flexShrink:0,marginTop:1}}>⚠️</span>
+                <span>Your API key is stored in browser localStorage — accessible to any JavaScript running on this page. <strong style={{color:'rgba(208,24,120,.95)'}}>For best security: use a dedicated browser profile for this tool.</strong> Never share your browser profile or leave it unlocked on a shared machine.</span>
+              </div>
+
               <div className="field">
                 <label>Anthropic API Key</label>
-                <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
-                  placeholder="sk-ant-…" />
-                <div className="api-key-note">
+
+                {/* Masked display — shown when key is saved and not in edit mode */}
+                {localKey && !keyEditMode ? (
+                  <div>
+                    <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'rgba(201,168,76,.06)',border:'1px solid rgba(201,168,76,.18)',borderRadius:6,fontFamily:'var(--mono)',fontSize:13,color:'rgba(237,229,213,.7)',letterSpacing:'.04em'}}>
+                      <span style={{flex:1}}>sk-ant-••••••••••••{localKey.slice(-4)}</span>
+                      <button onClick={() => { setLocalKey(''); setKeyEditMode(true); }}
+                        style={{padding:'3px 10px',border:'1px solid rgba(208,24,120,.3)',borderRadius:4,background:'rgba(208,24,120,.07)',color:'rgba(208,24,120,.8)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                        Clear Key
+                      </button>
+                      <button onClick={() => setKeyEditMode(true)}
+                        style={{padding:'3px 10px',border:'1px solid rgba(201,168,76,.25)',borderRadius:4,background:'rgba(201,168,76,.07)',color:'rgba(201,168,76,.85)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Edit mode — password input */
+                  <div>
+                    <div style={{display:'flex',gap:6}}>
+                      <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
+                        placeholder="sk-ant-…" autoComplete="new-password" style={{flex:1}} />
+                      {apiKey && (
+                        <button onClick={() => { setLocalKey(apiKey); setKeyEditMode(false); }}
+                          style={{padding:'8px 12px',border:'1px solid rgba(201,168,76,.2)',borderRadius:6,background:'none',color:'rgba(237,229,213,.55)',fontSize:12,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                          Cancel
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                <div className="api-key-note" style={{marginTop:10}}>
                   Stored in your browser only. Calls go directly to Anthropic — nothing passes through a server.
                   Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'#f59c00'}}>console.anthropic.com</a>.
+                  Use a <strong>dedicated browser profile</strong> to isolate this key from your general browsing.
                 </div>
               </div>
             </div>
@@ -5315,39 +5323,6 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-</script>
-
-<!-- LUX NOIR: camera cursor + grain -->
-<div id="ln-cursor"></div>
-<div id="ln-grain"></div>
-<script>
-(function(){
-  var c=document.getElementById('ln-cursor');
-  if(!c)return;
-  document.addEventListener('mousemove',function(e){
-    c.style.left=e.clientX+'px'; c.style.top=e.clientY+'px'; c.style.opacity='1';
-  });
-  document.addEventListener('mouseleave',function(){ c.style.opacity='0'; });
-  function addHover(sel){
-    document.querySelectorAll(sel).forEach(function(el){
-      el.addEventListener('mouseenter',function(){ c.classList.add('hover'); });
-      el.addEventListener('mouseleave',function(){ c.classList.remove('hover'); });
-    });
-  }
-  addHover('a,button,[role="button"],input,textarea,select,label');
-  document.addEventListener('mousedown',function(){ c.classList.add('click'); });
-  document.addEventListener('mouseup',function(){ c.classList.remove('click'); });
-})();
-
-// Last-edited stamp (visible in bottom-right corner)
-(function(){
-  var d=new Date(document.lastModified);
-  var fmt=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  var stamp=document.createElement('div');
-  stamp.style.cssText='position:fixed;bottom:.5rem;right:.75rem;font-size:.55rem;letter-spacing:.08em;color:rgba(255,255,255,.12);pointer-events:none;z-index:9999;font-family:monospace';
-  stamp.textContent='edited: '+fmt;
-  document.body.appendChild(stamp);
-})();
 </script>
 </body>
 </html>
