@@ -1,13 +1,10 @@
 # Career Aperture
 
-**AI-powered career management and SMB CRM — built and used daily.**
+**Built by a Principal PM who needed one place for everything — and built it instead of buying it.**
 
-Career Aperture is Danielle Perez's personal AI-native tool for running a job search,
-building a consulting pipeline, and managing a career transition simultaneously.
-It is the Developer + Operator identity in the triple identity system.
+Where the [PCL website](https://perez-creative-labs.netlify.app) shows what gets built for clients — Career Aperture shows what gets built for the builder. Career work treated as craft.
 
-Where the [PCL website](https://perez-creative-labs.netlify.app) shows what gets built for
-clients — Career Aperture shows what gets built for the builder.
+This is what it looks like when a PM builds the tool herself.
 
 ---
 
@@ -31,23 +28,6 @@ clients — Career Aperture shows what gets built for the builder.
 
 ---
 
-## Built With
-
-- Single-file React (all inline — no bundler, no CDN dependency)
-- Claude API via Netlify serverless function proxy
-- localStorage for user config and session data
-- HomeFlowOS for source-of-truth context (career, legal, business domains)
-
----
-
-## Design
-
-Dark noir — darkroom photography metaphor. Same design language as the PCL consulting site.
-Mode names (Shoot, Develop, Loupe) map to photography workflow phases intentionally.
-Career work treated as craft.
-
----
-
 ## Part of the Triple Identity System
 
 | # | Identity | Platform |
@@ -58,4 +38,12 @@ Career work treated as craft.
 
 ---
 
-*Perez Creative Labs LLC · AI Product Strategy · Fractional PM · WFM/HCM Consulting*
+## Built With
+
+- Single-file React (all inline — no bundler, no CDN dependency)
+- Claude API via Netlify serverless function proxy
+- HomeFlowOS for source-of-truth context (career, legal, business domains)
+
+---
+
+*Because the job search doesn't wait for a better tool to exist.*
