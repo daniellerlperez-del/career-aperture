@@ -13,7 +13,7 @@
     :root {
       --bg: #0C0C12; --bg-2: #14102A; --bg-card: #18142C;
       --border: rgba(240,168,32,.07); --border-gold: rgba(240,168,32,.22);
-      --text: #F0EEF8; --muted: rgba(240,238,248,.65); --muted-2: rgba(240,238,248,.38);
+      --text: #F0EEF8; --muted: rgba(240,238,248,.65); --muted-2: rgba(240,238,248,.55);
       --accent: #F0A820; --accent-dim: rgba(240,168,32,.10); --accent-bdr: rgba(240,168,32,.28);
       --green: #22C55E; --red: #EF4444; --yellow: #F59E0B; --violet: #3D1A88; --magenta: #8B2BBE; --crimson: #D01878; --ember: #E86020;
       --gradient: linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#F0A820);
@@ -124,6 +124,19 @@
     body.cur-thinking .cur-ne{animation:cur-bk-ne 1.1s ease-in-out infinite .13s}
     body.cur-thinking .cur-sw{animation:cur-bk-sw 1.1s ease-in-out infinite .26s}
     body.cur-thinking .cur-se{animation:cur-bk-se 1.1s ease-in-out infinite .39s}
+
+    /* ── FOCUS ── */
+    :focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -546,9 +559,18 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
       </div>
 
       {/* Tabs */}
-      <div className="tabs">
+      <div className="tabs" role="tablist" aria-label="KPI sections">
         {['overview','benchmark','drift','call log','verify'].map(t => (
-          <button key={t} className={`tab ${tab===t?'active':''}`} onClick={() => setTab(t)}>
+          <button key={t} role="tab" aria-selected={tab===t}
+            aria-controls={`panel-${t.replace(' ','-')}`}
+            className={`tab ${tab===t?'active':''}`}
+            onClick={() => setTab(t)}
+            onKeyDown={e => {
+              const tabs = ['overview','benchmark','drift','call log','verify'];
+              const i = tabs.indexOf(tab);
+              if (e.key === 'ArrowRight') setTab(tabs[(i+1) % tabs.length]);
+              if (e.key === 'ArrowLeft')  setTab(tabs[(i-1+tabs.length) % tabs.length]);
+            }}>
             {t.toUpperCase()}
           </button>
         ))}
@@ -556,7 +578,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
 
       {/* ── OVERVIEW ── */}
       {tab === 'overview' && (
-        <>
+        <div role="tabpanel" id="panel-overview" tabIndex={0}>
           <div className="section">
             <div className="section-title">Session Summary</div>
             <div className="grid-4">
@@ -653,12 +675,12 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               ))}
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* ── BENCHMARK ── */}
       {tab === 'benchmark' && (
-        <>
+        <div role="tabpanel" id="panel-benchmark" tabIndex={0}>
           <div className="section">
             <div className="section-title">Benchmark Suite · Standardised Quality Tests</div>
             <div className="card" style={{marginBottom:16}}>
@@ -728,12 +750,12 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               <div className="empty">Running benchmark… ({BENCH_CASES.length} tests)</div>
             )}
           </div>
-        </>
+        </div>
       )}
 
       {/* ── DRIFT ── */}
       {tab === 'drift' && (
-        <>
+        <div role="tabpanel" id="panel-drift" tabIndex={0}>
           <div className="section">
             <div className="section-title">Cost Drift vs Pre-Optimisation Baseline</div>
             {overallSaving !== null && (
@@ -779,12 +801,12 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* ── CALL LOG ── */}
       {tab === 'call log' && (
-        <>
+        <div role="tabpanel" id="panel-call-log" tabIndex={0}>
           <div className="section">
             <div className="section-title">Raw Call History · Last {calls.length} calls</div>
             {calls.length === 0
@@ -814,12 +836,12 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               )
             }
           </div>
-        </>
+        </div>
       )}
 
       {/* ── VERIFY ── */}
       {tab === 'verify' && (
-        <>
+        <div role="tabpanel" id="panel-verify" tabIndex={0}>
           <div className="section">
             <div className="section-title">Manual Verification · Paste Any Research Output</div>
             <div className="card" style={{marginBottom:12}}>
@@ -870,7 +892,7 @@ GUARDRAILS: Only flag genuine concerns. If output looks clean, say so. Do not ma
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
