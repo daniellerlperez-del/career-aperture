@@ -14,22 +14,22 @@
     html, body { height: 100%; }
 
     :root {
-      --bg:          #0C0C12;
-      --bg-2:        #14102A;
-      --bg-card:     #18142C;
-      --border:      rgba(240,168,32,.07);
-      --border-gold: rgba(240,168,32,.22);
-      --text:        #F0EEF8;
-      --muted:       rgba(240,238,248,.65);
-      --muted-2:     rgba(240,238,248,.55);
-      --accent:      #F0A820;
-      --accent-dim:  rgba(240,168,32,.10);
-      --accent-bdr:  rgba(240,168,32,.28);
+      --bg:          #09080A;
+      --bg-2:        #100F0C;
+      --bg-card:     #16140E;
+      --border:      rgba(245,240,232,.08);
+      --border-gold: rgba(201,168,76,.24);
+      --text:        #EDE5D5;
+      --muted:       rgba(237,229,213,.55);
+      --muted-2:     rgba(237,229,213,.32);
+      --accent:      #C9A84C;
+      --accent-dim:  rgba(201,168,76,.10);
+      --accent-bdr:  rgba(201,168,76,.30);
       --violet:      #3D1A88;
       --magenta:     #8B2BBE;
       --crimson:     #D01878;
       --ember:       #E86020;
-      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#F0A820);
+      --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
       --mono:        'JetBrains Mono', monospace;
       --sans:        -apple-system, 'Helvetica Neue', sans-serif;
     }
@@ -83,7 +83,7 @@
     .logo-text {
       font-size: 15px;
       font-family: var(--mono);
-      background: linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820);
+      background: linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -212,7 +212,7 @@
     .chip.active {
       background: var(--accent);
       border-color: var(--accent);
-      color: #0C0C12;
+      color: #09080A;
       font-weight: 500;
       box-shadow: 0 0 10px rgba(240,168,32,.25);
     }
@@ -274,7 +274,7 @@
       transition: transform 0.2s, background 0.2s;
     }
     .toggle input:checked + .toggle-slider { background: var(--accent); }
-    .toggle input:checked + .toggle-slider::before { transform: translateX(16px); background: #0C0C12; }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(16px); background: #09080A; }
 
     /* URL output */
     .url-box { margin-top: 12px; }
@@ -554,7 +554,7 @@
       border-radius: 20px;
       font-size: 11px;
       font-family: var(--mono);
-      color: #0C0C12;
+      color: #09080A;
       font-weight: 500;
       letter-spacing: .02em;
     }
@@ -565,7 +565,7 @@
       opacity: 0.6;
       background: none;
       border: none;
-      color: #0C0C12;
+      color: #09080A;
       padding: 0;
       font-weight: 700;
     }
@@ -752,7 +752,7 @@
 <style id="preview-gate-styles">
   #preview-gate {
     position: fixed; inset: 0; z-index: 9999;
-    background: #0C0C12;
+    background: #09080A;
     background-image: radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.18) 0%, transparent 42%),
                       radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.09) 0%, transparent 38%);
     display: flex; align-items: center; justify-content: center;
@@ -768,7 +768,7 @@
   }
   #preview-gate-logo {
     font-size: 15px; letter-spacing: .06em; font-weight: 500;
-    background: linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820);
+    background: linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 6px;
   }
@@ -789,7 +789,7 @@
   #preview-gate-input:focus { border-color: rgba(240,168,32,.5); }
   #preview-gate-btn {
     width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer;
-    background: #F0A820; color: #0C0C12; font-family: 'JetBrains Mono', monospace;
+    background: #C9A84C; color: #09080A; font-family: 'JetBrains Mono', monospace;
     font-size: 13px; font-weight: 600; letter-spacing: .08em;
   }
   #preview-gate-btn:hover { background: #f8b830; }
@@ -1931,7 +1931,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                       <button
                         onClick={(e) => { e.stopPropagation(); setLocPanelOpen(false); setLocSearch(''); }}
                         style={{background:'var(--accent)',border:'none',borderRadius:5,padding:'3px 10px',
-                          fontSize:11,color:'#0C0C12',cursor:'pointer',fontFamily:'var(--mono)'}}
+                          fontSize:11,color:'#09080A',cursor:'pointer',fontFamily:'var(--mono)'}}
                       >
                         done
                       </button>
@@ -2606,7 +2606,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
     padding: '8px 22px', border: 'none', borderRadius: 6, cursor: 'pointer',
     fontSize: 12, fontFamily: 'var(--mono)', fontWeight: 600, letterSpacing: '0.06em',
     background: active ? 'var(--accent)' : 'rgba(240,238,248,0.06)',
-    color: active ? '#0C0C12' : 'var(--muted)',
+    color: active ? '#09080A' : 'var(--muted)',
     transition: 'all 0.15s',
   });
 
@@ -3174,7 +3174,7 @@ function SMBProspecting({ profile, apiKey, onNeedApiKey }) {
         <div style={{fontSize: 12, color: '#8888a0', marginBottom: 12}}>Uses Claude to generate a targeted pitch for this segment using your background as the proof point.</div>
         {!apiKey && (
           <div style={{fontSize: 13, color: '#92400E', background: '#1a1200', border: '1px solid #92400E', borderRadius: 6, padding: '8px 12px', marginBottom: 12}}>
-            ⚠️ Requires API key.{' '}<button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'#F0A820',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0}}>Add in Settings.</button>
+            ⚠️ Requires API key.{' '}<button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'#C9A84C',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0}}>Add in Settings.</button>
           </div>
         )}
         <button className="btn btn-primary" onClick={generatePitch} disabled={loading}>
@@ -3302,7 +3302,7 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
       <div className="card">
         {!apiKey && (
           <div style={{fontSize: 13, color: '#92400E', background: '#1a1200', border: '1px solid #92400E', borderRadius: 6, padding: '8px 12px', marginBottom: 12}}>
-            ⚠️ Requires API key.{' '}<button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'#F0A820',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0}}>Add in Settings.</button>
+            ⚠️ Requires API key.{' '}<button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'#C9A84C',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0}}>Add in Settings.</button>
           </div>
         )}
         <button className="btn btn-primary" onClick={generateOutreach} disabled={loading || !targetName.trim()}>
@@ -4891,7 +4891,7 @@ function KanbanBoard() {
         <button
           onClick={() => { const v = !sheetView; setSheetView(v); const stored = load() || {}; persist({ ...stored, kanban: { ...(stored.kanban||{}), sheetView: v } }); }}
           title="Contact Sheet: all cards across all boards"
-          style={{background: sheetView ? 'var(--accent)' : 'rgba(240,238,248,.06)', border:'1px solid var(--border)', borderRadius:6, padding:'5px 10px', fontSize:11, fontFamily:'var(--mono)', color: sheetView ? '#0C0C12' : 'var(--muted)', cursor:'pointer', letterSpacing:'.04em', display:'flex', alignItems:'center', gap:5}}
+          style={{background: sheetView ? 'var(--accent)' : 'rgba(240,238,248,.06)', border:'1px solid var(--border)', borderRadius:6, padding:'5px 10px', fontSize:11, fontFamily:'var(--mono)', color: sheetView ? '#09080A' : 'var(--muted)', cursor:'pointer', letterSpacing:'.04em', display:'flex', alignItems:'center', gap:5}}
         >
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.4"><rect x="1" y="1" width="3.5" height="3.5" rx=".5"/><rect x="6.5" y="1" width="3.5" height="3.5" rx=".5"/><rect x="1" y="6.5" width="3.5" height="3.5" rx=".5"/><rect x="6.5" y="6.5" width="3.5" height="3.5" rx=".5"/></svg>
           Contact Sheet
@@ -5209,7 +5209,7 @@ function App() {
         backgroundImage:'radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.14) 0%, transparent 42%), radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.07) 0%, transparent 38%)'}}>
         <div style={{textAlign:'center', maxWidth:440, padding:40}}>
           <div style={{fontFamily:'var(--mono)', fontSize:18, fontWeight:500, letterSpacing:'.06em', marginBottom:8,
-            background:'linear-gradient(90deg,#B07AE8,#E84CA0,#F0A820)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
+            background:'linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
             Career Aperture
           </div>
           <div style={{fontFamily:'var(--mono)', fontSize:9, color:'var(--muted-2)', letterSpacing:'.18em', textTransform:'uppercase', marginBottom:36}}>
@@ -5261,6 +5261,35 @@ function App() {
               {n.label}
             </button>
           ))}
+        </div>
+
+        {/* ── CAREER VAULT RESUMES ── */}
+        <div style={{padding:'10px 10px 0',borderTop:'1px solid var(--border)',marginTop:4}}>
+          <div style={{fontSize:9,fontFamily:'var(--mono)',letterSpacing:'.1em',textTransform:'uppercase',color:'rgba(240,168,32,.5)',marginBottom:6,paddingLeft:4}}>Active Resumes</div>
+          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_Consulting_Resume_June2026.docx"
+            title="Consulting Resume — PCL · Fractional PM · AI Strategy"
+            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
+            onMouseEnter={e=>{e.currentTarget.style.color='#c9a84c';e.currentTarget.style.borderColor='rgba(201,168,76,.2)';e.currentTarget.style.background='rgba(201,168,76,.05)'}}
+            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
+            <span style={{width:7,height:7,borderRadius:'50%',background:'#c9a84c',flexShrink:0,boxShadow:'0 0 4px rgba(201,168,76,.5)'}}></span>
+            Consulting · PCL
+          </a>
+          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_IC_AI_PM_Resume_June2026.docx"
+            title="IC / AI PM / Leadership Resume — Builder · Practitioner · Principal PM"
+            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
+            onMouseEnter={e=>{e.currentTarget.style.color='#8b5cf6';e.currentTarget.style.borderColor='rgba(139,92,246,.2)';e.currentTarget.style.background='rgba(139,92,246,.05)'}}
+            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
+            <span style={{width:7,height:7,borderRadius:'50%',background:'#8b5cf6',flexShrink:0,boxShadow:'0 0 4px rgba(139,92,246,.4)'}}></span>
+            IC · AI PM · Builder
+          </a>
+          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_Master_Resume_June2026.docx"
+            title="Master Resume — FT Job Search · Principal PM · $175-200K+"
+            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
+            onMouseEnter={e=>{e.currentTarget.style.color='#5b8fd0';e.currentTarget.style.borderColor='rgba(91,143,208,.2)';e.currentTarget.style.background='rgba(91,143,208,.05)'}}
+            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
+            <span style={{width:7,height:7,borderRadius:'50%',background:'#5b8fd0',flexShrink:0,boxShadow:'0 0 4px rgba(91,143,208,.4)'}}></span>
+            FT Search · Master
+          </a>
         </div>
 
         <div className="sidebar-footer">
