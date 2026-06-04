@@ -10,5 +10,19 @@
 
 [[redirects]]
   from = "/"
-  to = "/career-builder.html"
+  to = "/career-aperture.html"
   status = 302
+
+# ── Security Headers (items 67 + 77 — added 2026-06-03) ──────────────────────
+# CSP: unsafe-eval required — Babel standalone uses new Function() for JSX compilation.
+# unsafe-inline required for styles AND for Babel standalone inline script injection (Babel injects compiled JSX via createElement — no server data in scripts).
+# connect-src restricted to self + Anthropic API only.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security       = "max-age=31536000; includeSubDomains"
+    X-Frame-Options                 = "DENY"
+    X-Content-Type-Options          = "nosniff"
+    Referrer-Policy                 = "strict-origin-when-cross-origin"
+    Permissions-Policy              = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy         = "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.anthropic.com; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'"

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-cd ~/Desktop/career-builder
+cd ~/Desktop/career-aperture
 
 echo ""
 echo "╔══════════════════════════════════════════╗"
