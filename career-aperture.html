@@ -938,6 +938,64 @@ const DEFAULTS = {
   apiKey: '',
 };
 
+// ── Company Tier KPI Framework ────────────────────────────────────────────────
+const TIER_KPIS = [
+  { id: 'role_match',   label: 'Role Match',     weight: 0.30, desc: 'Open roles at your target title/level right now' },
+  { id: 'domain_fit',   label: 'Domain Fit',     weight: 0.25, desc: 'Company operates in your target domain' },
+  { id: 'comp_align',   label: 'Comp Alignment', weight: 0.20, desc: 'Expected comp band meets your target range' },
+  { id: 'network',      label: 'Network Signal', weight: 0.15, desc: 'Likelihood of warm-path access' },
+  { id: 'growth_stage', label: 'Growth Stage',   weight: 0.10, desc: 'Stage where a Principal PM has real leverage' },
+];
+function computeWeights(adaptive, profile) {
+  const fixed = Object.fromEntries(TIER_KPIS.map(k => [k.id, k.weight]));
+  if (!adaptive) return fixed;
+  return (profile && profile.adaptiveWeights) ? profile.adaptiveWeights : fixed;
+}
+function computeComposite(scores, weights) {
+  return TIER_KPIS.reduce((sum, kpi) => {
+    const s = (scores && scores[kpi.id] && scores[kpi.id].score != null) ? scores[kpi.id].score : 0;
+    return sum + s * (weights[kpi.id] != null ? weights[kpi.id] : kpi.weight);
+  }, 0);
+}
+function compositeToTier(composite) {
+  if (composite >= 0.75) return 1;
+  if (composite >= 0.50) return 2;
+  return 3;
+}
+function effectiveTier(entry) {
+  return entry.tierOverride != null ? entry.tierOverride : (entry.tier || 2);
+}
+
+async function researchCompanyForTier(company, profile, apiKey, adaptive) {
+  const weights = computeWeights(adaptive, profile);
+  const weightLines = TIER_KPIS.map(k =>
+    `- ${k.label} (weight ${Math.round(weights[k.id]*100)}%): ${k.desc}`
+  ).join('\n');
+  const sys = `You are a career intelligence analyst evaluating companies for a senior PM candidate.
+Candidate: role="${profile.role||'Senior/Principal PM'}", domain="${profile.targetDomain||'AI/HCM/B2B SaaS'}", background="${profile.background||''}", edge="${profile.edge||''}".
+Score each KPI 0.0–1.0 based on public knowledge:
+${weightLines}
+Respond ONLY with this exact JSON (no prose):
+{"scores":{"role_match":{"score":0.0,"rationale":"one sentence"},"domain_fit":{"score":0.0,"rationale":"one sentence"},"comp_align":{"score":0.0,"rationale":"one sentence"},"network":{"score":0.0,"rationale":"one sentence"},"growth_stage":{"score":0.0,"rationale":"one sentence"}}}
+Score conservatively (0.4–0.6) if uncertain. Be specific about public facts.`;
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'x-api-key':apiKey,
+      'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
+    body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:500,
+      system: sys, messages:[{role:'user', content:`Evaluate "${company}" for this candidate.`}] }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  const data = await res.json();
+  const text = data.content?.[0]?.text || '';
+  const m = text.match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('No JSON in response');
+  const parsed = JSON.parse(m[0]);
+  const scores = parsed.scores;
+  const composite = computeComposite(scores, weights);
+  return { scores, composite, tier: compositeToTier(composite) };
+}
+
 const JOB_ROLES = [
   // Recommended — strong match for Danielle's background
   { label: 'Senior PM, AI',           recommended: true },
@@ -3379,27 +3437,50 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
   const [localProfile, setLocalProfile] = useState({...profile});
   const [localKey, setLocalKey] = useState(apiKey);
   const [localWatch, setLocalWatch] = useState([...watchList]);
-  const [keyEditMode, setKeyEditMode] = useState(!apiKey); // start in edit mode if no key saved yet
+  const [keyEditMode, setKeyEditMode] = useState(!apiKey);
   const [newCompany, setNewCompany] = useState('');
-  const [newTier, setNewTier] = useState('2');
+  const [researching, setResearching] = useState(false);
+  const [researchError, setResearchError] = useState(null);
+  const [expandedId, setExpandedId] = useState(null);
+  const [adaptive, setAdaptive] = useState(!!(profile && profile.adaptiveWeights));
   const [toast, setToast] = useState(null);
 
   const edgeScore = scoreEdge(localProfile.edge);
   const barColor = edgeScore >= 70 ? '#22C55E' : edgeScore >= 40 ? '#F59E0B' : '#EF4444';
 
   function save() {
-    setProfile(localProfile);
+    setProfile({...localProfile, adaptiveWeights: adaptive ? localProfile.adaptiveWeights : undefined});
     setApiKey(localKey);
     setWatchList(localWatch);
-    setKeyEditMode(!localKey); // stay in edit mode only if key is still empty
+    setKeyEditMode(!localKey);
     onClose();
   }
 
-  function addCompany() {
-    if (!newCompany.trim()) return;
-    const id = Date.now();
-    setLocalWatch([...localWatch, { id, company: newCompany.trim(), tier: parseInt(newTier) }]);
-    setNewCompany('');
+  async function addAndScore() {
+    const name = newCompany.trim();
+    if (!name) return;
+    const key = localKey || apiKey;
+    if (!key) { setResearchError('Add your API key first (API Key tab)'); return; }
+    setResearching(true); setResearchError(null);
+    try {
+      const result = await researchCompanyForTier(name, localProfile, key, adaptive);
+      const entry = { id: Date.now(), company: name, tier: result.tier,
+        scores: result.scores, composite: result.composite,
+        tierOverride: null, researched: true, researchedAt: new Date().toISOString().slice(0,10) };
+      setLocalWatch(prev => [...prev, entry]);
+      setNewCompany('');
+    } catch(e) {
+      setResearchError('Research failed: ' + e.message);
+    } finally { setResearching(false); }
+  }
+
+  function bumpTier(id, dir) {
+    setLocalWatch(prev => prev.map(w => {
+      if (w.id !== id) return w;
+      const cur = effectiveTier(w);
+      const next = Math.max(1, Math.min(3, cur + dir));
+      return {...w, tierOverride: next === w.tier ? null : next};
+    }));
   }
 
   function removeCompany(id) {
@@ -3408,9 +3489,10 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 
   const TabBtn = ({ id, label }) => (
     <button onClick={() => setTab(id)}
-      style={{padding:'6px 14px', border:'none', background: tab===id ? 'rgba(245,156,0,0.10)' : 'none',
-        borderRadius: 6, cursor:'pointer', fontSize: 13, fontWeight: tab===id ? 600 : 400,
-        color: tab===id ? '#f59c00' : '#8888a0', fontFamily: 'inherit'}}>
+      style={{padding:'5px 14px', border:'none', background: tab===id ? 'var(--accent-dim)' : 'none',
+        borderRadius: 6, cursor:'pointer', fontSize: 10, fontWeight: tab===id ? 600 : 400,
+        color: tab===id ? 'var(--accent)' : 'var(--muted)', fontFamily: 'var(--mono)',
+        letterSpacing: '.18em', textTransform: 'uppercase', transition: 'color .2s, background .2s'}}>
       {label}
     </button>
   );
@@ -3475,43 +3557,144 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 
           {tab === 'watchlist' && (
             <div>
-              <div className="add-row">
-                <input value={newCompany} onChange={e => setNewCompany(e.target.value)}
-                  placeholder="Add company…"
-                  onKeyDown={e => e.key === 'Enter' && addCompany()}
-                  style={{flex:1, padding:'8px 10px', border:'1px solid #1e1e2a', borderRadius:6, fontSize:13, background:'#111118', color:'#e8e8f0', fontFamily:'inherit'}} />
-                <div style={{position:'relative'}}>
-                  <select value={newTier} onChange={e => setNewTier(e.target.value)}
-                    style={{padding:'8px 28px 8px 10px', border:'1px solid #1e1e2a', borderRadius:6, fontSize:13, background:'#16161f', color:'#e8e8f0'}}>
-                    <option value="1">Tier 1</option>
-                    <option value="2">Tier 2</option>
-                    <option value="3">Tier 3</option>
-                  </select>
-                </div>
-                <button className="btn btn-primary" onClick={addCompany}>Add</button>
+              {/* Adaptive weights toggle */}
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14,padding:'8px 10px',
+                background:'rgba(201,168,76,.04)',border:'1px solid rgba(201,168,76,.12)',borderRadius:6}}>
+                <label style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',flex:1}}>
+                  <input type="checkbox" checked={adaptive} onChange={e => setAdaptive(e.target.checked)}
+                    style={{accentColor:'var(--accent)',width:13,height:13}} />
+                  <span style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:'.14em',textTransform:'uppercase',color:'var(--muted)'}}>
+                    Profile-adaptive weights
+                  </span>
+                </label>
+                <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em'}}>
+                  {adaptive ? 'KPI weights shift based on your edge statement' : 'Fixed: 30/25/20/15/10'}
+                </span>
               </div>
-              <table className="watch-table">
-                <thead>
-                  <tr>
-                    <th>Company</th>
-                    <th>Tier</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {localWatch.map(w => (
-                    <tr key={w.id}>
-                      <td>{w.company}</td>
-                      <td>
-                        <span className={`tier-badge tier-${w.tier}`}>T{w.tier}</span>
-                      </td>
-                      <td style={{textAlign:'right'}}>
-                        <button className="btn btn-sm btn-danger" onClick={() => removeCompany(w.id)}>Remove</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+              {/* KPI key */}
+              <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>
+                {TIER_KPIS.map(k => (
+                  <span key={k.id} style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:'.08em',
+                    color:'rgba(201,168,76,.7)',border:'1px solid rgba(201,168,76,.15)',
+                    borderRadius:3,padding:'2px 6px',textTransform:'uppercase'}}>
+                    {k.label} {Math.round(k.weight*100)}%
+                  </span>
+                ))}
+              </div>
+
+              {/* Add row */}
+              <div className="add-row" style={{marginBottom:4}}>
+                <input value={newCompany} onChange={e => { setNewCompany(e.target.value); setResearchError(null); }}
+                  placeholder="Company name…"
+                  onKeyDown={e => e.key === 'Enter' && !researching && addAndScore()}
+                  style={{flex:1, padding:'8px 10px', border:'1px solid var(--border)', borderRadius:6,
+                    fontSize:13, background:'var(--bg-2)', color:'var(--text)', fontFamily:'Georgia, serif'}} />
+                <button className="btn btn-primary" onClick={addAndScore} disabled={researching || !newCompany.trim()}
+                  style={{minWidth:120,opacity:(researching||!newCompany.trim())?.6:1}}>
+                  {researching ? '⟳ Scoring…' : 'Research & Score'}
+                </button>
+              </div>
+              {researchError && <div className="error-msg" style={{marginBottom:8}}>{researchError}</div>}
+
+              {/* Company list */}
+              <div style={{display:'flex',flexDirection:'column',gap:6,marginTop:10}}>
+                {localWatch.length === 0 && (
+                  <div className="empty-state">No companies yet — research your first one above.</div>
+                )}
+                {localWatch.map(w => {
+                  const tier = effectiveTier(w);
+                  const isExp = expandedId === w.id;
+                  const composite = w.composite != null ? Math.round(w.composite * 100) : null;
+                  const isOverridden = w.tierOverride != null;
+                  return (
+                    <div key={w.id} style={{border:`1px solid rgba(201,168,76,${tier===1?.25:tier===2?.15:.08})`,
+                      borderRadius:8,overflow:'hidden',background:'rgba(201,168,76,.02)'}}>
+                      {/* Row header */}
+                      <div style={{display:'flex',alignItems:'center',gap:10,padding:'9px 12px'}}>
+                        <span className={`tier-badge tier-${tier}`} style={{flexShrink:0}}>
+                          T{tier}{isOverridden ? '*' : ''}
+                        </span>
+                        <span style={{flex:1,fontSize:13,color:'var(--text)',fontFamily:'Georgia,serif'}}>{w.company}</span>
+                        {composite != null && (
+                          <span style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--muted-2)',letterSpacing:'.06em'}}>
+                            {composite}
+                          </span>
+                        )}
+                        {/* Bump controls */}
+                        <button onClick={() => bumpTier(w.id, -1)} disabled={tier<=1}
+                          style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
+                            color:tier<=1?'var(--muted-2)':'var(--muted)',fontSize:11,padding:'2px 7px',cursor:tier<=1?'not-allowed':'pointer'}}>
+                          ↑
+                        </button>
+                        <button onClick={() => bumpTier(w.id, 1)} disabled={tier>=3}
+                          style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
+                            color:tier>=3?'var(--muted-2)':'var(--muted)',fontSize:11,padding:'2px 7px',cursor:tier>=3?'not-allowed':'pointer'}}>
+                          ↓
+                        </button>
+                        {w.researched && (
+                          <button onClick={() => setExpandedId(isExp ? null : w.id)}
+                            style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
+                              color:'var(--muted)',fontSize:11,padding:'2px 7px',cursor:'pointer'}}>
+                            {isExp ? '▲' : '▼'}
+                          </button>
+                        )}
+                        <button onClick={() => removeCompany(w.id)}
+                          style={{background:'none',border:'1px solid rgba(208,24,120,.25)',borderRadius:4,
+                            color:'rgba(208,24,120,.7)',fontSize:11,padding:'2px 7px',cursor:'pointer'}}>
+                          ✕
+                        </button>
+                      </div>
+                      {/* Composite bar */}
+                      {composite != null && (
+                        <div style={{height:2,background:'rgba(201,168,76,.08)',margin:'0 12px 0'}}>
+                          <div style={{height:'100%',width:`${composite}%`,
+                            background:tier===1?'var(--accent)':tier===2?'rgba(201,168,76,.6)':'rgba(201,168,76,.35)',
+                            borderRadius:1,transition:'width .4s'}} />
+                        </div>
+                      )}
+                      {/* KPI breakdown */}
+                      {isExp && w.scores && (
+                        <div style={{padding:'10px 12px 12px',borderTop:'1px solid rgba(201,168,76,.08)',marginTop:4}}>
+                          {TIER_KPIS.map(kpi => {
+                            const s = w.scores[kpi.id];
+                            const pct = s ? Math.round(s.score * 100) : 0;
+                            return (
+                              <div key={kpi.id} style={{marginBottom:8}}>
+                                <div style={{display:'flex',justifyContent:'space-between',marginBottom:2}}>
+                                  <span style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:'.12em',
+                                    textTransform:'uppercase',color:'var(--muted-2)'}}>{kpi.label}</span>
+                                  <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)'}}>{pct}</span>
+                                </div>
+                                <div style={{height:3,background:'rgba(201,168,76,.08)',borderRadius:2,marginBottom:3}}>
+                                  <div style={{height:'100%',width:`${pct}%`,borderRadius:2,
+                                    background:pct>=75?'var(--accent)':pct>=50?'rgba(201,168,76,.6)':'rgba(208,24,120,.45)',
+                                    transition:'width .35s'}} />
+                                </div>
+                                {s?.rationale && (
+                                  <span style={{fontFamily:'var(--mono)',fontSize:9,color:'rgba(237,229,213,.45)',letterSpacing:'.03em',lineHeight:1.5}}>
+                                    {s.rationale}
+                                  </span>
+                                )}
+                              </div>
+                            );
+                          })}
+                          {isOverridden && (
+                            <div style={{marginTop:6,fontFamily:'var(--mono)',fontSize:9,color:'rgba(201,168,76,.5)',letterSpacing:'.08em'}}>
+                              * Tier manually adjusted from auto-assigned T{w.tier}
+                            </div>
+                          )}
+                          {w.researchedAt && (
+                            <div style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em',marginTop:2}}>
+                              Scored {w.researchedAt}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
@@ -3579,27 +3762,84 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 // ── Watch List Summary ────────────────────────────────────────────────────────
 
 function WatchListSummary({ watchList, onPeopleSearch }) {
+  const [expandedId, setExpandedId] = React.useState(null);
   const tiers = [1, 2, 3];
+  const tierLabels = {1:'Top Priority',2:'Strong Interest',3:'On Radar'};
   return (
     <div>
       <div className="page-header">
         <div className="page-title">Watch List</div>
-        <div className="page-sub">Your target companies. Click any to jump to people search.</div>
+        <div className="page-sub">KPI-scored companies — click name to search people, ▼ for breakdown.</div>
       </div>
       {tiers.map(t => {
-        const companies = watchList.filter(w => w.tier === t);
+        const companies = watchList.filter(w => effectiveTier(w) === t);
         if (!companies.length) return null;
         return (
           <div key={t} className="card section-gap">
-            <div className="card-title">
-              Tier {t}: {t===1 ? 'Top Priority' : t===2 ? 'Strong Interest' : 'On Radar'}
+            <div className="card-title" style={{display:'flex',alignItems:'center',gap:8}}>
+              <span className={`tier-badge tier-${t}`}>T{t}</span>
+              {tierLabels[t]}
             </div>
-            <div className="chips-wrap">
-              {companies.map(w => (
-                <button key={w.id} className="chip" onClick={() => onPeopleSearch(w.company)}>
-                  {w.company} →
-                </button>
-              ))}
+            <div style={{display:'flex',flexDirection:'column',gap:6,marginTop:8}}>
+              {companies.map(w => {
+                const isExp = expandedId === w.id;
+                const composite = w.composite != null ? Math.round(w.composite * 100) : null;
+                return (
+                  <div key={w.id} style={{border:'1px solid rgba(201,168,76,.1)',borderRadius:6,overflow:'hidden'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8,padding:'7px 10px'}}>
+                      <button className="chip" onClick={() => onPeopleSearch(w.company)}
+                        style={{flex:1,textAlign:'left',margin:0,padding:0,border:'none',background:'none',
+                          color:'var(--text)',fontSize:13,fontFamily:'Georgia,serif',cursor:'pointer'}}>
+                        {w.company} →
+                      </button>
+                      {composite != null && (
+                        <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em',minWidth:20,textAlign:'right'}}>
+                          {composite}
+                        </span>
+                      )}
+                      {w.researched && (
+                        <button onClick={() => setExpandedId(isExp ? null : w.id)}
+                          style={{background:'none',border:'1px solid var(--border)',borderRadius:3,
+                            color:'var(--muted-2)',fontSize:10,padding:'1px 6px',cursor:'pointer'}}>
+                          {isExp ? '▲' : '▼'}
+                        </button>
+                      )}
+                    </div>
+                    {composite != null && (
+                      <div style={{height:2,background:'rgba(201,168,76,.06)',margin:'0 10px'}}>
+                        <div style={{height:'100%',width:`${composite}%`,
+                          background:t===1?'var(--accent)':t===2?'rgba(201,168,76,.55)':'rgba(201,168,76,.3)',
+                          borderRadius:1}} />
+                      </div>
+                    )}
+                    {isExp && w.scores && (
+                      <div style={{padding:'8px 10px 10px',borderTop:'1px solid rgba(201,168,76,.07)',marginTop:3}}>
+                        {TIER_KPIS.map(kpi => {
+                          const s = w.scores[kpi.id];
+                          const pct = s ? Math.round(s.score*100) : 0;
+                          return (
+                            <div key={kpi.id} style={{marginBottom:5}}>
+                              <div style={{display:'flex',justifyContent:'space-between',marginBottom:2}}>
+                                <span style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--muted-2)'}}>{kpi.label}</span>
+                                <span style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--muted-2)'}}>{pct}</span>
+                              </div>
+                              <div style={{height:2,background:'rgba(201,168,76,.08)',borderRadius:1}}>
+                                <div style={{height:'100%',width:`${pct}%`,borderRadius:1,
+                                  background:pct>=75?'var(--accent)':pct>=50?'rgba(201,168,76,.55)':'rgba(208,24,120,.4)'}} />
+                              </div>
+                              {s?.rationale && isExp && (
+                                <span style={{fontFamily:'var(--mono)',fontSize:8,color:'rgba(237,229,213,.38)',letterSpacing:'.03em'}}>
+                                  {s.rationale}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         );
