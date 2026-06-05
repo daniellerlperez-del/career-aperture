@@ -3,9 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Aperture — DP</title>
+  <title>Career Aperture — Career Intelligence · Perez Creative Labs</title>
+  <meta name="description" content="Career Aperture — AI-powered career intelligence for job seekers and SMB prospecting. A Perez Creative Labs product." />
+  <meta property="og:title" content="Career Aperture — Career Intelligence" />
+  <meta property="og:description" content="Your background is the intelligence. Set your context once — every search, brief, and outreach runs on it." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" integrity="sha384-aGlMNK3U/x0wl4lEH5jD1PGhJlX9hApuPmIiA5gtiYCOQ1J8ejIdC0btaU/TMoBD" crossorigin="anonymous"></script>
@@ -64,7 +68,7 @@
       background: var(--gradient);
       opacity: .85;
       flex-shrink: 0;
-      box-shadow: 0 0 10px rgba(240,168,32,.28);
+      box-shadow: 0 0 10px rgba(201,168,76,.28);
     }
     .sidebar-logo {
       display: flex;
@@ -83,7 +87,7 @@
     .logo-text {
       font-size: 15px;
       font-family: var(--mono);
-      background: linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
+      background: linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -94,12 +98,12 @@
     .logo-sub { font-size: 9px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .32em; text-transform: uppercase; }
     .nav-section { padding: 4px 10px; flex: 1; }
     .nav-label {
-      font-size: 9px; font-weight: 500; color: rgba(240,168,32,.55);
+      font-size: 9px; font-weight: 500; color: rgba(201,168,76,.55);
       letter-spacing: .38em; text-transform: uppercase; padding: 14px 8px 6px;
       font-family: var(--mono);
       display: flex; align-items: center; gap: 10px;
     }
-    .nav-label::after { content: ''; flex: 1; height: 1px; background: rgba(240,168,32,.15); }
+    .nav-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,.15); }
     .nav-btn {
       display: flex;
       align-items: center;
@@ -117,8 +121,8 @@
       text-align: left;
       transition: background 0.15s, color 0.15s;
     }
-    .nav-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
-    .nav-btn.active { background: rgba(240,168,32,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; box-shadow: inset 0 0 18px rgba(240,168,32,.04); }
+    .nav-btn:hover { background: rgba(201,168,76,.06); color: var(--text); }
+    .nav-btn.active { background: rgba(201,168,76,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; box-shadow: inset 0 0 18px rgba(201,168,76,.04); }
     .nav-icon { display: flex; align-items: center; justify-content: center; width: 18px; flex-shrink: 0; opacity: 0.8; }
     .sidebar-footer { padding: 12px 10px 0; border-top: 1px solid var(--border); }
     .settings-btn {
@@ -136,7 +140,7 @@
       color: var(--muted);
       text-align: left;
     }
-    .settings-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
+    .settings-btn:hover { background: rgba(201,168,76,.06); color: var(--text); }
 
     /* Main */
     .main { flex: 1; overflow-y: auto; padding: 32px 36px; background: var(--bg); position: relative; }
@@ -164,13 +168,13 @@
       font-family: Georgia, serif;
       text-shadow: 0 0 28px rgba(240,238,248,.12);
     }
-    .page-sub { font-size: 10px; color: rgba(240,168,32,.6); font-family: var(--mono); letter-spacing: .28em; text-transform: uppercase; }
+    .page-sub { font-size: 10px; color: rgba(201,168,76,.6); font-family: var(--mono); letter-spacing: .28em; text-transform: uppercase; }
 
     /* Cards */
     .card {
       background: rgba(22,17,40,.82);
-      border: 1px solid rgba(240,168,32,.07);
-      border-top: 1px solid rgba(240,168,32,.16);
+      border: 1px solid rgba(201,168,76,.07);
+      border-top: 1px solid rgba(201,168,76,.16);
       border-radius: 12px;
       padding: 22px 24px;
       margin-bottom: 14px;
@@ -214,7 +218,7 @@
       border-color: var(--accent);
       color: #09080A;
       font-weight: 500;
-      box-shadow: 0 0 10px rgba(240,168,32,.25);
+      box-shadow: 0 0 10px rgba(201,168,76,.25);
     }
 
     /* Form elements */
@@ -242,8 +246,8 @@
     }
     .field input:focus, .field textarea:focus, .field select:focus {
       outline: none;
-      border-color: rgba(240,168,32,.45);
-      box-shadow: 0 0 0 3px rgba(240,168,32,.07), 0 0 14px rgba(240,168,32,.07);
+      border-color: rgba(201,168,76,.45);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.07), 0 0 14px rgba(201,168,76,.07);
     }
     .field input::placeholder { color: var(--muted-2); font-family: var(--mono); font-size: 12px; }
     .field textarea { resize: vertical; min-height: 70px; }
@@ -284,11 +288,11 @@
       align-items: center;
       gap: 8px;
       background: rgba(14,10,28,.7);
-      border: 1px solid rgba(240,168,32,.22);
-      border-top: 1px solid rgba(240,168,32,.36);
+      border: 1px solid rgba(201,168,76,.22);
+      border-top: 1px solid rgba(201,168,76,.36);
       border-radius: 9px;
       padding: 10px 12px;
-      box-shadow: 0 0 10px rgba(240,168,32,.04) inset;
+      box-shadow: 0 0 10px rgba(201,168,76,.04) inset;
     }
     .url-text {
       flex: 1;
@@ -313,10 +317,10 @@
       border: none;
       transition: all 0.15s;
     }
-    .btn-primary { background: linear-gradient(90deg, var(--violet), var(--magenta), var(--crimson), var(--ember), var(--accent)); color: #F0EEF8; box-shadow: 0 0 18px rgba(61,26,136,.35), 0 0 28px rgba(201,168,76,.15), 0 2px 8px rgba(0,0,0,.4); font-family: var(--sans); letter-spacing: .04em; text-transform: none; }
-    .btn-primary:hover { opacity: .88; box-shadow: 0 0 32px rgba(61,26,136,.45), 0 0 36px rgba(201,168,76,.2), 0 2px 8px rgba(0,0,0,.4); }
+    .btn-primary { background: linear-gradient(90deg, var(--violet), var(--crimson)); color: #F0EEF8; box-shadow: 0 0 18px rgba(61,26,136,.35), 0 2px 8px rgba(0,0,0,.4); font-family: var(--sans); letter-spacing: .04em; text-transform: none; }
+    .btn-primary:hover { background: linear-gradient(90deg, #4d22a8, #e01e88); box-shadow: 0 0 28px rgba(61,26,136,.5), 0 2px 8px rgba(0,0,0,.4); }
     .btn-secondary { background: rgba(240,238,248,.03); color: var(--muted); border: 1px solid rgba(240,238,248,.1); backdrop-filter: blur(4px); }
-    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
+    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(201,168,76,.05); }
     .btn-sm { padding: 4px 10px; font-size: 10px; }
     .btn-icon { padding: 5px 8px; }
     .btn-danger { background: rgba(208,24,120,0.10); color: rgba(208,24,120,.85); border: 1px solid rgba(208,24,120,.25); }
@@ -325,14 +329,14 @@
     /* Dossier output */
     .dossier-card {
       background: rgba(22,17,40,.88);
-      border: 1px solid rgba(240,168,32,.16);
-      border-top: 1px solid rgba(240,168,32,.32);
+      border: 1px solid rgba(201,168,76,.16);
+      border-top: 1px solid rgba(201,168,76,.32);
       border-radius: 12px;
       padding: 22px 24px;
       margin-top: 12px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 0 1px rgba(240,168,32,.04) inset, 0 12px 40px rgba(0,0,0,.28);
+      box-shadow: 0 0 0 1px rgba(201,168,76,.04) inset, 0 12px 40px rgba(0,0,0,.28);
     }
     .dossier-name { font-size: 18px; font-weight: normal; font-style: italic; color: var(--text); font-family: Georgia, serif; }
     .dossier-meta { font-size: 10px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono); letter-spacing: .08em; }
@@ -429,8 +433,8 @@
       background: rgba(22,17,40,.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(240,168,32,.35);
-      border-top: 1px solid rgba(240,168,32,.55);
+      border: 1px solid rgba(201,168,76,.35);
+      border-top: 1px solid rgba(201,168,76,.55);
       color: var(--accent);
       padding: 10px 20px;
       border-radius: 20px;
@@ -440,7 +444,7 @@
       text-transform: uppercase;
       z-index: 200;
       animation: slideUp 0.2s ease;
-      box-shadow: 0 0 20px rgba(240,168,32,.18), 0 4px 20px rgba(0,0,0,.45);
+      box-shadow: 0 0 20px rgba(201,168,76,.18), 0 4px 20px rgba(0,0,0,.45);
     }
     @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -502,13 +506,13 @@
       background: rgba(22,17,40,.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(240,168,32,.28);
-      border-top: 1px solid rgba(240,168,32,.45);
+      border: 1px solid rgba(201,168,76,.28);
+      border-top: 1px solid rgba(201,168,76,.45);
       border-radius: 12px;
       padding: 8px 0;
       max-height: 280px;
       overflow-y: auto;
-      box-shadow: 0 12px 32px rgba(0,0,0,.6), 0 0 16px rgba(240,168,32,.06);
+      box-shadow: 0 12px 32px rgba(0,0,0,.6), 0 0 16px rgba(201,168,76,.06);
     }
     .role-group-hdr {
       font-size: 8px;
@@ -532,7 +536,7 @@
       transition: background 0.1s, color 0.1s;
       user-select: none;
     }
-    .role-option:hover { background: rgba(240,168,32,.06); color: var(--text); }
+    .role-option:hover { background: rgba(201,168,76,.06); color: var(--text); }
     .role-option input[type=checkbox] { accent-color: var(--accent); width: 13px; height: 13px; flex-shrink: 0; cursor: pointer; }
     .role-option input[type=checkbox]:checked + span { color: var(--accent); }
     .role-rec-badge {
@@ -610,8 +614,8 @@
       transition: all 0.15s;
       text-transform: uppercase;
     }
-    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
-    .ktab.active { background: rgba(240,168,32,.12); border-color: rgba(240,168,32,.3); color: var(--accent); box-shadow: 0 0 12px rgba(240,168,32,.15); }
+    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(201,168,76,.05); }
+    .ktab.active { background: rgba(201,168,76,.12); border-color: rgba(201,168,76,.3); color: var(--accent); box-shadow: 0 0 12px rgba(201,168,76,.15); }
     .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; }
     .kboard-col {
       flex: 0 0 210px;
@@ -655,7 +659,7 @@
       cursor: default;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .kcard:hover { border-color: rgba(240,168,32,.25); box-shadow: 0 0 10px rgba(240,168,32,.06); }
+    .kcard:hover { border-color: rgba(201,168,76,.25); box-shadow: 0 0 10px rgba(201,168,76,.06); }
     .kcard-title { font-size: 12px; font-family: var(--mono); color: var(--text); margin-bottom: 4px; line-height: 1.4; }
     .kcard-meta { font-size: 9px; font-family: var(--mono); color: var(--muted-2); display: flex; align-items: center; justify-content: space-between; }
     .kcard-actions { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
@@ -732,36 +736,39 @@
     .flask-thinking { animation: flask-glow 1.2s ease-in-out infinite; }
     .flask-bubble { animation: bubble-rise 1s ease-in infinite; }
 
-    /* ── Custom Camera Cursor ─────────────────────────────────────────────── */
-    html,body,*{cursor:none!important}
-    #cur-outer{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:opacity .2s}
-    .cur-ring{transition:stroke .18s}
-    .cur-ring-inner{transition:opacity .18s;opacity:0}
-    .cur-center-dot{transition:fill .15s}
-    body.cur-hovering .cur-ring-inner{opacity:1}
-    body.cur-hovering .cur-center-dot{fill:#EDE5D5}
-    @keyframes cur-ticks-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-    @keyframes cur-bk-nw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,3.5px)}}
-    @keyframes cur-bk-ne{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,3.5px)}}
-    @keyframes cur-bk-sw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,-3.5px)}}
-    @keyframes cur-bk-se{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,-3.5px)}}
-    body.cur-thinking .cur-ring{stroke:#C9A84C!important}
-    body.cur-thinking .cur-ring-inner{opacity:1}
-    body.cur-thinking .cur-ticks-g{animation:cur-ticks-spin 2.2s linear infinite;transform-box:fill-box;transform-origin:center}
-    body.cur-thinking .cur-nw{animation:cur-bk-nw 1.1s ease-in-out infinite}
-    body.cur-thinking .cur-ne{animation:cur-bk-ne 1.1s ease-in-out infinite .13s}
-    body.cur-thinking .cur-sw{animation:cur-bk-sw 1.1s ease-in-out infinite .26s}
-    body.cur-thinking .cur-se{animation:cur-bk-se 1.1s ease-in-out infinite .39s}
-
-    /* ── Page shutter transition ─────────────────────────────────────────── */
-    .main{transition:opacity 0.07s ease-in-out}
-    .main.shutter{opacity:0}
-
     /* ── FOCUS ── */
     :focus { outline: none; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
     /* ── REDUCED MOTION ── */
+    /* ── Mobile layout ── */
+    @media (max-width: 768px) {
+      .layout { flex-direction: column; height: auto; min-height: 100vh; overflow: visible; }
+      .sidebar {
+        width: 100%;
+        flex-direction: column;
+        max-height: none;
+        border-right: none;
+        border-bottom: 1px solid rgba(240,238,248,.07);
+        padding-bottom: 8px;
+      }
+      .sidebar-logo { padding: 14px 16px; }
+      .nav-section { display: flex; flex-direction: row; flex-wrap: wrap; gap: 4px; padding: 6px 12px; flex: unset; }
+      .nav-label { display: none; }
+      .nav-btn { padding: 5px 10px; font-size: 11px; border-radius: 5px; }
+      .nav-icon { display: none; }
+      .sidebar-footer { flex-direction: row; border-top: 1px solid var(--border); padding: 8px 12px; gap: 8px; }
+      .settings-btn { flex: 1; }
+      .main { padding: 20px 16px; overflow-y: visible; }
+      .modal { width: 100%; max-height: 95vh; border-radius: 10px 10px 0 0; }
+      .modal-overlay { align-items: flex-end; }
+    }
+    @media (max-width: 480px) {
+      .nav-btn { padding: 4px 8px; font-size: 10px; }
+      .page-header .page-title { font-size: 18px; }
+      .main { padding: 16px 12px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -786,14 +793,14 @@
   #preview-gate-box {
     width: 360px; padding: 40px 36px;
     background: rgba(20,16,42,.95);
-    border: 1px solid rgba(240,168,32,.22);
+    border: 1px solid rgba(201,168,76,.22);
     border-radius: 16px;
     box-shadow: 0 0 40px rgba(61,26,136,.25), 0 2px 24px rgba(0,0,0,.5);
     text-align: center;
   }
   #preview-gate-logo {
     font-size: 15px; letter-spacing: .06em; font-weight: 500;
-    background: linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
+    background: linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 6px;
   }
@@ -807,11 +814,11 @@
   }
   #preview-gate-input {
     width: 100%; padding: 11px 14px; border-radius: 8px;
-    background: rgba(240,238,248,.04); border: 1px solid rgba(240,168,32,.2);
+    background: rgba(240,238,248,.04); border: 1px solid rgba(201,168,76,.2);
     color: #F0EEF8; font-family: 'JetBrains Mono', monospace; font-size: 14px;
     outline: none; margin-bottom: 14px; text-align: center; letter-spacing: .08em;
   }
-  #preview-gate-input:focus { border-color: rgba(240,168,32,.5); }
+  #preview-gate-input:focus { border-color: rgba(201,168,76,.5); }
   #preview-gate-btn {
     width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer;
     background: #C9A84C; color: #09080A; font-family: 'JetBrains Mono', monospace;
@@ -825,7 +832,7 @@
   #preview-gate-badge {
     display: inline-block; margin-bottom: 20px;
     font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-    color: rgba(240,168,32,.7); border: 1px solid rgba(240,168,32,.2);
+    color: rgba(201,168,76,.7); border: 1px solid rgba(201,168,76,.2);
     padding: 3px 10px; border-radius: 20px;
   }
 </style>
@@ -868,23 +875,6 @@
 <!-- PREVIEW GATE END -->
 
 <div id="root"></div>
-<div id="cur-outer">
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-    <circle class="cur-ring" cx="18" cy="18" r="11.5" stroke="#EDE5D5" stroke-width="1"/>
-    <circle class="cur-ring-inner" cx="18" cy="18" r="7" stroke="#C9A84C" stroke-width="0.7" stroke-dasharray="2 2"/>
-    <g class="cur-ticks-g">
-      <line x1="18" y1="3.5" x2="18" y2="6.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
-      <line x1="32.5" y1="18" x2="29.5" y2="18" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
-      <line x1="18" y1="32.5" x2="18" y2="29.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
-      <line x1="3.5" y1="18" x2="6.5" y2="18" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
-    </g>
-    <path class="cur-nw" d="M2.5 2.5 L2.5 7.5 M2.5 2.5 L7.5 2.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-    <path class="cur-ne" d="M33.5 2.5 L33.5 7.5 M33.5 2.5 L28.5 2.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-    <path class="cur-sw" d="M2.5 33.5 L2.5 28.5 M2.5 33.5 L7.5 33.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-    <path class="cur-se" d="M33.5 33.5 L33.5 28.5 M33.5 33.5 L28.5 33.5" stroke="#C9A84C" stroke-width="1.4" stroke-linecap="round" fill="none"/>
-    <circle class="cur-center-dot" cx="18" cy="18" r="2.5" fill="#C9A84C"/>
-  </svg>
-</div>
 <script type="text/babel">
 const { useState, useEffect, useCallback, useRef } = React;
 
@@ -902,6 +892,64 @@ const MODEL_PRICING = {
 function calcCost(model, inputTokens, outputTokens) {
   const p = MODEL_PRICING[model] || { input: 3.00, output: 15.00 };
   return (inputTokens * p.input + outputTokens * p.output) / 1_000_000;
+}
+
+// ── Owner token helper ───────────────────────────────────────────────────────
+function ownerHash(name) {
+  return btoa(unescape(encodeURIComponent((name || '').toLowerCase().trim())));
+}
+
+// ── Multi-provider AI helper ─────────────────────────────────────────────────
+function detectProvider(key) {
+  if (!key) return null;
+  if (key.startsWith('sk-ant-')) return 'anthropic';
+  if (key.startsWith('sk-')) return 'openai';
+  if (key.startsWith('AIzaSy')) return 'google';
+  return 'anthropic';
+}
+
+async function callAI(apiKey, prompt, maxTokens = 1000) {
+  const provider = detectProvider(apiKey);
+  const stored = load();
+  if (stored?.ownerToken) {
+    const profile = stored.profile;
+    if (stored.ownerToken !== ownerHash(profile?.name)) {
+      throw new Error('API key is profile-locked. Open Settings and verify your profile to use AI features.');
+    }
+  }
+  if (provider === 'openai') {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        max_tokens: maxTokens,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.choices[0].message.content.trim();
+  } else {
+    // Anthropic (default)
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: maxTokens,
+        messages: [{ role: 'user', content: prompt }],
+      }),
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.content[0].text.trim();
+  }
 }
 
 function trackCall({ callType, model, inputTokens, outputTokens, durationMs, success, error }) {
@@ -938,66 +986,40 @@ const DEFAULTS = {
   apiKey: '',
 };
 
-// ── Company Tier KPI Framework ────────────────────────────────────────────────
-const TIER_KPIS = [
-  { id: 'role_match',   label: 'Role Match',     weight: 0.30, desc: 'Open roles at your target title/level right now' },
-  { id: 'domain_fit',   label: 'Domain Fit',     weight: 0.25, desc: 'Company operates in your target domain' },
-  { id: 'comp_align',   label: 'Comp Alignment', weight: 0.20, desc: 'Expected comp band meets your target range' },
-  { id: 'network',      label: 'Network Signal', weight: 0.15, desc: 'Likelihood of warm-path access' },
-  { id: 'growth_stage', label: 'Growth Stage',   weight: 0.10, desc: 'Stage where a Principal PM has real leverage' },
-];
-function computeWeights(adaptive, profile) {
-  const fixed = Object.fromEntries(TIER_KPIS.map(k => [k.id, k.weight]));
-  if (!adaptive) return fixed;
-  return (profile && profile.adaptiveWeights) ? profile.adaptiveWeights : fixed;
-}
-function computeComposite(scores, weights) {
-  return TIER_KPIS.reduce((sum, kpi) => {
-    const s = (scores && scores[kpi.id] && scores[kpi.id].score != null) ? scores[kpi.id].score : 0;
-    return sum + s * (weights[kpi.id] != null ? weights[kpi.id] : kpi.weight);
-  }, 0);
-}
-function compositeToTier(composite) {
-  if (composite >= 0.75) return 1;
-  if (composite >= 0.50) return 2;
-  return 3;
-}
-function effectiveTier(entry) {
-  return entry.tierOverride != null ? entry.tierOverride : (entry.tier || 2);
-}
-
-async function researchCompanyForTier(company, profile, apiKey, adaptive) {
-  const weights = computeWeights(adaptive, profile);
-  const weightLines = TIER_KPIS.map(k =>
-    `- ${k.label} (weight ${Math.round(weights[k.id]*100)}%): ${k.desc}`
-  ).join('\n');
-  const sys = `You are a career intelligence analyst evaluating companies for a senior PM candidate.
-Candidate: role="${profile.role||'Senior/Principal PM'}", domain="${profile.targetDomain||'AI/HCM/B2B SaaS'}", background="${profile.background||''}", edge="${profile.edge||''}".
-Score each KPI 0.0–1.0 based on public knowledge:
-${weightLines}
-Respond ONLY with this exact JSON (no prose):
-{"scores":{"role_match":{"score":0.0,"rationale":"one sentence"},"domain_fit":{"score":0.0,"rationale":"one sentence"},"comp_align":{"score":0.0,"rationale":"one sentence"},"network":{"score":0.0,"rationale":"one sentence"},"growth_stage":{"score":0.0,"rationale":"one sentence"}}}
-Score conservatively (0.4–0.6) if uncertain. Be specific about public facts.`;
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type':'application/json', 'x-api-key':apiKey,
-      'anthropic-version':'2023-06-01', 'anthropic-dangerous-direct-browser-access':'true' },
-    body: JSON.stringify({ model:'claude-haiku-4-5-20251001', max_tokens:500,
-      system: sys, messages:[{role:'user', content:`Evaluate "${company}" for this candidate.`}] }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}`);
-  const data = await res.json();
-  const text = data.content?.[0]?.text || '';
-  const m = text.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('No JSON in response');
-  const parsed = JSON.parse(m[0]);
-  const scores = parsed.scores;
-  const composite = computeComposite(scores, weights);
-  return { scores, composite, tier: compositeToTier(composite) };
-}
+const DEMO_DATA = {
+  topJobs: [
+    { title:'Principal PM, AI Platform', company:'Workday', location:'Remote', type:'Full-time', level:'Principal', posted:'Today', salary:'$175,000 – $210,000/yr', snippet:'Lead product strategy for Workday\'s AI platform serving 10,000+ enterprise customers in HR and finance.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Principal+PM+AI+Platform&location=Remote' },
+    { title:'Senior Product Manager, Enterprise AI', company:'ServiceNow', location:'Santa Clara, CA', type:'Full-time', level:'Senior', posted:'2 days ago', salary:'$165,000 – $195,000/yr', snippet:'Own the roadmap for AI-powered workflow automation products used by Fortune 500 enterprises.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Senior+PM+Enterprise+AI&location=Santa+Clara' },
+    { title:'Staff PM — AI Governance', company:'Salesforce', location:'Remote', type:'Full-time', level:'Staff', posted:'3 days ago', salary:'$180,000 – $215,000/yr', snippet:'Define governance frameworks for responsible AI deployment across Salesforce\'s cloud products.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Staff+PM+AI+Governance&location=Remote' },
+    { title:'Director of Product, AI & ML', company:'UiPath', location:'New York, NY / Remote', type:'Full-time', level:'Director', posted:'1 week ago', salary:'$190,000 – $230,000/yr', snippet:'Drive AI product vision for enterprise automation platform with 10M+ users across regulated industries.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Director+Product+AI+ML&location=New+York' },
+    { title:'Principal Product Manager — HCM AI', company:'ADP', location:'Roseland, NJ / Hybrid', type:'Full-time', level:'Principal', posted:'5 days ago', salary:'$170,000 – $200,000/yr', snippet:'Shape AI-powered HCM products for 1M+ businesses. Deep focus on compliance, governance, and enterprise trust.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Principal+PM+HCM+AI&location=New+Jersey' },
+  ],
+  companyResearch: {
+    name:'Workday', industry:'Enterprise SaaS — HCM & Finance', stage:'Public (WDAY)', headcount:'~18,500',
+    overview:'Workday delivers cloud-based HCM and financial management for large enterprises. Known for strong enterprise trust, high retention, and deep integrations across HR, payroll, talent, and finance workflows.',
+    payContext:'Base range for Principal PM typically $175K–$210K with strong equity refresh cadence. Above market for AI-focused roles.',
+    competitors:['SAP SuccessFactors','Oracle HCM','Ceridian Dayforce','ADP Enterprise'],
+    workArrangement:'Primarily remote-first for PM roles; some team hubs in Pleasanton CA and Atlanta. Quarterly onsites.',
+    cultureSignals:'Strong collaboration culture. PM craft is respected. Glassdoor: 4.1/5. Common theme: good peers, slower executive decision cycles.',
+    recentSignals:'Workday AI launched Jan 2024 with 40+ AI/ML skills embedded in core product. Partnered with AI companies for copilot features. Q4 2024 beat revenue guidance.',
+    matchScore: 9,
+    matchRationale:'Deep overlap — enterprise HCM AI governance is your primary credential',
+    fitAngle:'Your governance architecture work at UKG maps directly to what Workday is building. You\'ve solved the exact compliance + regulated workflow problems they\'re facing at scale.',
+    watchoutFlags:[{ severity:'MED', category:'Growth', finding:'Large org with defined product tracks — scope for a new hire may be narrower than title suggests', probe:'What does day-90 ownership look like for this role vs. what exists today?' }],
+    blindSpots:[{ gap:'Internal AI roadmap beyond public announcements', probe:'What\'s the 12-month product surface expansion plan for Workday AI?' }],
+    interviewQuestions:['How does the AI governance model handle regulated industries like healthcare?','What\'s the biggest product bet you\'re making in HCM AI this year?','How do PMs interact with the ML platform team?','What does the 30-60-90 look like for this role?','How is success measured for AI use cases in year one?'],
+    researchNote:'Company data from public filings and Glassdoor. Pay ranges estimated from levels.fyi and LinkedIn Salary. Confirm actual ranges in recruiter screen.'
+  },
+  signals: [
+    { id:1, type:'funding', company:'Glean', headline:'Glean raises $260M Series E at $4.6B valuation', summary:'Enterprise AI search company Glean closes large round as demand for work AI tools accelerates.', ts: Date.now() - 86400000 },
+    { id:2, type:'hiring', company:'Anthropic', headline:'Anthropic expanding enterprise PM team', summary:'Multiple Principal PM and Staff PM roles posted across enterprise AI platform and trust & safety orgs.', ts: Date.now() - 172800000 },
+    { id:3, type:'news', company:'Microsoft', headline:'Microsoft Copilot for Business hits 1M daily active users', summary:'Enterprise adoption of AI copilot tools continues to accelerate, driven by governance-ready deployments.', ts: Date.now() - 259200000 },
+    { id:4, type:'hiring', company:'Salesforce', headline:'Salesforce adding AI governance product roles', summary:'New staff and principal PM roles focused on responsible AI frameworks for regulated enterprise customers.', ts: Date.now() - 345600000 },
+  ],
+};
 
 const JOB_ROLES = [
-  // Recommended — strong match for Danielle's background
+  // Recommended roles for this target profile
   { label: 'Senior PM, AI',           recommended: true },
   { label: 'Principal PM, AI',        recommended: true },
   { label: 'Principal PM, AI Platform', recommended: true },
@@ -1214,7 +1236,13 @@ Add to the JSON: "sources":[{"label":"source description","url":"actual URL or n
 }
 
 function persist(data) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  try {
+    const out = { ...data };
+    if (out.apiKey && out.profile?.name) {
+      out.ownerToken = ownerHash(out.profile.name);
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(out));
+  } catch(e) {}
 }
 
 function load() {
@@ -1403,7 +1431,7 @@ function haversineMi(lat1, lon1, lat2, lon2) {
 
 // ── Job Search Mode ───────────────────────────────────────────────────────────
 
-function JobSearch() {
+function JobSearch({ demoMode = false }) {
   const [selectedRoles, setSelectedRoles] = useState(() => {
     const saved = load();
     return saved && saved.jobSearch && saved.jobSearch.roles
@@ -1652,6 +1680,15 @@ Return ONLY a valid JSON array with exactly 8 objects. No markdown, no explanati
 - "linkedinUrl": a realistic LinkedIn jobs search URL`;
 
     try {
+      if (demoMode) {
+        setSearchResults(DEMO_DATA.topJobs.concat([
+          { title:'Head of AI Product', company:'Veeva Systems', location:'Remote', type:'Full-time', level:'Director', posted:'2 weeks ago', salary:'$195,000 – $235,000/yr', snippet:'Lead AI product for life sciences cloud used by 1,000+ pharma and biotech companies.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Head+AI+Product&location=Remote' },
+          { title:'Principal PM — Workforce AI', company:'Kronos/UKG', location:'Lowell, MA / Remote', type:'Full-time', level:'Principal', posted:'1 week ago', salary:'$160,000 – $190,000/yr', snippet:'Drive next-gen AI features for WFM and HCM platform serving 70,000+ organizations.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Principal+PM+Workforce+AI' },
+          { title:'Staff PM, Enterprise AI Platform', company:'Box', location:'Redwood City, CA / Remote', type:'Full-time', level:'Staff', posted:'4 days ago', salary:'$170,000 – $205,000/yr', snippet:'Own the AI platform product surface for Box\'s 100,000+ enterprise customers.', linkedinUrl:'https://www.linkedin.com/jobs/search/?keywords=Staff+PM+Enterprise+AI+Platform' },
+        ]));
+        setSearching(false);
+        return;
+      }
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
@@ -1703,6 +1740,11 @@ Return ONLY a valid JSON array with exactly 8 objects. No markdown, no explanati
     if (topDebounceRef.current) clearTimeout(topDebounceRef.current);
     if (!hasTerms) return;
     topDebounceRef.current = setTimeout(async () => {
+      if (demoMode) {
+        setTopJobs(DEMO_DATA.topJobs);
+        setTopJobsLoading(false);
+        return;
+      }
       const apiKey = load()?.apiKey;
       if (!apiKey) return;
       setTopJobsLoading(true);
@@ -1860,7 +1902,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                   <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>📍 {job.location}</span>
                   <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>{job.level}</span>
                   {job.salary && job.salary !== 'Competitive' && (
-                    <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'1px 7px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>{job.salary}</span>
+                    <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(201,168,76,.85)', padding:'1px 7px', background:'rgba(201,168,76,.07)', borderRadius:4, border:'1px solid rgba(201,168,76,.15)'}}>{job.salary}</span>
                   )}
                 </div>
                 {job.snippet && (
@@ -2182,7 +2224,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                     {locationUrls.length > 1 && loc && (
                       <div style={{
                         marginBottom:8,marginTop: i > 0 ? 14 : 0,
-                        padding:'4px 10px',background:'rgba(240,168,32,.07)',
+                        padding:'4px 10px',background:'rgba(201,168,76,.07)',
                         border:'1px solid var(--accent-bdr)',borderRadius:5,
                         fontSize:10,color:'var(--accent)',fontFamily:'var(--mono)',
                         letterSpacing:'.06em',display:'inline-block',
@@ -2348,7 +2390,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                   {job.posted}
                 </span>
                 {job.salary && job.salary !== 'Competitive' && (
-                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'2px 8px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(201,168,76,.85)', padding:'2px 8px', background:'rgba(201,168,76,.07)', borderRadius:4, border:'1px solid rgba(201,168,76,.15)'}}>
                     {job.salary}
                   </span>
                 )}
@@ -2461,7 +2503,7 @@ function PeopleContacts({ watchList }) {
 
 // ── Deep Research Mode ────────────────────────────────────────────────────────
 
-function DeepResearch({ profile, apiKey, onNeedApiKey }) {
+function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
   const [researchType, setResearchType] = useState(() => {
     const s = load(); return s?.deepResearch?.lastType || 'person';
   });
@@ -2572,6 +2614,11 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
   }
 
   async function runResearch() {
+    if (demoMode) {
+      setLoading(false);
+      setResult({ type: 'company', data: DEMO_DATA.companyResearch });
+      return;
+    }
     setLoading(true); setResult(null); setError('');
     try {
       if (researchType === 'person') {
@@ -2777,7 +2824,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
       </div>
 
       {!apiKey && (
-        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
+        <div className="card" style={{borderColor:'rgba(201,168,76,.4)', background:'rgba(201,168,76,.06)'}}>
           <div style={{fontSize:13, color:'var(--accent)'}}>
             Anthropic API key required.{' '}
             <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add it in Settings.</button>
@@ -2880,9 +2927,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.name}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -2928,7 +2975,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
       {/* ── Company Result ── */}
       {result && result.type === 'company' && (() => {
         const d = result.data;
-        const chipStyle = { display:'inline-block', padding:'3px 10px', background:'rgba(240,168,32,.12)', border:'1px solid rgba(240,168,32,.22)', borderRadius:12, fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)', marginRight:6, marginBottom:4 };
+        const chipStyle = { display:'inline-block', padding:'3px 10px', background:'rgba(201,168,76,.12)', border:'1px solid rgba(201,168,76,.22)', borderRadius:12, fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)', marginRight:6, marginBottom:4 };
         const statBox = (label, value) => (
           <div style={{flex:1, minWidth:0, background:'rgba(240,238,248,.04)', border:'1px solid var(--border)', borderRadius:8, padding:'12px 14px'}}>
             <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4}}>{label}</div>
@@ -2943,9 +2990,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.name}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -3008,7 +3055,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
                   const sevColor = f.severity === 'HIGH'
                     ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
                     : f.severity === 'MED'
-                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
+                    ? {bg:'rgba(201,168,76,.12)', border:'rgba(201,168,76,.28)', text:'rgba(201,168,76,.95)'}
                     : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
                   return (
                     <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
@@ -3068,9 +3115,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.company}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -3094,7 +3141,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
             </Section>
             {d.edgeToEmphasize && (
               <Section title="Your Edge" text={d.edgeToEmphasize}>
-                <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55, padding:'10px 14px', background:'rgba(240,168,32,.06)', border:'1px solid rgba(240,168,32,.18)', borderRadius:7}}>{d.edgeToEmphasize}</div>
+                <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55, padding:'10px 14px', background:'rgba(201,168,76,.06)', border:'1px solid rgba(201,168,76,.18)', borderRadius:7}}>{d.edgeToEmphasize}</div>
               </Section>
             )}
             {d.watchoutFlags?.length > 0 && (
@@ -3104,7 +3151,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey }) {
                   const sevColor = f.severity === 'HIGH'
                     ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
                     : f.severity === 'MED'
-                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
+                    ? {bg:'rgba(201,168,76,.12)', border:'rgba(201,168,76,.28)', text:'rgba(201,168,76,.95)'}
                     : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
                   return (
                     <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
@@ -3439,48 +3486,71 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
   const [localWatch, setLocalWatch] = useState([...watchList]);
   const [keyEditMode, setKeyEditMode] = useState(!apiKey);
   const [newCompany, setNewCompany] = useState('');
-  const [researching, setResearching] = useState(false);
-  const [researchError, setResearchError] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
-  const [adaptive, setAdaptive] = useState(!!(profile && profile.adaptiveWeights));
+  const [newTier, setNewTier] = useState('2');
   const [toast, setToast] = useState(null);
+  // Smart Profile Builder state
+  const [smartText, setSmartText] = useState('');
+  const [smartLoading, setSmartLoading] = useState(false);
+  const [smartError, setSmartError] = useState(null);
+
+  const activeKey = localKey || apiKey;
+  const detectedProvider = detectProvider(activeKey);
+  const providerLabel = detectedProvider === 'openai' ? 'OpenAI' : detectedProvider === 'google' ? 'Google' : detectedProvider === 'anthropic' ? 'Anthropic' : null;
+
+  async function buildFromText() {
+    if (!smartText.trim()) return;
+    if (!activeKey) { setSmartError('Add an API key first — any provider works.'); return; }
+    setSmartLoading(true); setSmartError(null);
+    const prompt = `Extract career profile data from the text below. Return ONLY valid JSON with these exact keys:
+- "name": full name (string or null)
+- "role": target/current job title (string)
+- "targetDomain": 2-3 domain keywords, comma separated (string)
+- "background": 2-3 sentences describing experience (string)
+- "edge": unique competitive advantage — include specifics, numbers, named skills (string)
+- "homeCity": city, state if mentioned (string or null)
+
+Text:
+${smartText}
+
+Return ONLY the JSON object. No markdown, no explanation.`;
+    try {
+      const text = await callAI(activeKey, prompt, 600);
+      const clean = text.replace(/```json\n?|\n?```/g, '').trim();
+      const extracted = JSON.parse(clean);
+      setLocalProfile(prev => ({
+        ...prev,
+        ...(extracted.name && { name: extracted.name }),
+        ...(extracted.role && { role: extracted.role }),
+        ...(extracted.targetDomain && { targetDomain: extracted.targetDomain }),
+        ...(extracted.background && { background: extracted.background }),
+        ...(extracted.edge && { edge: extracted.edge }),
+        ...(extracted.homeCity && { homeCity: extracted.homeCity }),
+      }));
+      setSmartText('');
+      setToast('Profile extracted — review and save');
+    } catch(e) {
+      setSmartError('Extraction failed — try pasting more detail or check your API key.');
+    } finally {
+      setSmartLoading(false);
+    }
+  }
 
   const edgeScore = scoreEdge(localProfile.edge);
   const barColor = edgeScore >= 70 ? '#22C55E' : edgeScore >= 40 ? '#F59E0B' : '#EF4444';
 
   function save() {
-    setProfile({...localProfile, adaptiveWeights: adaptive ? localProfile.adaptiveWeights : undefined});
+    setProfile(localProfile);
     setApiKey(localKey);
     setWatchList(localWatch);
-    setKeyEditMode(!localKey);
+    setKeyEditMode(!localKey); // stay in edit mode only if key is still empty
     onClose();
   }
 
-  async function addAndScore() {
-    const name = newCompany.trim();
-    if (!name) return;
-    const key = localKey || apiKey;
-    if (!key) { setResearchError('Add your API key first (API Key tab)'); return; }
-    setResearching(true); setResearchError(null);
-    try {
-      const result = await researchCompanyForTier(name, localProfile, key, adaptive);
-      const entry = { id: Date.now(), company: name, tier: result.tier,
-        scores: result.scores, composite: result.composite,
-        tierOverride: null, researched: true, researchedAt: new Date().toISOString().slice(0,10) };
-      setLocalWatch(prev => [...prev, entry]);
-      setNewCompany('');
-    } catch(e) {
-      setResearchError('Research failed: ' + e.message);
-    } finally { setResearching(false); }
-  }
-
-  function bumpTier(id, dir) {
-    setLocalWatch(prev => prev.map(w => {
-      if (w.id !== id) return w;
-      const cur = effectiveTier(w);
-      const next = Math.max(1, Math.min(3, cur + dir));
-      return {...w, tierOverride: next === w.tier ? null : next};
-    }));
+  function addCompany() {
+    if (!newCompany.trim()) return;
+    const id = Date.now();
+    setLocalWatch([...localWatch, { id, company: newCompany.trim(), tier: parseInt(newTier) }]);
+    setNewCompany('');
   }
 
   function removeCompany(id) {
@@ -3489,10 +3559,9 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 
   const TabBtn = ({ id, label }) => (
     <button onClick={() => setTab(id)}
-      style={{padding:'5px 14px', border:'none', background: tab===id ? 'var(--accent-dim)' : 'none',
-        borderRadius: 6, cursor:'pointer', fontSize: 10, fontWeight: tab===id ? 600 : 400,
-        color: tab===id ? 'var(--accent)' : 'var(--muted)', fontFamily: 'var(--mono)',
-        letterSpacing: '.18em', textTransform: 'uppercase', transition: 'color .2s, background .2s'}}>
+      style={{padding:'6px 14px', border:'none', background: tab===id ? 'rgba(245,156,0,0.10)' : 'none',
+        borderRadius: 6, cursor:'pointer', fontSize: 13, fontWeight: tab===id ? 600 : 400,
+        color: tab===id ? '#f59c00' : '#8888a0', fontFamily: 'inherit'}}>
       {label}
     </button>
   );
@@ -3518,6 +3587,33 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
               <div style={{display:'flex',alignItems:'flex-start',gap:8,padding:'8px 10px',background:'rgba(91,184,112,.06)',border:'1px solid rgba(91,184,112,.18)',borderRadius:6,marginBottom:14,fontSize:12,color:'rgba(91,184,112,.85)',lineHeight:1.6}}>
                 <span style={{flexShrink:0,marginTop:1}}>🔒</span>
                 <span>Your profile data stays in this browser only — it is never sent to any server except when you explicitly run an AI call. KPI snapshot exports may contain personal data; store them carefully.</span>
+              </div>
+
+              {/* ── Smart Profile Builder ── */}
+              <div style={{marginBottom:18,padding:'12px 14px',background:'rgba(61,26,136,.08)',border:'1px solid rgba(139,43,190,.2)',borderRadius:8}}>
+                <div style={{fontSize:11,fontFamily:'var(--mono)',letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(139,43,190,.9)',marginBottom:6}}>
+                  ✦ Smart Profile Builder
+                </div>
+                <div style={{fontSize:12,color:'var(--muted)',marginBottom:10,lineHeight:1.65}}>
+                  Paste your LinkedIn About section, resume summary, or any career bio. AI will extract and fill your profile fields automatically. Works with any API key.
+                </div>
+                <textarea
+                  rows={4}
+                  value={smartText}
+                  onChange={e => setSmartText(e.target.value)}
+                  placeholder="Paste your LinkedIn About section, resume summary, or bio here…"
+                  style={{width:'100%',padding:'9px 11px',background:'rgba(0,0,0,.3)',border:'1px solid rgba(139,43,190,.2)',borderRadius:6,color:'var(--text)',fontSize:12,fontFamily:'var(--mono)',lineHeight:1.6,resize:'vertical',marginBottom:8}}
+                />
+                {smartError && (
+                  <div style={{fontSize:11,color:'rgba(208,24,120,.8)',marginBottom:8}}>{smartError}</div>
+                )}
+                <button
+                  className="btn btn-primary"
+                  style={{padding:'7px 18px',fontSize:12}}
+                  onClick={buildFromText}
+                  disabled={smartLoading || !smartText.trim()}>
+                  {smartLoading ? 'Extracting…' : activeKey ? `Extract with ${providerLabel || 'AI'}` : 'Add API key first'}
+                </button>
               </div>
               <div className="field">
                 <label>Name</label>
@@ -3557,193 +3653,95 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 
           {tab === 'watchlist' && (
             <div>
-              {/* Adaptive weights toggle */}
-              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:14,padding:'8px 10px',
-                background:'rgba(201,168,76,.04)',border:'1px solid rgba(201,168,76,.12)',borderRadius:6}}>
-                <label style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer',flex:1}}>
-                  <input type="checkbox" checked={adaptive} onChange={e => setAdaptive(e.target.checked)}
-                    style={{accentColor:'var(--accent)',width:13,height:13}} />
-                  <span style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:'.14em',textTransform:'uppercase',color:'var(--muted)'}}>
-                    Profile-adaptive weights
-                  </span>
-                </label>
-                <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em'}}>
-                  {adaptive ? 'KPI weights shift based on your edge statement' : 'Fixed: 30/25/20/15/10'}
-                </span>
+              <div className="add-row">
+                <input value={newCompany} onChange={e => setNewCompany(e.target.value)}
+                  placeholder="Add company…"
+                  onKeyDown={e => e.key === 'Enter' && addCompany()}
+                  style={{flex:1, padding:'8px 10px', border:'1px solid #1e1e2a', borderRadius:6, fontSize:13, background:'#111118', color:'#e8e8f0', fontFamily:'inherit'}} />
+                <div style={{position:'relative'}}>
+                  <select value={newTier} onChange={e => setNewTier(e.target.value)}
+                    style={{padding:'8px 28px 8px 10px', border:'1px solid #1e1e2a', borderRadius:6, fontSize:13, background:'#16161f', color:'#e8e8f0'}}>
+                    <option value="1">Tier 1</option>
+                    <option value="2">Tier 2</option>
+                    <option value="3">Tier 3</option>
+                  </select>
+                </div>
+                <button className="btn btn-primary" onClick={addCompany}>Add</button>
               </div>
-
-              {/* KPI key */}
-              <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:14}}>
-                {TIER_KPIS.map(k => (
-                  <span key={k.id} style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:'.08em',
-                    color:'rgba(201,168,76,.7)',border:'1px solid rgba(201,168,76,.15)',
-                    borderRadius:3,padding:'2px 6px',textTransform:'uppercase'}}>
-                    {k.label} {Math.round(k.weight*100)}%
-                  </span>
-                ))}
-              </div>
-
-              {/* Add row */}
-              <div className="add-row" style={{marginBottom:4}}>
-                <input value={newCompany} onChange={e => { setNewCompany(e.target.value); setResearchError(null); }}
-                  placeholder="Company name…"
-                  onKeyDown={e => e.key === 'Enter' && !researching && addAndScore()}
-                  style={{flex:1, padding:'8px 10px', border:'1px solid var(--border)', borderRadius:6,
-                    fontSize:13, background:'var(--bg-2)', color:'var(--text)', fontFamily:'Georgia, serif'}} />
-                <button className="btn btn-primary" onClick={addAndScore} disabled={researching || !newCompany.trim()}
-                  style={{minWidth:120,opacity:(researching||!newCompany.trim())?.6:1}}>
-                  {researching ? '⟳ Scoring…' : 'Research & Score'}
-                </button>
-              </div>
-              {researchError && <div className="error-msg" style={{marginBottom:8}}>{researchError}</div>}
-
-              {/* Company list */}
-              <div style={{display:'flex',flexDirection:'column',gap:6,marginTop:10}}>
-                {localWatch.length === 0 && (
-                  <div className="empty-state">No companies yet — research your first one above.</div>
-                )}
-                {localWatch.map(w => {
-                  const tier = effectiveTier(w);
-                  const isExp = expandedId === w.id;
-                  const composite = w.composite != null ? Math.round(w.composite * 100) : null;
-                  const isOverridden = w.tierOverride != null;
-                  return (
-                    <div key={w.id} style={{border:`1px solid rgba(201,168,76,${tier===1?.25:tier===2?.15:.08})`,
-                      borderRadius:8,overflow:'hidden',background:'rgba(201,168,76,.02)'}}>
-                      {/* Row header */}
-                      <div style={{display:'flex',alignItems:'center',gap:10,padding:'9px 12px'}}>
-                        <span className={`tier-badge tier-${tier}`} style={{flexShrink:0}}>
-                          T{tier}{isOverridden ? '*' : ''}
-                        </span>
-                        <span style={{flex:1,fontSize:13,color:'var(--text)',fontFamily:'Georgia,serif'}}>{w.company}</span>
-                        {composite != null && (
-                          <span style={{fontFamily:'var(--mono)',fontSize:10,color:'var(--muted-2)',letterSpacing:'.06em'}}>
-                            {composite}
-                          </span>
-                        )}
-                        {/* Bump controls */}
-                        <button onClick={() => bumpTier(w.id, -1)} disabled={tier<=1}
-                          style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
-                            color:tier<=1?'var(--muted-2)':'var(--muted)',fontSize:11,padding:'2px 7px',cursor:tier<=1?'not-allowed':'pointer'}}>
-                          ↑
-                        </button>
-                        <button onClick={() => bumpTier(w.id, 1)} disabled={tier>=3}
-                          style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
-                            color:tier>=3?'var(--muted-2)':'var(--muted)',fontSize:11,padding:'2px 7px',cursor:tier>=3?'not-allowed':'pointer'}}>
-                          ↓
-                        </button>
-                        {w.researched && (
-                          <button onClick={() => setExpandedId(isExp ? null : w.id)}
-                            style={{background:'none',border:'1px solid var(--border)',borderRadius:4,
-                              color:'var(--muted)',fontSize:11,padding:'2px 7px',cursor:'pointer'}}>
-                            {isExp ? '▲' : '▼'}
-                          </button>
-                        )}
-                        <button onClick={() => removeCompany(w.id)}
-                          style={{background:'none',border:'1px solid rgba(208,24,120,.25)',borderRadius:4,
-                            color:'rgba(208,24,120,.7)',fontSize:11,padding:'2px 7px',cursor:'pointer'}}>
-                          ✕
-                        </button>
-                      </div>
-                      {/* Composite bar */}
-                      {composite != null && (
-                        <div style={{height:2,background:'rgba(201,168,76,.08)',margin:'0 12px 0'}}>
-                          <div style={{height:'100%',width:`${composite}%`,
-                            background:tier===1?'var(--accent)':tier===2?'rgba(201,168,76,.6)':'rgba(201,168,76,.35)',
-                            borderRadius:1,transition:'width .4s'}} />
-                        </div>
-                      )}
-                      {/* KPI breakdown */}
-                      {isExp && w.scores && (
-                        <div style={{padding:'10px 12px 12px',borderTop:'1px solid rgba(201,168,76,.08)',marginTop:4}}>
-                          {TIER_KPIS.map(kpi => {
-                            const s = w.scores[kpi.id];
-                            const pct = s ? Math.round(s.score * 100) : 0;
-                            return (
-                              <div key={kpi.id} style={{marginBottom:8}}>
-                                <div style={{display:'flex',justifyContent:'space-between',marginBottom:2}}>
-                                  <span style={{fontFamily:'var(--mono)',fontSize:9,letterSpacing:'.12em',
-                                    textTransform:'uppercase',color:'var(--muted-2)'}}>{kpi.label}</span>
-                                  <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)'}}>{pct}</span>
-                                </div>
-                                <div style={{height:3,background:'rgba(201,168,76,.08)',borderRadius:2,marginBottom:3}}>
-                                  <div style={{height:'100%',width:`${pct}%`,borderRadius:2,
-                                    background:pct>=75?'var(--accent)':pct>=50?'rgba(201,168,76,.6)':'rgba(208,24,120,.45)',
-                                    transition:'width .35s'}} />
-                                </div>
-                                {s?.rationale && (
-                                  <span style={{fontFamily:'var(--mono)',fontSize:9,color:'rgba(237,229,213,.45)',letterSpacing:'.03em',lineHeight:1.5}}>
-                                    {s.rationale}
-                                  </span>
-                                )}
-                              </div>
-                            );
-                          })}
-                          {isOverridden && (
-                            <div style={{marginTop:6,fontFamily:'var(--mono)',fontSize:9,color:'rgba(201,168,76,.5)',letterSpacing:'.08em'}}>
-                              * Tier manually adjusted from auto-assigned T{w.tier}
-                            </div>
-                          )}
-                          {w.researchedAt && (
-                            <div style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em',marginTop:2}}>
-                              Scored {w.researchedAt}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+              <table className="watch-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Tier</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {localWatch.map(w => (
+                    <tr key={w.id}>
+                      <td>{w.company}</td>
+                      <td>
+                        <span className={`tier-badge tier-${w.tier}`}>T{w.tier}</span>
+                      </td>
+                      <td style={{textAlign:'right'}}>
+                        <button className="btn btn-sm btn-danger" onClick={() => removeCompany(w.id)}>Remove</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
 
 {tab === 'api' && (
             <div>
-              {/* Security warning */}
               <div style={{display:'flex',alignItems:'flex-start',gap:8,padding:'10px 12px',background:'rgba(208,24,120,.06)',border:'1px solid rgba(208,24,120,.2)',borderRadius:6,marginBottom:16,fontSize:12,color:'rgba(208,24,120,.85)',lineHeight:1.65}}>
                 <span style={{flexShrink:0,marginTop:1}}>⚠️</span>
-                <span>Your API key is stored in browser localStorage — accessible to any JavaScript running on this page. <strong style={{color:'rgba(208,24,120,.95)'}}>For best security: use a dedicated browser profile for this tool.</strong> Never share your browser profile or leave it unlocked on a shared machine.</span>
+                <span>Your API key is stored in browser localStorage. <strong style={{color:'rgba(208,24,120,.95)'}}>Use a dedicated browser profile for this tool.</strong> Never share your profile or leave it unlocked on a shared machine.</span>
               </div>
 
               <div className="field">
-                <label>Anthropic API Key</label>
+                <label style={{display:'flex',alignItems:'center',gap:8}}>
+                  AI API Key
+                  {localKey && detectProvider(localKey) && (
+                    <span style={{fontSize:10,fontFamily:'var(--mono)',padding:'2px 8px',borderRadius:3,
+                      background: detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.12)' : 'rgba(201,168,76,.1)',
+                      color: detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.9)' : 'var(--accent)',
+                      border: `1px solid ${detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.25)' : 'rgba(201,168,76,.2)'}`,
+                      letterSpacing:'.06em'}}>
+                      {detectProvider(localKey) === 'openai' ? '✓ OpenAI detected' : detectProvider(localKey) === 'anthropic' ? '✓ Anthropic detected' : '✓ Key detected'}
+                    </span>
+                  )}
+                </label>
 
-                {/* Masked display — shown when key is saved and not in edit mode */}
                 {localKey && !keyEditMode ? (
-                  <div>
-                    <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'rgba(201,168,76,.06)',border:'1px solid rgba(201,168,76,.18)',borderRadius:6,fontFamily:'var(--mono)',fontSize:13,color:'rgba(237,229,213,.7)',letterSpacing:'.04em'}}>
-                      <span style={{flex:1}}>sk-ant-••••••••••••{localKey.slice(-4)}</span>
-                      <button onClick={() => { setLocalKey(''); setKeyEditMode(true); }}
-                        style={{padding:'3px 10px',border:'1px solid rgba(208,24,120,.3)',borderRadius:4,background:'rgba(208,24,120,.07)',color:'rgba(208,24,120,.8)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
-                        Clear Key
-                      </button>
-                      <button onClick={() => setKeyEditMode(true)}
-                        style={{padding:'3px 10px',border:'1px solid rgba(201,168,76,.25)',borderRadius:4,background:'rgba(201,168,76,.07)',color:'rgba(201,168,76,.85)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
-                        Change
-                      </button>
-                    </div>
+                  <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'rgba(201,168,76,.06)',border:'1px solid rgba(201,168,76,.18)',borderRadius:6,fontFamily:'var(--mono)',fontSize:13,color:'rgba(237,229,213,.7)',letterSpacing:'.04em'}}>
+                    <span style={{flex:1}}>{'•'.repeat(12)}{localKey.slice(-4)}</span>
+                    <button onClick={() => { setLocalKey(''); setKeyEditMode(true); }}
+                      style={{padding:'3px 10px',border:'1px solid rgba(208,24,120,.3)',borderRadius:4,background:'rgba(208,24,120,.07)',color:'rgba(208,24,120,.8)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                      Clear
+                    </button>
+                    <button onClick={() => setKeyEditMode(true)}
+                      style={{padding:'3px 10px',border:'1px solid rgba(201,168,76,.25)',borderRadius:4,background:'rgba(201,168,76,.07)',color:'rgba(201,168,76,.85)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                      Change
+                    </button>
                   </div>
                 ) : (
-                  /* Edit mode — password input */
-                  <div>
-                    <div style={{display:'flex',gap:6}}>
-                      <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
-                        placeholder="sk-ant-…" autoComplete="new-password" style={{flex:1}} />
-                      {apiKey && (
-                        <button onClick={() => { setLocalKey(apiKey); setKeyEditMode(false); }}
-                          style={{padding:'8px 12px',border:'1px solid rgba(201,168,76,.2)',borderRadius:6,background:'none',color:'rgba(237,229,213,.55)',fontSize:12,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
-                          Cancel
-                        </button>
-                      )}
-                    </div>
+                  <div style={{display:'flex',gap:6}}>
+                    <input type="password" value={localKey} onChange={e => setLocalKey(e.target.value)}
+                      placeholder="sk-ant-… or sk-… (Anthropic or OpenAI)" autoComplete="new-password" style={{flex:1}} />
+                    {apiKey && (
+                      <button onClick={() => { setLocalKey(apiKey); setKeyEditMode(false); }}
+                        style={{padding:'8px 12px',border:'1px solid rgba(201,168,76,.2)',borderRadius:6,background:'none',color:'rgba(237,229,213,.55)',fontSize:12,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                        Cancel
+                      </button>
+                    )}
                   </div>
                 )}
 
-                <div className="api-key-note" style={{marginTop:10}}>
-                  Stored in your browser only. Calls go directly to Anthropic — nothing passes through a server.
-                  Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'#f59c00'}}>console.anthropic.com</a>.
-                  Use a <strong>dedicated browser profile</strong> to isolate this key from your general browsing.
+                <div className="api-key-note" style={{marginTop:10,lineHeight:1.7}}>
+                  Works with <strong>Anthropic</strong> (<a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{color:'var(--accent)'}}>console.anthropic.com</a>) or <strong>OpenAI</strong> (<a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" style={{color:'var(--accent)'}}>platform.openai.com</a>) keys.
+                  Calls go directly to the provider — nothing passes through a server. Use a <strong>dedicated browser profile</strong>.
                 </div>
               </div>
             </div>
@@ -3762,84 +3760,27 @@ function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, s
 // ── Watch List Summary ────────────────────────────────────────────────────────
 
 function WatchListSummary({ watchList, onPeopleSearch }) {
-  const [expandedId, setExpandedId] = React.useState(null);
   const tiers = [1, 2, 3];
-  const tierLabels = {1:'Top Priority',2:'Strong Interest',3:'On Radar'};
   return (
     <div>
       <div className="page-header">
         <div className="page-title">Watch List</div>
-        <div className="page-sub">KPI-scored companies — click name to search people, ▼ for breakdown.</div>
+        <div className="page-sub">Your target companies. Click any to jump to people search.</div>
       </div>
       {tiers.map(t => {
-        const companies = watchList.filter(w => effectiveTier(w) === t);
+        const companies = watchList.filter(w => w.tier === t);
         if (!companies.length) return null;
         return (
           <div key={t} className="card section-gap">
-            <div className="card-title" style={{display:'flex',alignItems:'center',gap:8}}>
-              <span className={`tier-badge tier-${t}`}>T{t}</span>
-              {tierLabels[t]}
+            <div className="card-title">
+              Tier {t}: {t===1 ? 'Top Priority' : t===2 ? 'Strong Interest' : 'On Radar'}
             </div>
-            <div style={{display:'flex',flexDirection:'column',gap:6,marginTop:8}}>
-              {companies.map(w => {
-                const isExp = expandedId === w.id;
-                const composite = w.composite != null ? Math.round(w.composite * 100) : null;
-                return (
-                  <div key={w.id} style={{border:'1px solid rgba(201,168,76,.1)',borderRadius:6,overflow:'hidden'}}>
-                    <div style={{display:'flex',alignItems:'center',gap:8,padding:'7px 10px'}}>
-                      <button className="chip" onClick={() => onPeopleSearch(w.company)}
-                        style={{flex:1,textAlign:'left',margin:0,padding:0,border:'none',background:'none',
-                          color:'var(--text)',fontSize:13,fontFamily:'Georgia,serif',cursor:'pointer'}}>
-                        {w.company} →
-                      </button>
-                      {composite != null && (
-                        <span style={{fontFamily:'var(--mono)',fontSize:9,color:'var(--muted-2)',letterSpacing:'.06em',minWidth:20,textAlign:'right'}}>
-                          {composite}
-                        </span>
-                      )}
-                      {w.researched && (
-                        <button onClick={() => setExpandedId(isExp ? null : w.id)}
-                          style={{background:'none',border:'1px solid var(--border)',borderRadius:3,
-                            color:'var(--muted-2)',fontSize:10,padding:'1px 6px',cursor:'pointer'}}>
-                          {isExp ? '▲' : '▼'}
-                        </button>
-                      )}
-                    </div>
-                    {composite != null && (
-                      <div style={{height:2,background:'rgba(201,168,76,.06)',margin:'0 10px'}}>
-                        <div style={{height:'100%',width:`${composite}%`,
-                          background:t===1?'var(--accent)':t===2?'rgba(201,168,76,.55)':'rgba(201,168,76,.3)',
-                          borderRadius:1}} />
-                      </div>
-                    )}
-                    {isExp && w.scores && (
-                      <div style={{padding:'8px 10px 10px',borderTop:'1px solid rgba(201,168,76,.07)',marginTop:3}}>
-                        {TIER_KPIS.map(kpi => {
-                          const s = w.scores[kpi.id];
-                          const pct = s ? Math.round(s.score*100) : 0;
-                          return (
-                            <div key={kpi.id} style={{marginBottom:5}}>
-                              <div style={{display:'flex',justifyContent:'space-between',marginBottom:2}}>
-                                <span style={{fontFamily:'var(--mono)',fontSize:8,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--muted-2)'}}>{kpi.label}</span>
-                                <span style={{fontFamily:'var(--mono)',fontSize:8,color:'var(--muted-2)'}}>{pct}</span>
-                              </div>
-                              <div style={{height:2,background:'rgba(201,168,76,.08)',borderRadius:1}}>
-                                <div style={{height:'100%',width:`${pct}%`,borderRadius:1,
-                                  background:pct>=75?'var(--accent)':pct>=50?'rgba(201,168,76,.55)':'rgba(208,24,120,.4)'}} />
-                              </div>
-                              {s?.rationale && isExp && (
-                                <span style={{fontFamily:'var(--mono)',fontSize:8,color:'rgba(237,229,213,.38)',letterSpacing:'.03em'}}>
-                                  {s.rationale}
-                                </span>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="chips-wrap">
+              {companies.map(w => (
+                <button key={w.id} className="chip" onClick={() => onPeopleSearch(w.company)}>
+                  {w.company} →
+                </button>
+              ))}
             </div>
           </div>
         );
@@ -4620,11 +4561,26 @@ function JobValue() {
 
 // ── Signal Feed ───────────────────────────────────────────────────────────────
 
-function SignalFeed({ apiKey, onNeedApiKey }) {
+function SignalFeed({ apiKey, onNeedApiKey, demoMode = false }) {
   const [companies, setCompanies] = useState(() => { const s = load(); return s?.signalFeed || []; });
   const [newCompany, setNewCompany] = useState('');
   const [loadingMap, setLoadingMap] = useState({});
   const [toast, setToast] = useState(null);
+
+  if (demoMode) {
+    return (
+      <div>
+        <div className="page-header"><div className="page-title">Signal Feed</div><div className="page-sub">Live market signals · Demo</div></div>
+        {DEMO_DATA.signals.map(s => (
+          <div key={s.id} style={{padding:'14px 16px',marginBottom:8,background:'rgba(255,255,255,.025)',border:'1px solid rgba(201,168,76,.1)',borderRadius:8}}>
+            <div style={{fontSize:10,fontFamily:'var(--mono)',color:'var(--accent)',letterSpacing:'.1em',textTransform:'uppercase',marginBottom:4}}>{s.type}</div>
+            <div style={{fontSize:14,color:'var(--text)',marginBottom:4,lineHeight:1.4}}>{s.headline}</div>
+            <div style={{fontSize:12,color:'var(--muted)',lineHeight:1.65}}>{s.summary}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   useEffect(() => {
     const stored = load() || {};
@@ -4682,7 +4638,7 @@ Use null for any category with no notable signals. Be specific and direct.`;
   const sentColor = s => s === 'POSITIVE' ? 'rgba(61,226,136,.85)' : s === 'CAUTIOUS' ? 'rgba(208,24,120,.85)' : 'var(--muted)';
   const sigLabel = (label, text) => text ? (
     <div style={{display:'flex', gap:8, alignItems:'flex-start'}}>
-      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.06em', padding:'2px 6px', background:'rgba(240,168,32,.1)', border:'1px solid rgba(240,168,32,.2)', borderRadius:4, flexShrink:0, marginTop:1}}>{label}</span>
+      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.06em', padding:'2px 6px', background:'rgba(201,168,76,.1)', border:'1px solid rgba(201,168,76,.2)', borderRadius:4, flexShrink:0, marginTop:1}}>{label}</span>
       <span style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.5}}>{text}</span>
     </div>
   ) : null;
@@ -4695,7 +4651,7 @@ Use null for any category with no notable signals. Be specific and direct.`;
         <div className="page-sub">Track target companies for funding, layoffs, leadership changes, and product moves. Hit Refresh on any company to pull a 90 day intel brief.</div>
       </div>
       {!apiKey && (
-        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
+        <div className="card" style={{borderColor:'rgba(201,168,76,.4)', background:'rgba(201,168,76,.06)'}}>
           <div style={{fontSize:13, color:'var(--accent)'}}>API key required. <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add in Settings.</button></div>
         </div>
       )}
@@ -4909,7 +4865,7 @@ function ActivityReport() {
       </div>
 
       {/* Week status bar */}
-      <div className="card" style={{borderColor: met ? 'rgba(61,226,136,.25)' : 'rgba(240,168,32,.3)', background: met ? 'rgba(61,226,136,.04)' : 'rgba(240,168,32,.05)'}}>
+      <div className="card" style={{borderColor: met ? 'rgba(61,226,136,.25)' : 'rgba(201,168,76,.3)', background: met ? 'rgba(61,226,136,.04)' : 'rgba(201,168,76,.05)'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12}}>
           <div>
             <div style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:3}}>Certification Week</div>
@@ -4923,7 +4879,7 @@ function ActivityReport() {
               {activities.length}
               <span style={{fontSize:14, fontWeight:400, color:'var(--muted-2)'}}> / {MA_MINIMUM}</span>
             </div>
-            <div style={{fontSize:10, fontFamily:'var(--mono)', letterSpacing:'.08em', marginTop:2, color: met ? 'rgba(61,226,136,.8)' : 'rgba(240,168,32,.8)'}}>
+            <div style={{fontSize:10, fontFamily:'var(--mono)', letterSpacing:'.08em', marginTop:2, color: met ? 'rgba(61,226,136,.8)' : 'rgba(201,168,76,.8)'}}>
               {met ? 'REQUIREMENT MET' : `NEED ${MA_MINIMUM - activities.length} MORE`}
             </div>
           </div>
@@ -4942,7 +4898,7 @@ function ActivityReport() {
 
         {/* Manual add form */}
         {showAdd && (
-          <div style={{background:'rgba(240,168,32,.05)', border:'1px solid rgba(240,168,32,.18)', borderRadius:10, padding:16, marginBottom:16}}>
+          <div style={{background:'rgba(201,168,76,.05)', border:'1px solid rgba(201,168,76,.18)', borderRadius:10, padding:16, marginBottom:16}}>
             <div className="field-row">
               <div className="field" style={{flex:'0 0 140px'}}>
                 <label>Date</label>
@@ -5064,21 +5020,21 @@ function NavIcon({ id, size = 14 }) {
 
 const KANBAN_JOB_COLS = [
   { id: 'watching',   label: 'Watching',   color: 'rgba(240,238,248,.12)' },
-  { id: 'applied',    label: 'Applied',    color: 'rgba(240,168,32,.18)' },
+  { id: 'applied',    label: 'Applied',    color: 'rgba(201,168,76,.18)' },
   { id: 'screen',     label: 'Screen',     color: 'rgba(139,43,190,.22)' },
   { id: 'interview',  label: 'Interview',  color: 'rgba(208,24,120,.22)' },
   { id: 'offer',      label: 'Offer',      color: 'rgba(61,226,136,.20)' },
 ];
 const KANBAN_SMB_COLS = [
   { id: 'prospect',   label: 'Prospect',   color: 'rgba(240,238,248,.12)' },
-  { id: 'outreach',   label: 'Outreach',   color: 'rgba(240,168,32,.18)' },
+  { id: 'outreach',   label: 'Outreach',   color: 'rgba(201,168,76,.18)' },
   { id: 'meeting',    label: 'Meeting',    color: 'rgba(139,43,190,.22)' },
   { id: 'proposal',   label: 'Proposal',   color: 'rgba(208,24,120,.22)' },
   { id: 'won',        label: 'Won',        color: 'rgba(61,226,136,.20)' },
 ];
 const KANBAN_PROJECT_COLS = [
   { id: 'kickoff',    label: 'Kickoff',    color: 'rgba(240,238,248,.12)' },
-  { id: 'inprogress', label: 'In Progress',color: 'rgba(240,168,32,.18)' },
+  { id: 'inprogress', label: 'In Progress',color: 'rgba(201,168,76,.18)' },
   { id: 'review',     label: 'Review',     color: 'rgba(139,43,190,.22)' },
   { id: 'delivered',  label: 'Delivered',  color: 'rgba(208,24,120,.22)' },
   { id: 'invoiced',   label: 'Invoiced',   color: 'rgba(61,226,136,.20)' },
@@ -5196,7 +5152,7 @@ function KanbanBoard() {
           });
         });
         allRows.sort((a, b) => (b.date > a.date ? 1 : -1));
-        const boardBadge = b => ({ Jobs:'rgba(240,168,32,.15)', SMB:'rgba(139,43,190,.2)', Projects:'rgba(61,226,136,.15)' }[b] || 'rgba(240,238,248,.1)');
+        const boardBadge = b => ({ Jobs:'rgba(201,168,76,.15)', SMB:'rgba(139,43,190,.2)', Projects:'rgba(61,226,136,.15)' }[b] || 'rgba(240,238,248,.1)');
         const boardText = b => ({ Jobs:'var(--accent)', SMB:'rgba(139,43,190,.9)', Projects:'rgba(61,226,136,.85)' }[b] || 'var(--muted)');
         return (
           <div className="card">
@@ -5436,12 +5392,8 @@ function Analytics() {
 
 function App() {
   const [mode, setMode] = useState('jobs');
-  const [shuttering, setShuttering] = useState(false);
-  function switchMode(id) {
-    setShuttering(true);
-    setTimeout(() => { setMode(id); setShuttering(false); }, 100);
-  }
   const [showSettings, setShowSettings] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   // State loaded from localStorage
   const [profile, setProfile] = useState(DEFAULTS.profile);
@@ -5455,7 +5407,9 @@ function App() {
     if (saved) {
       if (saved.profile) setProfile({...DEFAULTS.profile, ...saved.profile});
       if (saved.watchList) setWatchList(saved.watchList);
-      if (saved.apiKey) setApiKey(saved.apiKey);
+      if (saved.apiKey && (!saved.ownerToken || saved.ownerToken === ownerHash(saved.profile?.name))) {
+        setApiKey(saved.apiKey);
+      }
       // First run if no name set
       if (!saved.profile?.name) setIsFirstRun(true);
     } else {
@@ -5495,11 +5449,11 @@ function App() {
         background:'var(--bg)',
         backgroundImage:'radial-gradient(ellipse at 0% 0%, rgba(61,26,136,.14) 0%, transparent 42%), radial-gradient(ellipse at 100% 100%, rgba(208,24,120,.07) 0%, transparent 38%)'}}>
         <div style={{textAlign:'center', maxWidth:440, padding:40}}>
-          <div style={{fontFamily:'Georgia, serif', fontSize:22, fontWeight:'normal', fontStyle:'italic',
-            color:'var(--text)', textShadow:'0 0 28px rgba(240,238,248,.12)', marginBottom:6}}>
+          <div style={{fontFamily:'var(--mono)', fontSize:18, fontWeight:500, letterSpacing:'.06em', marginBottom:8,
+            background:'linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>
             Career Aperture
           </div>
-          <div style={{fontFamily:'var(--mono)', fontSize:10, color:'rgba(240,168,32,.6)', letterSpacing:'.28em', textTransform:'uppercase', marginBottom:36}}>
+          <div style={{fontFamily:'var(--mono)', fontSize:9, color:'var(--muted-2)', letterSpacing:'.18em', textTransform:'uppercase', marginBottom:36}}>
             Career Intelligence · a Perez Creative Labs product
           </div>
           <div style={{fontSize:16, color:'var(--text)', marginBottom:12, lineHeight:1.6, fontFamily:'Georgia, serif', letterSpacing:'.01em'}}>
@@ -5543,46 +5497,27 @@ function App() {
         <div className="nav-section">
           <div className="nav-label">Modes</div>
           {nav.map(n => (
-            <button key={n.id} className={`nav-btn ${mode === n.id ? 'active' : ''}`} onClick={() => switchMode(n.id)}>
+            <button key={n.id} className={`nav-btn ${mode === n.id ? 'active' : ''}`} onClick={() => setMode(n.id)}>
               <span className="nav-icon"><NavIcon id={n.id} /></span>
               {n.label}
             </button>
           ))}
         </div>
 
-        {/* ── CAREER VAULT RESUMES ── */}
-        <div style={{padding:'10px 10px 0',borderTop:'1px solid var(--border)',marginTop:4}}>
-          <div style={{fontSize:9,fontFamily:'var(--mono)',letterSpacing:'.1em',textTransform:'uppercase',color:'rgba(240,168,32,.5)',marginBottom:6,paddingLeft:4}}>Active Resumes</div>
-          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_Consulting_Resume_June2026.docx"
-            title="Consulting Resume — PCL · Fractional PM · AI Strategy"
-            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
-            onMouseEnter={e=>{e.currentTarget.style.color='#c9a84c';e.currentTarget.style.borderColor='rgba(201,168,76,.2)';e.currentTarget.style.background='rgba(201,168,76,.05)'}}
-            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
-            <span style={{width:7,height:7,borderRadius:'50%',background:'#c9a84c',flexShrink:0,boxShadow:'0 0 4px rgba(201,168,76,.5)'}}></span>
-            Consulting · PCL
-          </a>
-          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_IC_AI_PM_Resume_June2026.docx"
-            title="IC / AI PM / Leadership Resume — Builder · Practitioner · Principal PM"
-            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
-            onMouseEnter={e=>{e.currentTarget.style.color='#8b5cf6';e.currentTarget.style.borderColor='rgba(139,92,246,.2)';e.currentTarget.style.background='rgba(139,92,246,.05)'}}
-            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
-            <span style={{width:7,height:7,borderRadius:'50%',background:'#8b5cf6',flexShrink:0,boxShadow:'0 0 4px rgba(139,92,246,.4)'}}></span>
-            IC · AI PM · Builder
-          </a>
-          <a href="file:///Users/danielleperez/Desktop/HomeFlow_OS/02_Domains/Career/Career_Vault/00_MASTER/Danielle_Perez_Master_Resume_June2026.docx"
-            title="Master Resume — FT Job Search · Principal PM · $175-200K+"
-            style={{display:'flex',alignItems:'center',gap:8,padding:'5px 8px',borderRadius:6,textDecoration:'none',color:'var(--muted-2)',fontSize:11,fontFamily:'var(--mono)',marginBottom:2,border:'1px solid transparent'}}
-            onMouseEnter={e=>{e.currentTarget.style.color='#5b8fd0';e.currentTarget.style.borderColor='rgba(91,143,208,.2)';e.currentTarget.style.background='rgba(91,143,208,.05)'}}
-            onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.borderColor='transparent';e.currentTarget.style.background='none'}}>
-            <span style={{width:7,height:7,borderRadius:'50%',background:'#5b8fd0',flexShrink:0,boxShadow:'0 0 4px rgba(91,143,208,.4)'}}></span>
-            FT Search · Master
-          </a>
-        </div>
 
         <div className="sidebar-footer">
+          <button
+            onClick={() => setIsDemoMode(d => !d)}
+            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'7px 14px',borderRadius:6,border:'none',cursor:'pointer',fontFamily:'var(--mono)',fontSize:11,letterSpacing:'.06em',textTransform:'uppercase',
+              background: isDemoMode ? 'rgba(91,184,112,.1)' : 'none',
+              color: isDemoMode ? '#5BB870' : 'rgba(237,229,213,.3)',
+              marginBottom:2}}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            {isDemoMode ? 'Demo On' : 'Demo Mode'}
+          </button>
           <a href="kpi.html" target="_blank" rel="noopener"
             style={{display:'flex',alignItems:'center',gap:10,width:'100%',padding:'9px 14px',borderRadius:8,textDecoration:'none',color:'var(--muted-2)',fontFamily:'var(--mono)',fontSize:12,letterSpacing:'.04em',marginBottom:2}}
-            onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(240,168,32,.04)'}}
+            onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(201,168,76,.04)'}}
             onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.background='none'}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             KPI Dashboard ↗
@@ -5594,11 +5529,18 @@ function App() {
         </div>
       </aside>
 
-      <main className={"main" + (shuttering ? " shutter" : "")}>
-        {mode === 'jobs' && <JobSearch />}
+      <main className="main">
+        {isDemoMode && (
+          <div style={{display:'flex',alignItems:'center',gap:10,padding:'9px 16px',background:'rgba(91,184,112,.08)',border:'1px solid rgba(91,184,112,.2)',borderRadius:7,marginBottom:20,fontSize:12,fontFamily:'var(--mono)',color:'rgba(91,184,112,.9)'}}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Demo mode — showing sample data. No API key required.</span>
+            <button onClick={() => setIsDemoMode(false)} style={{marginLeft:'auto',background:'none',border:'none',cursor:'pointer',color:'rgba(91,184,112,.6)',fontSize:16,lineHeight:1}}>×</button>
+          </div>
+        )}
+        {mode === 'jobs' && <JobSearch demoMode={isDemoMode} />}
         {mode === 'people' && <PeopleContacts watchList={watchList} />}
-        {mode === 'research' && <DeepResearch profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
-        {mode === 'signals' && <SignalFeed apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
+        {mode === 'research' && <DeepResearch profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} demoMode={isDemoMode} />}
+        {mode === 'signals' && <SignalFeed apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} demoMode={isDemoMode} />}
         {mode === 'report' && <ActivityReport />}
         {mode === 'smb' && <SMBProspecting profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
         {mode === 'networking' && <Networking profile={profile} apiKey={apiKey} onNeedApiKey={() => setShowSettings(true)} />}
@@ -5639,44 +5581,6 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-</script>
-<script>
-(function(){
-  var outer = document.getElementById('cur-outer');
-  if (!outer) return;
-  var thinking = false, thinkT = null;
-  document.addEventListener('mousemove', function(e) {
-    outer.style.left = e.clientX + 'px'; outer.style.top = e.clientY + 'px';
-  });
-  document.addEventListener('mouseover', function(e) {
-    var active = e.target.closest('button, a, input, select, textarea, label, [role="button"]');
-    document.body.classList.toggle('cur-hovering', !!active);
-  });
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('button, a')) return;
-    document.body.classList.add('cur-thinking');
-    thinking = true;
-    if (thinkT) clearTimeout(thinkT);
-    thinkT = setTimeout(function() {
-      if (!document.querySelector('.loading-row')) {
-        document.body.classList.remove('cur-thinking');
-        thinking = false;
-      }
-    }, 500);
-  });
-  var obs = new MutationObserver(function() {
-    if (thinking && !document.querySelector('.loading-row')) {
-      if (thinkT) clearTimeout(thinkT);
-      thinkT = setTimeout(function() {
-        document.body.classList.remove('cur-thinking');
-        thinking = false;
-      }, 380);
-    }
-  });
-  obs.observe(document.getElementById('root') || document.body, {childList:true, subtree:true});
-  document.addEventListener('mouseleave', function() { outer.style.opacity = '0'; });
-  document.addEventListener('mouseenter', function() { outer.style.opacity = '1'; });
-})();
 </script>
 </body>
 </html>
