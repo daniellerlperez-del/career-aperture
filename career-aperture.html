@@ -5590,6 +5590,11 @@ function App() {
   const [calEvents, setCalEvents] = useState([]);
   const [calLoading, setCalLoading] = useState(false);
   const [calError, setCalError] = useState(null);
+  const [showCalPanel, setShowCalPanel] = useState(false);
+  const [calScanPreset, setCalScanPreset] = useState('30');   // days back
+  const [calScanFuture, setCalScanFuture] = useState('30');   // days forward
+  const [calScanFrom, setCalScanFrom] = useState('');         // custom from date
+  const [calScanTo, setCalScanTo] = useState('');             // custom to date
 
   // Persist calendar tokens + client ID
   useEffect(() => {
@@ -5630,13 +5635,10 @@ function App() {
     window.__apertureCompany = company;
   }
 
-  async function fetchCalendarEvents(token, accountEmail) {
-    const now = new Date();
-    const pastDate = new Date(now); pastDate.setDate(now.getDate() - 14);
-    const futureDate = new Date(now); futureDate.setDate(now.getDate() + 30);
+  async function fetchCalendarEvents(token, accountEmail, scanFrom, scanTo) {
     const params = new URLSearchParams({
-      timeMin: pastDate.toISOString(),
-      timeMax: futureDate.toISOString(),
+      timeMin: scanFrom,
+      timeMax: scanTo,
       maxResults: '100',
       singleEvents: 'true',
       orderBy: 'startTime',
@@ -5685,12 +5687,25 @@ function App() {
       setCalError('No active calendar connections. Connect a Google account first.');
       return;
     }
-    setCalLoading(true); setCalError(null);
+    // Compute date range from preset or custom inputs
+    const now = new Date();
+    let scanFrom, scanTo;
+    if (calScanPreset === 'custom' && calScanFrom && calScanTo) {
+      scanFrom = new Date(calScanFrom + 'T00:00:00').toISOString();
+      scanTo   = new Date(calScanTo   + 'T23:59:59').toISOString();
+    } else {
+      const past = new Date(now); past.setDate(now.getDate() - parseInt(calScanPreset || '30'));
+      const future = new Date(now); future.setDate(now.getDate() + parseInt(calScanFuture || '30'));
+      scanFrom = past.toISOString();
+      scanTo   = future.toISOString();
+    }
+
+    setCalLoading(true); setCalError(null); setShowCalPanel(false);
     try {
       const allEvents = [];
       for (const tok of validTokens) {
         try {
-          const events = await fetchCalendarEvents(tok.token, tok.email);
+          const events = await fetchCalendarEvents(tok.token, tok.email, scanFrom, scanTo);
           allEvents.push(...events);
         } catch(e) {
           if (e.message.includes('401')) {
@@ -5704,7 +5719,7 @@ function App() {
         .filter(e => e._classification !== null)
         .sort((a, b) => new Date(a.start?.dateTime || a.start?.date) - new Date(b.start?.dateTime || b.start?.date));
       setCalEvents(classified);
-      if (classified.length === 0) setCalError('No matching events found in the past 14 days or next 30 days.');
+      if (classified.length === 0) setCalError('No matching events found in selected range.');
       else setShowCalImport(true);
     } finally {
       setCalLoading(false);
@@ -5838,13 +5853,61 @@ function App() {
             {isDemoMode ? 'Demo On' : 'Demo Mode'}
           </button>
           <button
-            onClick={scanCalendarEvents}
+            onClick={() => calTokens.length > 0 ? setShowCalPanel(v => !v) : setShowSettings(true)}
             disabled={calLoading}
             style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'7px 14px',borderRadius:6,border:'none',cursor:'pointer',fontFamily:'var(--mono)',fontSize:11,letterSpacing:'.06em',textTransform:'uppercase',
-              background:'none', color: calTokens.length > 0 ? 'rgba(91,143,208,.8)' : 'rgba(237,229,213,.3)', marginBottom:2}}>
+              background: showCalPanel ? 'rgba(91,143,208,.08)' : 'none',
+              color: calTokens.length > 0 ? 'rgba(91,143,208,.85)' : 'rgba(237,229,213,.3)', marginBottom:2}}>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             {calLoading ? 'Scanning…' : calTokens.length > 0 ? `Cal (${calTokens.length})` : 'Calendar'}
           </button>
+
+          {/* Scan range panel */}
+          {showCalPanel && !calLoading && (
+            <div style={{margin:'2px 10px 6px',padding:'10px 12px',background:'rgba(91,143,208,.06)',border:'1px solid rgba(91,143,208,.18)',borderRadius:7}}>
+              <div style={{fontSize:9,fontFamily:'var(--mono)',letterSpacing:'.12em',textTransform:'uppercase',color:'rgba(91,143,208,.6)',marginBottom:8}}>Scan Range</div>
+
+              {/* Preset chips */}
+              <div style={{display:'flex',flexWrap:'wrap',gap:4,marginBottom:8}}>
+                {[['7','7 days'],['30','30 days'],['60','60 days'],['90','90 days'],['custom','Custom']].map(([v, label]) => (
+                  <button key={v} onClick={() => setCalScanPreset(v)}
+                    style={{padding:'3px 8px',fontSize:10,fontFamily:'var(--mono)',borderRadius:4,border:'1px solid',cursor:'pointer',
+                      background: calScanPreset === v ? 'rgba(91,143,208,.18)' : 'none',
+                      borderColor: calScanPreset === v ? 'rgba(91,143,208,.45)' : 'rgba(91,143,208,.2)',
+                      color: calScanPreset === v ? 'rgba(91,143,208,.95)' : 'rgba(91,143,208,.55)'}}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom date inputs */}
+              {calScanPreset === 'custom' ? (
+                <div style={{display:'flex',flexDirection:'column',gap:5,marginBottom:8}}>
+                  <div style={{display:'flex',alignItems:'center',gap:6}}>
+                    <span style={{fontSize:9,fontFamily:'var(--mono)',color:'rgba(91,143,208,.5)',width:28}}>From</span>
+                    <input type="date" value={calScanFrom} onChange={e => setCalScanFrom(e.target.value)}
+                      style={{flex:1,fontSize:10,padding:'3px 6px',background:'rgba(0,0,0,.3)',border:'1px solid rgba(91,143,208,.2)',borderRadius:4,color:'var(--text)',colorScheme:'dark'}} />
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:6}}>
+                    <span style={{fontSize:9,fontFamily:'var(--mono)',color:'rgba(91,143,208,.5)',width:28}}>To</span>
+                    <input type="date" value={calScanTo} onChange={e => setCalScanTo(e.target.value)}
+                      style={{flex:1,fontSize:10,padding:'3px 6px',background:'rgba(0,0,0,.3)',border:'1px solid rgba(91,143,208,.2)',borderRadius:4,color:'var(--text)',colorScheme:'dark'}} />
+                  </div>
+                </div>
+              ) : (
+                <div style={{fontSize:10,fontFamily:'var(--mono)',color:'rgba(91,143,208,.5)',marginBottom:8}}>
+                  Past {calScanPreset} days + next {calScanPreset === '7' ? '7' : '30'} days
+                </div>
+              )}
+
+              <button onClick={scanCalendarEvents}
+                style={{width:'100%',padding:'5px 0',fontSize:10,fontFamily:'var(--mono)',letterSpacing:'.08em',textTransform:'uppercase',
+                  background:'rgba(91,143,208,.15)',border:'1px solid rgba(91,143,208,.3)',borderRadius:5,cursor:'pointer',color:'rgba(91,143,208,.9)'}}>
+                Scan Now
+              </button>
+            </div>
+          )}
+
           {calError && (
             <div style={{fontSize:10,color:'rgba(208,24,120,.7)',padding:'3px 14px 6px',fontFamily:'var(--mono)',lineHeight:1.5}}>{calError}</div>
           )}
