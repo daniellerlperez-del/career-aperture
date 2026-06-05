@@ -13,6 +13,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" integrity="sha384-aGlMNK3U/x0wl4lEH5jD1PGhJlX9hApuPmIiA5gtiYCOQ1J8ejIdC0btaU/TMoBD" crossorigin="anonymous"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
@@ -899,6 +900,9 @@ function ownerHash(name) {
   return btoa(unescape(encodeURIComponent((name || '').toLowerCase().trim())));
 }
 
+// ── Calendar ─────────────────────────────────────────────────────────────────
+const CALENDAR_SCOPES = 'https://www.googleapis.com/auth/calendar.readonly';
+
 // ── Multi-provider AI helper ─────────────────────────────────────────────────
 function detectProvider(key) {
   if (!key) return null;
@@ -906,6 +910,21 @@ function detectProvider(key) {
   if (key.startsWith('sk-')) return 'openai';
   if (key.startsWith('AIzaSy')) return 'google';
   return 'anthropic';
+}
+
+function classifyCalendarEvent(event) {
+  const text = ((event.summary || '') + ' ' + (event.description || '') + ' ' + ((event.attendees || []).map(a => a.email).join(' '))).toLowerCase();
+  if (/interview|phone screen|technical screen|hiring|onsite|coding.*challenge|take.home|recruiter.*call|call.*recruiter/.test(text))
+    return { type: 'Interview', board: 'jobs', col: 'screen', icon: '🎯' };
+  if (/career coach|coaching session|lhh|outplacement|job.*coach|coach.*session/.test(text))
+    return { type: 'Career Coaching', board: 'jobs', col: 'watching', icon: '🧭' };
+  if (/coffee chat|informational|intro call|networking|connect with|meet.*about.*role|linkedin.*connect|referral/.test(text))
+    return { type: 'Networking', board: 'jobs', col: 'watching', icon: '🤝' };
+  if (/prospect|smb|small business|client.*call|discovery call|demo.*call|proposal|sales.*call|business.*development|new.*client/.test(text))
+    return { type: 'SMB Development', board: 'smb', col: 'outreach', icon: '📈' };
+  if (/follow.up|check.in|status.*update|hiring.*manager|talent.*partner|hr.*call/.test(text))
+    return { type: 'Interview Follow-up', board: 'jobs', col: 'screen', icon: '📞' };
+  return null;
 }
 
 async function callAI(apiKey, prompt, maxTokens = 1000) {
@@ -3479,11 +3498,13 @@ function Networking({ profile, apiKey, onNeedApiKey }) {
 
 // ── Settings Modal ────────────────────────────────────────────────────────────
 
-function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, setApiKey, onClose }) {
+function SettingsModal({ profile, setProfile, watchList, setWatchList, apiKey, setApiKey, calTokens, setCalTokens, googleClientId, setGoogleClientId, onConnectCalendar, onClose }) {
   const [tab, setTab] = useState('profile');
   const [localProfile, setLocalProfile] = useState({...profile});
   const [localKey, setLocalKey] = useState(apiKey);
   const [localWatch, setLocalWatch] = useState([...watchList]);
+  const [localCalTokens, setLocalCalTokens] = useState([...(calTokens || [])]);
+  const [localGCId, setLocalGCId] = useState(googleClientId || '');
   const [keyEditMode, setKeyEditMode] = useState(!apiKey);
   const [newCompany, setNewCompany] = useState('');
   const [newTier, setNewTier] = useState('2');
@@ -3542,6 +3563,8 @@ Return ONLY the JSON object. No markdown, no explanation.`;
     setProfile(localProfile);
     setApiKey(localKey);
     setWatchList(localWatch);
+    setCalTokens(localCalTokens);
+    setGoogleClientId(localGCId);
     setKeyEditMode(!localKey); // stay in edit mode only if key is still empty
     onClose();
   }
@@ -3579,6 +3602,7 @@ Return ONLY the JSON object. No markdown, no explanation.`;
           <TabBtn id="profile" label="Profile" />
           <TabBtn id="watchlist" label="Watch List" />
           <TabBtn id="api" label="API Key" />
+          <TabBtn id="calendar" label="Calendar" />
         </div>
 
         <div className="modal-body">
@@ -3690,6 +3714,51 @@ Return ONLY the JSON object. No markdown, no explanation.`;
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+
+{tab === 'calendar' && (
+            <div>
+              <div style={{display:'flex',alignItems:'flex-start',gap:8,padding:'10px 12px',background:'rgba(91,143,208,.06)',border:'1px solid rgba(91,143,208,.2)',borderRadius:6,marginBottom:16,fontSize:12,color:'rgba(91,143,208,.85)',lineHeight:1.65}}>
+                <span style={{flexShrink:0,marginTop:1}}>📅</span>
+                <span>Connect Google Calendar to auto-detect interviews, networking, and SMB events and import them to your boards. Requires a free Google Cloud project with Calendar API enabled.</span>
+              </div>
+
+              <div className="field">
+                <label>Google OAuth Client ID</label>
+                <input
+                  value={localGCId}
+                  onChange={e => setLocalGCId(e.target.value)}
+                  placeholder="000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com"
+                  style={{fontFamily:'var(--mono)',fontSize:11}}
+                />
+                <div style={{fontSize:11,color:'var(--muted-2)',marginTop:8,lineHeight:1.75}}>
+                  Setup (one time): <strong>console.cloud.google.com</strong> → New project → Enable Calendar API → Credentials → OAuth 2.0 Client ID (Web application) → Add <code style={{background:'rgba(255,255,255,.06)',padding:'1px 5px',borderRadius:3}}>career-aperture.netlify.app</code> as authorized JavaScript origin.
+                </div>
+              </div>
+
+              <div className="field" style={{marginTop:16}}>
+                <label>Connected Accounts</label>
+                {localCalTokens.length === 0 ? (
+                  <div style={{fontSize:12,color:'var(--muted-2)',padding:'8px 0',fontFamily:'var(--mono)',fontStyle:'italic'}}>No accounts connected yet.</div>
+                ) : (
+                  <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                    {localCalTokens.map(t => (
+                      <div key={t.email} style={{display:'flex',alignItems:'center',gap:10,padding:'7px 10px',background:'rgba(91,143,208,.06)',border:'1px solid rgba(91,143,208,.18)',borderRadius:6}}>
+                        <span style={{width:7,height:7,borderRadius:'50%',background: t.expires > Date.now() ? '#5BB870' : '#D01878',flexShrink:0}}></span>
+                        <span style={{flex:1,fontSize:12,fontFamily:'var(--mono)',color:'var(--text)'}}>{t.email}</span>
+                        <span style={{fontSize:10,color:'var(--muted-2)'}}>{t.expires > Date.now() ? 'Active' : 'Expired'}</span>
+                        <button onClick={() => setLocalCalTokens(prev => prev.filter(x => x.email !== t.email))}
+                          style={{background:'none',border:'none',cursor:'pointer',color:'var(--muted-2)',fontSize:14,lineHeight:1,padding:'1px 4px'}}>×</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button className="btn btn-primary" style={{marginTop:10,padding:'7px 16px',fontSize:12}}
+                  onClick={() => { setGoogleClientId(localGCId); if (onConnectCalendar) onConnectCalendar(); }}>
+                  + Connect Google Account
+                </button>
+              </div>
             </div>
           )}
 
@@ -5444,10 +5513,89 @@ function Analytics() {
   );
 }
 
+function CalendarImportModal({ events, onImport, onClose }) {
+  const [selected, setSelected] = useState(() => Object.fromEntries(events.map(e => [e.id, true])));
+
+  function toggle(id) { setSelected(s => ({ ...s, [id]: !s[id] })); }
+  function toggleAll() {
+    const allOn = Object.values(selected).every(Boolean);
+    setSelected(Object.fromEntries(events.map(e => [e.id, !allOn])));
+  }
+
+  function fmtEventDate(e) {
+    const d = new Date(e.start?.dateTime || e.start?.date);
+    return isNaN(d) ? '' : d.toLocaleDateString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+  }
+
+  const selectedEvents = events.filter(e => selected[e.id]);
+
+  return (
+    <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal" style={{maxWidth:720}}>
+        <div className="modal-header">
+          <div className="modal-title">Import Calendar Events</div>
+          <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+        <div className="modal-body">
+          <div style={{fontSize:12,color:'var(--muted)',marginBottom:14,lineHeight:1.65}}>
+            {events.length} relevant event{events.length !== 1 ? 's' : ''} detected. Select which to import as board cards.
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+            <button onClick={toggleAll} style={{fontSize:11,fontFamily:'var(--mono)',background:'none',border:'1px solid var(--border)',borderRadius:4,padding:'3px 10px',cursor:'pointer',color:'var(--muted)'}}>
+              {Object.values(selected).every(Boolean) ? 'Deselect all' : 'Select all'}
+            </button>
+            <span style={{fontSize:11,fontFamily:'var(--mono)',color:'var(--muted-2)'}}>{selectedEvents.length} selected</span>
+          </div>
+          <div style={{display:'flex',flexDirection:'column',gap:6,maxHeight:380,overflowY:'auto'}}>
+            {events.map(e => {
+              const cls = e._classification;
+              const isChecked = selected[e.id];
+              return (
+                <label key={e.id} style={{display:'flex',alignItems:'flex-start',gap:10,padding:'10px 12px',background: isChecked ? 'rgba(201,168,76,.05)' : 'rgba(255,255,255,.02)',border:`1px solid ${isChecked ? 'rgba(201,168,76,.2)' : 'var(--border)'}`,borderRadius:7,cursor:'pointer'}}>
+                  <input type="checkbox" checked={isChecked} onChange={() => toggle(e.id)} style={{marginTop:3,flexShrink:0,accentColor:'var(--accent)'}} />
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap',marginBottom:3}}>
+                      <span style={{fontSize:13,color:'var(--text)',fontWeight:500,lineHeight:1.3}}>{e.summary || '(No title)'}</span>
+                      <span style={{fontSize:10,fontFamily:'var(--mono)',padding:'2px 7px',borderRadius:3,background:'rgba(201,168,76,.1)',color:'var(--accent)',border:'1px solid rgba(201,168,76,.2)',whiteSpace:'nowrap'}}>
+                        {cls.icon} {cls.type}
+                      </span>
+                      <span style={{fontSize:10,fontFamily:'var(--mono)',color:'var(--muted-2)'}}>→ {cls.board === 'smb' ? 'SMB Board' : 'Jobs Board'}</span>
+                    </div>
+                    <div style={{fontSize:11,fontFamily:'var(--mono)',color:'var(--muted-2)'}}>{fmtEventDate(e)} &nbsp;·&nbsp; {e._account}</div>
+                    {e.description && <div style={{fontSize:11,color:'var(--muted)',marginTop:3,lineHeight:1.5,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:520}}>{e.description.replace(/<[^>]+>/g,'').slice(0,120)}</div>}
+                  </div>
+                </label>
+              );
+            })}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn btn-primary" onClick={() => onImport(selectedEvents)} disabled={selectedEvents.length === 0}>
+            Import {selectedEvents.length > 0 ? `${selectedEvents.length} event${selectedEvents.length !== 1 ? 's' : ''}` : ''}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [mode, setMode] = useState('jobs');
   const [showSettings, setShowSettings] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
+  const [calTokens, setCalTokens] = useState(() => { const s = load(); return s?.calTokens || []; });
+  const [googleClientId, setGoogleClientId] = useState(() => { const s = load(); return s?.googleClientId || ''; });
+  const [showCalImport, setShowCalImport] = useState(false);
+  const [calEvents, setCalEvents] = useState([]);
+  const [calLoading, setCalLoading] = useState(false);
+  const [calError, setCalError] = useState(null);
+
+  // Persist calendar tokens + client ID
+  useEffect(() => {
+    const stored = load() || {};
+    persist({ ...stored, calTokens, googleClientId });
+  }, [calTokens, googleClientId]);
 
   // State loaded from localStorage
   const [profile, setProfile] = useState(DEFAULTS.profile);
@@ -5480,6 +5628,126 @@ function App() {
     setMode('people');
     // Small delay to let mode switch render, then we'd set company — handled in child
     window.__apertureCompany = company;
+  }
+
+  async function fetchCalendarEvents(token, accountEmail) {
+    const now = new Date();
+    const pastDate = new Date(now); pastDate.setDate(now.getDate() - 14);
+    const futureDate = new Date(now); futureDate.setDate(now.getDate() + 30);
+    const params = new URLSearchParams({
+      timeMin: pastDate.toISOString(),
+      timeMax: futureDate.toISOString(),
+      maxResults: '100',
+      singleEvents: 'true',
+      orderBy: 'startTime',
+    });
+    const res = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?${params}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error(`Calendar API error: ${res.status}`);
+    const data = await res.json();
+    return (data.items || []).map(e => ({ ...e, _account: accountEmail }));
+  }
+
+  function connectGoogleAccount() {
+    if (!googleClientId.trim()) {
+      setCalError('Enter your Google OAuth Client ID in the Calendar settings first.');
+      return;
+    }
+    if (!window.google?.accounts?.oauth2) {
+      setCalError('Google Identity Services failed to load. Check your internet connection.');
+      return;
+    }
+    const client = window.google.accounts.oauth2.initTokenClient({
+      client_id: googleClientId.trim(),
+      scope: CALENDAR_SCOPES,
+      callback: async (resp) => {
+        if (resp.error) { setCalError('Google sign-in failed: ' + resp.error); return; }
+        try {
+          const infoRes = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${resp.access_token}`);
+          const info = await infoRes.json();
+          const email = info.email || 'unknown@gmail.com';
+          setCalTokens(prev => {
+            const filtered = prev.filter(t => t.email !== email);
+            return [...filtered, { email, token: resp.access_token, expires: Date.now() + (resp.expires_in * 1000) }];
+          });
+          setCalError(null);
+        } catch(e) { setCalError('Failed to get account info: ' + e.message); }
+      },
+      prompt: 'select_account',
+    });
+    client.requestAccessToken();
+  }
+
+  async function scanCalendarEvents() {
+    const validTokens = calTokens.filter(t => t.token && t.expires > Date.now());
+    if (validTokens.length === 0) {
+      setCalError('No active calendar connections. Connect a Google account first.');
+      return;
+    }
+    setCalLoading(true); setCalError(null);
+    try {
+      const allEvents = [];
+      for (const tok of validTokens) {
+        try {
+          const events = await fetchCalendarEvents(tok.token, tok.email);
+          allEvents.push(...events);
+        } catch(e) {
+          if (e.message.includes('401')) {
+            setCalTokens(prev => prev.filter(t => t.email !== tok.email));
+            setCalError(`Token expired for ${tok.email} — please reconnect.`);
+          }
+        }
+      }
+      const classified = allEvents
+        .map(e => ({ ...e, _classification: classifyCalendarEvent(e) }))
+        .filter(e => e._classification !== null)
+        .sort((a, b) => new Date(a.start?.dateTime || a.start?.date) - new Date(b.start?.dateTime || b.start?.date));
+      setCalEvents(classified);
+      if (classified.length === 0) setCalError('No matching events found in the past 14 days or next 30 days.');
+      else setShowCalImport(true);
+    } finally {
+      setCalLoading(false);
+    }
+  }
+
+  function importCalendarEvents(events) {
+    const stored = load() || {};
+    const kanban = stored.kanban || {};
+    let jobCards = { ...(kanban.jobCards || {}) };
+    let smbCards = { ...(kanban.smbCards || {}) };
+    const actManual = stored.activityReport?.manual || [];
+    const newActs = [];
+
+    events.forEach(ev => {
+      const cls = ev._classification;
+      const startDt = ev.start?.dateTime || ev.start?.date;
+      const created = startDt ? new Date(startDt).toISOString() : new Date().toISOString();
+      const dateDisplay = startDt ? new Date(startDt).toLocaleDateString('en-US', { month:'short', day:'numeric' }) : 'Imported';
+      const title = ev.summary || 'Calendar event';
+      const notes = [ev._account, ev.description ? ev.description.replace(/<[^>]+>/g,'').slice(0,120) : ''].filter(Boolean).join('\n');
+      const card = { id: Date.now() + Math.random(), title, sub: cls.type, date: dateDisplay, created, notes, source: 'calendar' };
+
+      if (cls.board === 'smb') {
+        smbCards = { ...smbCards, [cls.col]: [...(smbCards[cls.col] || []), card] };
+      } else {
+        jobCards = { ...jobCards, [cls.col]: [...(jobCards[cls.col] || []), card] };
+      }
+
+      newActs.push({
+        id: Date.now() + Math.random(),
+        date: startDt ? new Date(startDt).toISOString().slice(0,10) : new Date().toISOString().slice(0,10),
+        employer: title,
+        city: '',
+        method: cls.type === 'Interview' || cls.type === 'Interview Follow-up' ? 'Interview (video)' : cls.type === 'Networking' ? 'Professional networking (LinkedIn)' : cls.type === 'Career Coaching' ? 'Career center services' : 'Employer phone screen',
+        position: cls.type,
+        result: 'Scheduled',
+      });
+    });
+
+    persist({ ...stored, kanban: { ...kanban, jobCards, smbCards }, activityReport: { ...(stored.activityReport || {}), manual: [...actManual, ...newActs] } });
+    setShowCalImport(false);
+    setCalEvents([]);
   }
 
   const nav = [
@@ -5569,6 +5837,17 @@ function App() {
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             {isDemoMode ? 'Demo On' : 'Demo Mode'}
           </button>
+          <button
+            onClick={scanCalendarEvents}
+            disabled={calLoading}
+            style={{display:'flex',alignItems:'center',gap:8,width:'100%',padding:'7px 14px',borderRadius:6,border:'none',cursor:'pointer',fontFamily:'var(--mono)',fontSize:11,letterSpacing:'.06em',textTransform:'uppercase',
+              background:'none', color: calTokens.length > 0 ? 'rgba(91,143,208,.8)' : 'rgba(237,229,213,.3)', marginBottom:2}}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            {calLoading ? 'Scanning…' : calTokens.length > 0 ? `Cal (${calTokens.length})` : 'Calendar'}
+          </button>
+          {calError && (
+            <div style={{fontSize:10,color:'rgba(208,24,120,.7)',padding:'3px 14px 6px',fontFamily:'var(--mono)',lineHeight:1.5}}>{calError}</div>
+          )}
           <a href="kpi.html" target="_blank" rel="noopener"
             style={{display:'flex',alignItems:'center',gap:10,width:'100%',padding:'9px 14px',borderRadius:8,textDecoration:'none',color:'var(--muted-2)',fontFamily:'var(--mono)',fontSize:12,letterSpacing:'.04em',marginBottom:2}}
             onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(201,168,76,.04)'}}
@@ -5627,7 +5906,17 @@ function App() {
           profile={profile} setProfile={p => { setProfile(p); if (p.name) setIsFirstRun(false); }}
           watchList={watchList} setWatchList={setWatchList}
           apiKey={apiKey} setApiKey={setApiKey}
+          calTokens={calTokens} setCalTokens={setCalTokens}
+          googleClientId={googleClientId} setGoogleClientId={setGoogleClientId}
+          onConnectCalendar={connectGoogleAccount}
           onClose={() => { setShowSettings(false); if (profile.name) setIsFirstRun(false); }}
+        />
+      )}
+      {showCalImport && calEvents.length > 0 && (
+        <CalendarImportModal
+          events={calEvents}
+          onImport={importCalendarEvents}
+          onClose={() => { setShowCalImport(false); setCalEvents([]); }}
         />
       )}
     </div>
