@@ -9,7 +9,7 @@
   <meta property="og:description" content="Your background is the intelligence. Set your context once — every search, brief, and outreach runs on it." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" integrity="sha384-tMH8h3BGESGckSAVGZ82T9n90ztNXxvdwvdM6UoR56cYcf+0iGXBliJ29D+wZ/x8" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" integrity="sha384-bm7MnzvK++ykSwVJ2tynSE5TRdN+xL418osEVF2DE/L/gfWHj91J2Sphe582B1Bh" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" integrity="sha384-aGlMNK3U/x0wl4lEH5jD1PGhJlX9hApuPmIiA5gtiYCOQ1J8ejIdC0btaU/TMoBD" crossorigin="anonymous"></script>
@@ -23,13 +23,13 @@
       --bg-2:        #100F0C;
       --bg-card:     #16140E;
       --border:      rgba(245,240,232,.08);
-      --border-gold: rgba(201,168,76,.24);
+      --border-gold: rgba(240,168,32,.24);
       --text:        #EDE5D5;
       --muted:       rgba(237,229,213,.55);
       --muted-2:     rgba(237,229,213,.32);
-      --accent:      #C9A84C;
-      --accent-dim:  rgba(201,168,76,.10);
-      --accent-bdr:  rgba(201,168,76,.30);
+      --accent:      #F0A820;
+      --accent-dim:  rgba(240,168,32,.10);
+      --accent-bdr:  rgba(240,168,32,.30);
       --violet:      #3D1A88;
       --magenta:     #8B2BBE;
       --crimson:     #D01878;
@@ -37,6 +37,7 @@
       --gradient:    linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
       --mono:        'JetBrains Mono', monospace;
       --sans:        -apple-system, 'Helvetica Neue', sans-serif;
+      --serif:       'Cormorant Garamond', Georgia, serif;
     }
 
     body {
@@ -69,7 +70,7 @@
       background: var(--gradient);
       opacity: .85;
       flex-shrink: 0;
-      box-shadow: 0 0 10px rgba(201,168,76,.28);
+      box-shadow: 0 0 10px rgba(240,168,32,.28);
     }
     .sidebar-logo {
       display: flex;
@@ -88,7 +89,7 @@
     .logo-text {
       font-size: 15px;
       font-family: var(--mono);
-      background: linear-gradient(90deg,#B07AE8,#E84CA0,#C9A84C);
+      background: linear-gradient(90deg,#3D1A88,#8B2BBE,#D01878,#E86020,#C9A84C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -99,12 +100,12 @@
     .logo-sub { font-size: 9px; color: var(--muted-2); font-family: var(--mono); letter-spacing: .32em; text-transform: uppercase; }
     .nav-section { padding: 4px 10px; flex: 1; }
     .nav-label {
-      font-size: 9px; font-weight: 500; color: rgba(201,168,76,.55);
+      font-size: 9px; font-weight: 500; color: rgba(240,168,32,.55);
       letter-spacing: .38em; text-transform: uppercase; padding: 14px 8px 6px;
       font-family: var(--mono);
       display: flex; align-items: center; gap: 10px;
     }
-    .nav-label::after { content: ''; flex: 1; height: 1px; background: rgba(201,168,76,.15); }
+    .nav-label::after { content: ''; flex: 1; height: 1px; background: rgba(240,168,32,.15); }
     .nav-btn {
       display: flex;
       align-items: center;
@@ -122,8 +123,8 @@
       text-align: left;
       transition: background 0.15s, color 0.15s;
     }
-    .nav-btn:hover { background: rgba(201,168,76,.06); color: var(--text); }
-    .nav-btn.active { background: rgba(201,168,76,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; box-shadow: inset 0 0 18px rgba(201,168,76,.04); }
+    .nav-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
+    .nav-btn.active { background: rgba(240,168,32,.10); color: var(--accent); border-left: 2px solid var(--accent); padding-left: 8px; box-shadow: inset 0 0 18px rgba(240,168,32,.04); }
     .nav-icon { display: flex; align-items: center; justify-content: center; width: 18px; flex-shrink: 0; opacity: 0.8; }
     .sidebar-footer { padding: 12px 10px 0; border-top: 1px solid var(--border); }
     .settings-btn {
@@ -141,7 +142,7 @@
       color: var(--muted);
       text-align: left;
     }
-    .settings-btn:hover { background: rgba(201,168,76,.06); color: var(--text); }
+    .settings-btn:hover { background: rgba(240,168,32,.06); color: var(--text); }
 
     /* Main */
     .main { flex: 1; overflow-y: auto; padding: 32px 36px; background: var(--bg); position: relative; }
@@ -169,13 +170,13 @@
       font-family: Georgia, serif;
       text-shadow: 0 0 28px rgba(240,238,248,.12);
     }
-    .page-sub { font-size: 10px; color: rgba(201,168,76,.6); font-family: var(--mono); letter-spacing: .28em; text-transform: uppercase; }
+    .page-sub { font-size: 10px; color: rgba(240,168,32,.6); font-family: var(--mono); letter-spacing: .28em; text-transform: uppercase; }
 
     /* Cards */
     .card {
       background: rgba(22,17,40,.82);
-      border: 1px solid rgba(201,168,76,.07);
-      border-top: 1px solid rgba(201,168,76,.16);
+      border: 1px solid rgba(240,168,32,.07);
+      border-top: 1px solid rgba(240,168,32,.16);
       border-radius: 12px;
       padding: 22px 24px;
       margin-bottom: 14px;
@@ -219,7 +220,7 @@
       border-color: var(--accent);
       color: #09080A;
       font-weight: 500;
-      box-shadow: 0 0 10px rgba(201,168,76,.25);
+      box-shadow: 0 0 10px rgba(240,168,32,.25);
     }
 
     /* Form elements */
@@ -247,8 +248,8 @@
     }
     .field input:focus, .field textarea:focus, .field select:focus {
       outline: none;
-      border-color: rgba(201,168,76,.45);
-      box-shadow: 0 0 0 3px rgba(201,168,76,.07), 0 0 14px rgba(201,168,76,.07);
+      border-color: rgba(240,168,32,.45);
+      box-shadow: 0 0 0 3px rgba(240,168,32,.07), 0 0 14px rgba(240,168,32,.07);
     }
     .field input::placeholder { color: var(--muted-2); font-family: var(--mono); font-size: 12px; }
     .field textarea { resize: vertical; min-height: 70px; }
@@ -289,11 +290,11 @@
       align-items: center;
       gap: 8px;
       background: rgba(14,10,28,.7);
-      border: 1px solid rgba(201,168,76,.22);
-      border-top: 1px solid rgba(201,168,76,.36);
+      border: 1px solid rgba(240,168,32,.22);
+      border-top: 1px solid rgba(240,168,32,.36);
       border-radius: 9px;
       padding: 10px 12px;
-      box-shadow: 0 0 10px rgba(201,168,76,.04) inset;
+      box-shadow: 0 0 10px rgba(240,168,32,.04) inset;
     }
     .url-text {
       flex: 1;
@@ -321,7 +322,7 @@
     .btn-primary { background: linear-gradient(90deg, var(--violet), var(--crimson)); color: #F0EEF8; box-shadow: 0 0 18px rgba(61,26,136,.35), 0 2px 8px rgba(0,0,0,.4); font-family: var(--sans); letter-spacing: .04em; text-transform: none; }
     .btn-primary:hover { background: linear-gradient(90deg, #4d22a8, #e01e88); box-shadow: 0 0 28px rgba(61,26,136,.5), 0 2px 8px rgba(0,0,0,.4); }
     .btn-secondary { background: rgba(240,238,248,.03); color: var(--muted); border: 1px solid rgba(240,238,248,.1); backdrop-filter: blur(4px); }
-    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(201,168,76,.05); }
+    .btn-secondary:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
     .btn-sm { padding: 4px 10px; font-size: 10px; }
     .btn-icon { padding: 5px 8px; }
     .btn-danger { background: rgba(208,24,120,0.10); color: rgba(208,24,120,.85); border: 1px solid rgba(208,24,120,.25); }
@@ -330,14 +331,14 @@
     /* Dossier output */
     .dossier-card {
       background: rgba(22,17,40,.88);
-      border: 1px solid rgba(201,168,76,.16);
-      border-top: 1px solid rgba(201,168,76,.32);
+      border: 1px solid rgba(240,168,32,.16);
+      border-top: 1px solid rgba(240,168,32,.32);
       border-radius: 12px;
       padding: 22px 24px;
       margin-top: 12px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 0 1px rgba(201,168,76,.04) inset, 0 12px 40px rgba(0,0,0,.28);
+      box-shadow: 0 0 0 1px rgba(240,168,32,.04) inset, 0 12px 40px rgba(0,0,0,.28);
     }
     .dossier-name { font-size: 18px; font-weight: normal; font-style: italic; color: var(--text); font-family: Georgia, serif; }
     .dossier-meta { font-size: 10px; color: var(--muted); margin-bottom: 16px; font-family: var(--mono); letter-spacing: .08em; }
@@ -434,8 +435,8 @@
       background: rgba(22,17,40,.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(201,168,76,.35);
-      border-top: 1px solid rgba(201,168,76,.55);
+      border: 1px solid rgba(240,168,32,.35);
+      border-top: 1px solid rgba(240,168,32,.55);
       color: var(--accent);
       padding: 10px 20px;
       border-radius: 20px;
@@ -445,7 +446,7 @@
       text-transform: uppercase;
       z-index: 200;
       animation: slideUp 0.2s ease;
-      box-shadow: 0 0 20px rgba(201,168,76,.18), 0 4px 20px rgba(0,0,0,.45);
+      box-shadow: 0 0 20px rgba(240,168,32,.18), 0 4px 20px rgba(0,0,0,.45);
     }
     @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -507,13 +508,13 @@
       background: rgba(22,17,40,.96);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(201,168,76,.28);
-      border-top: 1px solid rgba(201,168,76,.45);
+      border: 1px solid rgba(240,168,32,.28);
+      border-top: 1px solid rgba(240,168,32,.45);
       border-radius: 12px;
       padding: 8px 0;
       max-height: 280px;
       overflow-y: auto;
-      box-shadow: 0 12px 32px rgba(0,0,0,.6), 0 0 16px rgba(201,168,76,.06);
+      box-shadow: 0 12px 32px rgba(0,0,0,.6), 0 0 16px rgba(240,168,32,.06);
     }
     .role-group-hdr {
       font-size: 8px;
@@ -537,7 +538,7 @@
       transition: background 0.1s, color 0.1s;
       user-select: none;
     }
-    .role-option:hover { background: rgba(201,168,76,.06); color: var(--text); }
+    .role-option:hover { background: rgba(240,168,32,.06); color: var(--text); }
     .role-option input[type=checkbox] { accent-color: var(--accent); width: 13px; height: 13px; flex-shrink: 0; cursor: pointer; }
     .role-option input[type=checkbox]:checked + span { color: var(--accent); }
     .role-rec-badge {
@@ -615,8 +616,8 @@
       transition: all 0.15s;
       text-transform: uppercase;
     }
-    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(201,168,76,.05); }
-    .ktab.active { background: rgba(201,168,76,.12); border-color: rgba(201,168,76,.3); color: var(--accent); box-shadow: 0 0 12px rgba(201,168,76,.15); }
+    .ktab:hover { border-color: var(--accent-bdr); color: var(--accent); background: rgba(240,168,32,.05); }
+    .ktab.active { background: rgba(240,168,32,.12); border-color: rgba(240,168,32,.3); color: var(--accent); box-shadow: 0 0 12px rgba(240,168,32,.15); }
     .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 12px; }
     .kboard-col {
       flex: 0 0 210px;
@@ -660,7 +661,7 @@
       cursor: default;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .kcard:hover { border-color: rgba(201,168,76,.25); box-shadow: 0 0 10px rgba(201,168,76,.06); }
+    .kcard:hover { border-color: rgba(240,168,32,.25); box-shadow: 0 0 10px rgba(240,168,32,.06); }
     .kcard-title { font-size: 12px; font-family: var(--mono); color: var(--text); margin-bottom: 4px; line-height: 1.4; }
     .kcard-meta { font-size: 9px; font-family: var(--mono); color: var(--muted-2); display: flex; align-items: center; justify-content: space-between; }
     .kcard-actions { display: flex; gap: 4px; margin-top: 7px; flex-wrap: wrap; }
@@ -741,6 +742,31 @@
     :focus { outline: none; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
+    /* ── Custom Camera Cursor ─────────────────────────────────────────────── */
+    html,body,*{cursor:none!important}
+    #cur-outer{position:fixed;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:opacity .2s}
+    .cur-ring{transition:stroke .18s}
+    .cur-ring-inner{transition:opacity .18s;opacity:0}
+    .cur-center-dot{transition:fill .15s}
+    body.cur-hovering .cur-ring-inner{opacity:1}
+    body.cur-hovering .cur-center-dot{fill:#EDE5D5}
+    @keyframes cur-ticks-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes cur-bk-nw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,3.5px)}}
+    @keyframes cur-bk-ne{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,3.5px)}}
+    @keyframes cur-bk-sw{0%,100%{transform:translate(0,0)}50%{transform:translate(3.5px,-3.5px)}}
+    @keyframes cur-bk-se{0%,100%{transform:translate(0,0)}50%{transform:translate(-3.5px,-3.5px)}}
+    body.cur-thinking .cur-ring{stroke:#F0A820!important}
+    body.cur-thinking .cur-ring-inner{opacity:1}
+    body.cur-thinking .cur-ticks-g{animation:cur-ticks-spin 2.2s linear infinite;transform-box:fill-box;transform-origin:center}
+    body.cur-thinking .cur-nw{animation:cur-bk-nw 1.1s ease-in-out infinite}
+    body.cur-thinking .cur-ne{animation:cur-bk-ne 1.1s ease-in-out infinite .13s}
+    body.cur-thinking .cur-sw{animation:cur-bk-sw 1.1s ease-in-out infinite .26s}
+    body.cur-thinking .cur-se{animation:cur-bk-se 1.1s ease-in-out infinite .39s}
+
+    /* ── Page shutter transition ─────────────────────────────────────────── */
+    .main{transition:opacity 0.07s ease-in-out}
+    .main.shutter{opacity:0}
+
     /* ── REDUCED MOTION ── */
     /* ── Mobile layout ── */
     @media (max-width: 768px) {
@@ -794,7 +820,7 @@
   #preview-gate-box {
     width: 360px; padding: 40px 36px;
     background: rgba(20,16,42,.95);
-    border: 1px solid rgba(201,168,76,.22);
+    border: 1px solid rgba(240,168,32,.22);
     border-radius: 16px;
     box-shadow: 0 0 40px rgba(61,26,136,.25), 0 2px 24px rgba(0,0,0,.5);
     text-align: center;
@@ -815,11 +841,11 @@
   }
   #preview-gate-input {
     width: 100%; padding: 11px 14px; border-radius: 8px;
-    background: rgba(240,238,248,.04); border: 1px solid rgba(201,168,76,.2);
+    background: rgba(240,238,248,.04); border: 1px solid rgba(240,168,32,.2);
     color: #F0EEF8; font-family: 'JetBrains Mono', monospace; font-size: 14px;
     outline: none; margin-bottom: 14px; text-align: center; letter-spacing: .08em;
   }
-  #preview-gate-input:focus { border-color: rgba(201,168,76,.5); }
+  #preview-gate-input:focus { border-color: rgba(240,168,32,.5); }
   #preview-gate-btn {
     width: 100%; padding: 11px; border-radius: 8px; border: none; cursor: pointer;
     background: #C9A84C; color: #09080A; font-family: 'JetBrains Mono', monospace;
@@ -833,7 +859,7 @@
   #preview-gate-badge {
     display: inline-block; margin-bottom: 20px;
     font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
-    color: rgba(201,168,76,.7); border: 1px solid rgba(201,168,76,.2);
+    color: rgba(240,168,32,.7); border: 1px solid rgba(240,168,32,.2);
     padding: 3px 10px; border-radius: 20px;
   }
 </style>
@@ -1921,7 +1947,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                   <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>📍 {job.location}</span>
                   <span style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted)', padding:'1px 7px', background:'rgba(255,255,255,.05)', borderRadius:4, border:'1px solid var(--border)'}}>{job.level}</span>
                   {job.salary && job.salary !== 'Competitive' && (
-                    <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(201,168,76,.85)', padding:'1px 7px', background:'rgba(201,168,76,.07)', borderRadius:4, border:'1px solid rgba(201,168,76,.15)'}}>{job.salary}</span>
+                    <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'1px 7px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>{job.salary}</span>
                   )}
                 </div>
                 {job.snippet && (
@@ -2243,7 +2269,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                     {locationUrls.length > 1 && loc && (
                       <div style={{
                         marginBottom:8,marginTop: i > 0 ? 14 : 0,
-                        padding:'4px 10px',background:'rgba(201,168,76,.07)',
+                        padding:'4px 10px',background:'rgba(240,168,32,.07)',
                         border:'1px solid var(--accent-bdr)',borderRadius:5,
                         fontSize:10,color:'var(--accent)',fontFamily:'var(--mono)',
                         letterSpacing:'.06em',display:'inline-block',
@@ -2409,7 +2435,7 @@ Return ONLY a valid JSON array of exactly 5 objects, no markdown, no explanation
                   {job.posted}
                 </span>
                 {job.salary && job.salary !== 'Competitive' && (
-                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(201,168,76,.85)', padding:'2px 8px', background:'rgba(201,168,76,.07)', borderRadius:4, border:'1px solid rgba(201,168,76,.15)'}}>
+                  <span style={{fontSize:10, fontFamily:'var(--mono)', color:'rgba(240,168,32,.85)', padding:'2px 8px', background:'rgba(240,168,32,.07)', borderRadius:4, border:'1px solid rgba(240,168,32,.15)'}}>
                     {job.salary}
                   </span>
                 )}
@@ -2843,7 +2869,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
       </div>
 
       {!apiKey && (
-        <div className="card" style={{borderColor:'rgba(201,168,76,.4)', background:'rgba(201,168,76,.06)'}}>
+        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
           <div style={{fontSize:13, color:'var(--accent)'}}>
             Anthropic API key required.{' '}
             <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add it in Settings.</button>
@@ -2946,9 +2972,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.name}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -2994,7 +3020,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
       {/* ── Company Result ── */}
       {result && result.type === 'company' && (() => {
         const d = result.data;
-        const chipStyle = { display:'inline-block', padding:'3px 10px', background:'rgba(201,168,76,.12)', border:'1px solid rgba(201,168,76,.22)', borderRadius:12, fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)', marginRight:6, marginBottom:4 };
+        const chipStyle = { display:'inline-block', padding:'3px 10px', background:'rgba(240,168,32,.12)', border:'1px solid rgba(240,168,32,.22)', borderRadius:12, fontSize:11, fontFamily:'var(--mono)', color:'var(--accent)', marginRight:6, marginBottom:4 };
         const statBox = (label, value) => (
           <div style={{flex:1, minWidth:0, background:'rgba(240,238,248,.04)', border:'1px solid var(--border)', borderRadius:8, padding:'12px 14px'}}>
             <div style={{fontSize:10, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4}}>{label}</div>
@@ -3009,9 +3035,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.name}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -3074,7 +3100,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
                   const sevColor = f.severity === 'HIGH'
                     ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
                     : f.severity === 'MED'
-                    ? {bg:'rgba(201,168,76,.12)', border:'rgba(201,168,76,.28)', text:'rgba(201,168,76,.95)'}
+                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
                     : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
                   return (
                     <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
@@ -3134,9 +3160,9 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
                 <div style={{display:'flex', alignItems:'center', gap:10, flexWrap:'wrap'}}>
                   <div className="dossier-name">{d.company}</div>
                   {d.matchScore && (
-                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(201,168,76,.14)', border:'1px solid rgba(201,168,76,.3)', borderRadius:20, cursor:'default'}}>
+                    <div title={d.matchRationale || ''} style={{display:'inline-flex', alignItems:'center', gap:4, padding:'2px 9px', background:'rgba(240,168,32,.14)', border:'1px solid rgba(240,168,32,.3)', borderRadius:20, cursor:'default'}}>
                       <span style={{fontSize:13, fontFamily:'var(--mono)', fontWeight:700, color:'var(--accent)', lineHeight:1}}>{d.matchScore}</span>
-                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(201,168,76,.7)', letterSpacing:'.05em'}}>/10</span>
+                      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'rgba(240,168,32,.7)', letterSpacing:'.05em'}}>/10</span>
                     </div>
                   )}
                 </div>
@@ -3160,7 +3186,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
             </Section>
             {d.edgeToEmphasize && (
               <Section title="Your Edge" text={d.edgeToEmphasize}>
-                <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55, padding:'10px 14px', background:'rgba(201,168,76,.06)', border:'1px solid rgba(201,168,76,.18)', borderRadius:7}}>{d.edgeToEmphasize}</div>
+                <div style={{fontSize:13, color:'var(--text)', lineHeight:1.55, padding:'10px 14px', background:'rgba(240,168,32,.06)', border:'1px solid rgba(240,168,32,.18)', borderRadius:7}}>{d.edgeToEmphasize}</div>
               </Section>
             )}
             {d.watchoutFlags?.length > 0 && (
@@ -3170,7 +3196,7 @@ function DeepResearch({ profile, apiKey, onNeedApiKey, demoMode = false }) {
                   const sevColor = f.severity === 'HIGH'
                     ? {bg:'rgba(208,24,120,.12)', border:'rgba(208,24,120,.28)', text:'rgba(208,24,120,.95)'}
                     : f.severity === 'MED'
-                    ? {bg:'rgba(201,168,76,.12)', border:'rgba(201,168,76,.28)', text:'rgba(201,168,76,.95)'}
+                    ? {bg:'rgba(240,168,32,.12)', border:'rgba(240,168,32,.28)', text:'rgba(240,168,32,.95)'}
                     : {bg:'rgba(61,226,136,.10)', border:'rgba(61,226,136,.25)', text:'rgba(61,226,136,.85)'};
                   return (
                     <div key={i} style={{display:'flex', gap:10, alignItems:'flex-start', marginTop: i === 0 ? 10 : 12, paddingTop: i > 0 ? 12 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none'}}>
@@ -3774,9 +3800,9 @@ Return ONLY the JSON object. No markdown, no explanation.`;
                   AI API Key
                   {localKey && detectProvider(localKey) && (
                     <span style={{fontSize:10,fontFamily:'var(--mono)',padding:'2px 8px',borderRadius:3,
-                      background: detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.12)' : 'rgba(201,168,76,.1)',
+                      background: detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.12)' : 'rgba(240,168,32,.1)',
                       color: detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.9)' : 'var(--accent)',
-                      border: `1px solid ${detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.25)' : 'rgba(201,168,76,.2)'}`,
+                      border: `1px solid ${detectProvider(localKey) === 'openai' ? 'rgba(16,163,127,.25)' : 'rgba(240,168,32,.2)'}`,
                       letterSpacing:'.06em'}}>
                       {detectProvider(localKey) === 'openai' ? '✓ OpenAI detected' : detectProvider(localKey) === 'anthropic' ? '✓ Anthropic detected' : '✓ Key detected'}
                     </span>
@@ -3784,14 +3810,14 @@ Return ONLY the JSON object. No markdown, no explanation.`;
                 </label>
 
                 {localKey && !keyEditMode ? (
-                  <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'rgba(201,168,76,.06)',border:'1px solid rgba(201,168,76,.18)',borderRadius:6,fontFamily:'var(--mono)',fontSize:13,color:'rgba(237,229,213,.7)',letterSpacing:'.04em'}}>
+                  <div style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',background:'rgba(240,168,32,.06)',border:'1px solid rgba(240,168,32,.18)',borderRadius:6,fontFamily:'var(--mono)',fontSize:13,color:'rgba(237,229,213,.7)',letterSpacing:'.04em'}}>
                     <span style={{flex:1}}>{'•'.repeat(12)}{localKey.slice(-4)}</span>
                     <button onClick={() => { setLocalKey(''); setKeyEditMode(true); }}
                       style={{padding:'3px 10px',border:'1px solid rgba(208,24,120,.3)',borderRadius:4,background:'rgba(208,24,120,.07)',color:'rgba(208,24,120,.8)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
                       Clear
                     </button>
                     <button onClick={() => setKeyEditMode(true)}
-                      style={{padding:'3px 10px',border:'1px solid rgba(201,168,76,.25)',borderRadius:4,background:'rgba(201,168,76,.07)',color:'rgba(201,168,76,.85)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                      style={{padding:'3px 10px',border:'1px solid rgba(240,168,32,.25)',borderRadius:4,background:'rgba(240,168,32,.07)',color:'rgba(240,168,32,.85)',fontSize:11,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
                       Change
                     </button>
                   </div>
@@ -3801,7 +3827,7 @@ Return ONLY the JSON object. No markdown, no explanation.`;
                       placeholder="sk-ant-… or sk-… (Anthropic or OpenAI)" autoComplete="new-password" style={{flex:1}} />
                     {apiKey && (
                       <button onClick={() => { setLocalKey(apiKey); setKeyEditMode(false); }}
-                        style={{padding:'8px 12px',border:'1px solid rgba(201,168,76,.2)',borderRadius:6,background:'none',color:'rgba(237,229,213,.55)',fontSize:12,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
+                        style={{padding:'8px 12px',border:'1px solid rgba(240,168,32,.2)',borderRadius:6,background:'none',color:'rgba(237,229,213,.55)',fontSize:12,cursor:'pointer',fontFamily:'inherit',whiteSpace:'nowrap'}}>
                         Cancel
                       </button>
                     )}
@@ -4641,7 +4667,7 @@ function SignalFeed({ apiKey, onNeedApiKey, demoMode = false }) {
       <div>
         <div className="page-header"><div className="page-title">Signal Feed</div><div className="page-sub">Live market signals · Demo</div></div>
         {DEMO_DATA.signals.map(s => (
-          <div key={s.id} style={{padding:'14px 16px',marginBottom:8,background:'rgba(255,255,255,.025)',border:'1px solid rgba(201,168,76,.1)',borderRadius:8}}>
+          <div key={s.id} style={{padding:'14px 16px',marginBottom:8,background:'rgba(255,255,255,.025)',border:'1px solid rgba(240,168,32,.1)',borderRadius:8}}>
             <div style={{fontSize:10,fontFamily:'var(--mono)',color:'var(--accent)',letterSpacing:'.1em',textTransform:'uppercase',marginBottom:4}}>{s.type}</div>
             <div style={{fontSize:14,color:'var(--text)',marginBottom:4,lineHeight:1.4}}>{s.headline}</div>
             <div style={{fontSize:12,color:'var(--muted)',lineHeight:1.65}}>{s.summary}</div>
@@ -4707,7 +4733,7 @@ Use null for any category with no notable signals. Be specific and direct.`;
   const sentColor = s => s === 'POSITIVE' ? 'rgba(61,226,136,.85)' : s === 'CAUTIOUS' ? 'rgba(208,24,120,.85)' : 'var(--muted)';
   const sigLabel = (label, text) => text ? (
     <div style={{display:'flex', gap:8, alignItems:'flex-start'}}>
-      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.06em', padding:'2px 6px', background:'rgba(201,168,76,.1)', border:'1px solid rgba(201,168,76,.2)', borderRadius:4, flexShrink:0, marginTop:1}}>{label}</span>
+      <span style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--accent)', letterSpacing:'.06em', padding:'2px 6px', background:'rgba(240,168,32,.1)', border:'1px solid rgba(240,168,32,.2)', borderRadius:4, flexShrink:0, marginTop:1}}>{label}</span>
       <span style={{fontSize:11, fontFamily:'var(--mono)', color:'var(--muted-2)', lineHeight:1.5}}>{text}</span>
     </div>
   ) : null;
@@ -4720,7 +4746,7 @@ Use null for any category with no notable signals. Be specific and direct.`;
         <div className="page-sub">Track target companies for funding, layoffs, leadership changes, and product moves. Hit Refresh on any company to pull a 90 day intel brief.</div>
       </div>
       {!apiKey && (
-        <div className="card" style={{borderColor:'rgba(201,168,76,.4)', background:'rgba(201,168,76,.06)'}}>
+        <div className="card" style={{borderColor:'rgba(240,168,32,.4)', background:'rgba(240,168,32,.06)'}}>
           <div style={{fontSize:13, color:'var(--accent)'}}>API key required. <button onClick={onNeedApiKey} style={{background:'none',border:'none',color:'var(--accent)',cursor:'pointer',textDecoration:'underline',fontSize:13,padding:0,fontFamily:'inherit'}}>Add in Settings.</button></div>
         </div>
       )}
@@ -4983,7 +5009,7 @@ function ActivityReport() {
       </div>
 
       {/* Week status bar */}
-      <div className="card" style={{borderColor: met ? 'rgba(61,226,136,.25)' : 'rgba(201,168,76,.3)', background: met ? 'rgba(61,226,136,.04)' : 'rgba(201,168,76,.05)'}}>
+      <div className="card" style={{borderColor: met ? 'rgba(61,226,136,.25)' : 'rgba(240,168,32,.3)', background: met ? 'rgba(61,226,136,.04)' : 'rgba(240,168,32,.05)'}}>
         <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12}}>
           <div>
             <div style={{fontSize:9, fontFamily:'var(--mono)', color:'var(--muted-2)', letterSpacing:'.14em', textTransform:'uppercase', marginBottom:3}}>Certification Week</div>
@@ -4997,7 +5023,7 @@ function ActivityReport() {
               {activities.length}
               <span style={{fontSize:14, fontWeight:400, color:'var(--muted-2)'}}> / {MA_MINIMUM}</span>
             </div>
-            <div style={{fontSize:10, fontFamily:'var(--mono)', letterSpacing:'.08em', marginTop:2, color: met ? 'rgba(61,226,136,.8)' : 'rgba(201,168,76,.8)'}}>
+            <div style={{fontSize:10, fontFamily:'var(--mono)', letterSpacing:'.08em', marginTop:2, color: met ? 'rgba(61,226,136,.8)' : 'rgba(240,168,32,.8)'}}>
               {met ? 'REQUIREMENT MET' : `NEED ${MA_MINIMUM - activities.length} MORE`}
             </div>
           </div>
@@ -5017,7 +5043,7 @@ function ActivityReport() {
 
         {/* Manual add form */}
         {showAdd && (
-          <div style={{background:'rgba(201,168,76,.05)', border:'1px solid rgba(201,168,76,.18)', borderRadius:10, padding:16, marginBottom:16}}>
+          <div style={{background:'rgba(240,168,32,.05)', border:'1px solid rgba(240,168,32,.18)', borderRadius:10, padding:16, marginBottom:16}}>
             <div className="field-row">
               <div className="field" style={{flex:'0 0 140px'}}>
                 <label>Date</label>
@@ -5139,21 +5165,21 @@ function NavIcon({ id, size = 14 }) {
 
 const KANBAN_JOB_COLS = [
   { id: 'watching',   label: 'Watching',   color: 'rgba(240,238,248,.12)' },
-  { id: 'applied',    label: 'Applied',    color: 'rgba(201,168,76,.18)' },
+  { id: 'applied',    label: 'Applied',    color: 'rgba(240,168,32,.18)' },
   { id: 'screen',     label: 'Screen',     color: 'rgba(139,43,190,.22)' },
   { id: 'interview',  label: 'Interview',  color: 'rgba(208,24,120,.22)' },
   { id: 'offer',      label: 'Offer',      color: 'rgba(61,226,136,.20)' },
 ];
 const KANBAN_SMB_COLS = [
   { id: 'prospect',   label: 'Prospect',   color: 'rgba(240,238,248,.12)' },
-  { id: 'outreach',   label: 'Outreach',   color: 'rgba(201,168,76,.18)' },
+  { id: 'outreach',   label: 'Outreach',   color: 'rgba(240,168,32,.18)' },
   { id: 'meeting',    label: 'Meeting',    color: 'rgba(139,43,190,.22)' },
   { id: 'proposal',   label: 'Proposal',   color: 'rgba(208,24,120,.22)' },
   { id: 'won',        label: 'Won',        color: 'rgba(61,226,136,.20)' },
 ];
 const KANBAN_PROJECT_COLS = [
   { id: 'kickoff',    label: 'Kickoff',    color: 'rgba(240,238,248,.12)' },
-  { id: 'inprogress', label: 'In Progress',color: 'rgba(201,168,76,.18)' },
+  { id: 'inprogress', label: 'In Progress',color: 'rgba(240,168,32,.18)' },
   { id: 'review',     label: 'Review',     color: 'rgba(139,43,190,.22)' },
   { id: 'delivered',  label: 'Delivered',  color: 'rgba(208,24,120,.22)' },
   { id: 'invoiced',   label: 'Invoiced',   color: 'rgba(61,226,136,.20)' },
@@ -5275,7 +5301,7 @@ function KanbanBoard() {
           });
         });
         allRows.sort((a, b) => (b.date > a.date ? 1 : -1));
-        const boardBadge = b => ({ Jobs:'rgba(201,168,76,.15)', SMB:'rgba(139,43,190,.2)', Projects:'rgba(61,226,136,.15)' }[b] || 'rgba(240,238,248,.1)');
+        const boardBadge = b => ({ Jobs:'rgba(240,168,32,.15)', SMB:'rgba(139,43,190,.2)', Projects:'rgba(61,226,136,.15)' }[b] || 'rgba(240,238,248,.1)');
         const boardText = b => ({ Jobs:'var(--accent)', SMB:'rgba(139,43,190,.9)', Projects:'rgba(61,226,136,.85)' }[b] || 'var(--muted)');
         return (
           <div className="card">
@@ -5551,12 +5577,12 @@ function CalendarImportModal({ events, onImport, onClose }) {
               const cls = e._classification;
               const isChecked = selected[e.id];
               return (
-                <label key={e.id} style={{display:'flex',alignItems:'flex-start',gap:10,padding:'10px 12px',background: isChecked ? 'rgba(201,168,76,.05)' : 'rgba(255,255,255,.02)',border:`1px solid ${isChecked ? 'rgba(201,168,76,.2)' : 'var(--border)'}`,borderRadius:7,cursor:'pointer'}}>
+                <label key={e.id} style={{display:'flex',alignItems:'flex-start',gap:10,padding:'10px 12px',background: isChecked ? 'rgba(240,168,32,.05)' : 'rgba(255,255,255,.02)',border:`1px solid ${isChecked ? 'rgba(240,168,32,.2)' : 'var(--border)'}`,borderRadius:7,cursor:'pointer'}}>
                   <input type="checkbox" checked={isChecked} onChange={() => toggle(e.id)} style={{marginTop:3,flexShrink:0,accentColor:'var(--accent)'}} />
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap',marginBottom:3}}>
                       <span style={{fontSize:13,color:'var(--text)',fontWeight:500,lineHeight:1.3}}>{e.summary || '(No title)'}</span>
-                      <span style={{fontSize:10,fontFamily:'var(--mono)',padding:'2px 7px',borderRadius:3,background:'rgba(201,168,76,.1)',color:'var(--accent)',border:'1px solid rgba(201,168,76,.2)',whiteSpace:'nowrap'}}>
+                      <span style={{fontSize:10,fontFamily:'var(--mono)',padding:'2px 7px',borderRadius:3,background:'rgba(240,168,32,.1)',color:'var(--accent)',border:'1px solid rgba(240,168,32,.2)',whiteSpace:'nowrap'}}>
                         {cls.icon} {cls.type}
                       </span>
                       <span style={{fontSize:10,fontFamily:'var(--mono)',color:'var(--muted-2)'}}>→ {cls.board === 'smb' ? 'SMB Board' : 'Jobs Board'}</span>
@@ -5913,7 +5939,7 @@ function App() {
           )}
           <a href="kpi.html" target="_blank" rel="noopener"
             style={{display:'flex',alignItems:'center',gap:10,width:'100%',padding:'9px 14px',borderRadius:8,textDecoration:'none',color:'var(--muted-2)',fontFamily:'var(--mono)',fontSize:12,letterSpacing:'.04em',marginBottom:2}}
-            onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(201,168,76,.04)'}}
+            onMouseEnter={e=>{e.currentTarget.style.color='var(--accent)';e.currentTarget.style.background='rgba(240,168,32,.04)'}}
             onMouseLeave={e=>{e.currentTarget.style.color='var(--muted-2)';e.currentTarget.style.background='none'}}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             KPI Dashboard ↗
