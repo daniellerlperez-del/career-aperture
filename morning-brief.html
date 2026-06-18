@@ -744,6 +744,19 @@
       Reads from backlog.html · open that file to update
     </div>
   </div>
+  <!-- Backlog Snapshot — injected by memory-sync-morning -->
+  <div class="card" id="backlog-card" style="margin-bottom:1.25rem">
+    <div class="card-head">
+      <span class="card-title">Backlog · Active &amp; Waiting</span>
+      <span class="foot-link" style="font-size:.6rem">Open unified-backlog artifact in Cowork</span>
+    </div>
+    <div id="mb-backlog-stats" class="stat-band" style="grid-template-columns:repeat(4,1fr)"></div>
+    <div id="mb-backlog-items"></div>
+    <div style="padding:.5rem 1.1rem;font-size:.57rem;color:rgba(237,229,213,.35);border-top:1px solid rgba(201,168,76,.04)">
+      Reads from unified-backlog artifact · open that artifact in Cowork to update
+    </div>
+  </div>
+
 
   <!-- Footer -->
   <div class="hub-foot">
@@ -827,6 +840,23 @@
   });
   document.addEventListener('mouseleave', function() { outer.style.opacity = '0'; });
   document.addEventListener('mouseenter', function() { outer.style.opacity = '1'; });
+})();
+</script>
+<script>
+(function renderMBBacklog(){
+  var raw=localStorage.getItem("unified_backlog_v1");
+  var statsEl=document.getElementById("mb-backlog-stats");
+  var itemsEl=document.getElementById("mb-backlog-items");
+  if(!raw){if(statsEl)statsEl.innerHTML="<div class='stat-cell' style='grid-column:1/-1'><div class='stat-lbl'>Open unified-backlog artifact in Cowork first to initialize</div></div>";return;}
+  var cards=JSON.parse(raw);
+  var counts={backlog:0,active:0,waiting:0,done:0};
+  cards.forEach(function(c){if(counts[c.status]!==undefined)counts[c.status]++;});
+  var total=cards.length;
+  var pct=total?Math.round(counts.done/total*100):0;
+  if(statsEl)statsEl.innerHTML="<div class='stat-cell'><div class='stat-val' style='color:rgba(237,229,213,.7)'>"+counts.backlog+"</div><div class='stat-lbl'>Backlog</div></div><div class='stat-cell'><div class='stat-val' style='color:#3B8BFF'>"+counts.active+"</div><div class='stat-lbl'>In Progress</div></div><div class='stat-cell'><div class='stat-val' style='color:#FBBF24'>"+counts.waiting+"</div><div class='stat-lbl'>Waiting</div></div><div class='stat-cell'><div class='stat-val' style='color:#5BB870'>"+pct+"%</div><div class='stat-lbl'>Complete</div></div>";
+  var show=cards.filter(function(c){return c.status==="active"||c.status==="waiting";}).sort(function(a,b){var o={active:0,waiting:1};return((o[a.status]||9)-(o[b.status]||9))||((a.priority||99)-(b.priority||99));});
+  var DOT={active:"d-green",waiting:"d-yellow",backlog:"d-gold"};
+  if(itemsEl){if(!show.length){itemsEl.innerHTML="<div class='flag-row'><div class='flag-label' style='color:rgba(91,184,112,.7)'>All active items complete</div></div>";}else{itemsEl.innerHTML=show.map(function(c){return"<div class='flag-row'><div class='dot "+(DOT[c.status]||"d-gold")+"'></div><div class='flag-label'>"+c.title+"</div><div class='flag-date'>"+c.category+"</div></div>";}).join("");}}
 })();
 </script>
 </body>
